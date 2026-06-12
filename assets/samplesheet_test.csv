@@ -1,0 +1,2 @@
+sample,fastq_1,fastq_2,bam,sex,platform
+NA12878_chr21,https://raw.githubusercontent.com/nf-core/test-datasets/sarek/testdata/tiny/normal/test_1.fastq.gz,https://raw.githubusercontent.com/nf-core/test-datasets/sarek/testdata/tiny/normal/test_2.fastq.gz,,XX,illumina

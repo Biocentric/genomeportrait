@@ -1,0 +1,14 @@
+* text=auto eol=lf
+
+*.nf      linguist-language=nextflow
+*.config  linguist-language=nextflow
+
+# Scripts must stay LF so they run on Linux
+*.sh   text eol=lf
+*.py   text eol=lf
+*.nf   text eol=lf
+
+# Binary-ish assets
+*.png  binary
+*.gz   binary
+*.sif  binary

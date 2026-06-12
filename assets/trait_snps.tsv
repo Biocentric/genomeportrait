@@ -1,0 +1,39 @@
+# genomeportrait curated "popular traits" panel
+# Non-clinical, recreational genetics only. NOT diagnostic.
+# Matching is performed by rsID against the dbSNP/VEP-annotated VCF (ID + Existing_variation).
+# Coordinates are GRCh38; '.' where they should be confirmed from the matched record.
+# effect_allele/other_allele are on the FORWARD strand per dbSNP. Genotype columns describe the
+# phenotype expectation for homozygous-effect / heterozygous / homozygous-other.
+rsid	gene	category	trait	effect_allele	other_allele	geno_hom_effect	geno_het	geno_hom_other	chrom	pos_grch38	source_pmid
+rs12913832	HERC2/OCA2	appearance	Eye colour	G	A	Blue eyes (likely)	Green/hazel (intermediate)	Brown eyes (likely)	chr15	28120472	18252222
+rs1800407	OCA2	appearance	Eye colour modifier	T	C	Lighter / hazel shift	Slight lightening	No effect	chr15	.	17236130
+rs12203592	IRF4	appearance	Hair colour / freckling / tanning	T	C	Lighter hair, more freckles, burns easily	Intermediate	Darker, tans well	chr6	.	18488027
+rs1805007	MC1R	appearance	Red hair (R151C)	T	C	Red hair, fair skin (strong)	Carrier, possible red tint	Non-red	chr16	.	7581398
+rs1805008	MC1R	appearance	Red hair (R160W)	T	C	Red hair, fair skin	Carrier	Non-red	chr16	.	7581398
+rs1805009	MC1R	appearance	Red hair (D294H)	C	G	Red hair, fair skin	Carrier	Non-red	chr16	.	7581398
+rs12821256	KITLG	appearance	Blond vs brown hair	C	T	Blond shift (Europeans)	Intermediate	Darker	chr12	.	18488028
+rs1426654	SLC24A5	appearance	Skin pigmentation	A	G	Lighter skin (near-fixed in Europeans)	Intermediate	Darker skin	chr15	48134287	16357253
+rs16891982	SLC45A2	appearance	Skin/hair/eye pigmentation	G	C	Lighter pigmentation	Intermediate	Darker	chr5	.	17182896
+rs1042602	TYR	appearance	Freckles / skin tone	A	C	More freckling	Intermediate	Fewer freckles	chr11	.	17999355
+rs17646946	TCHH	appearance	Straight vs curly hair	A	G	Straighter hair (Europeans)	Intermediate	Curlier	chr1	.	19676097
+rs2330442	PAX3	appearance	Unibrow / eyebrow density	A	G	Heavier eyebrow / monobrow tendency	Intermediate	Lighter	chr2	.	27193062
+rs6152	AR	appearance	Androgenetic hair loss (X-linked)	A	G	Higher baldness propensity (males)	—	Lower propensity	chrX	.	16041786
+rs4988235	MCM6/LCT	diet	Lactase persistence (adult milk digestion)	T	C	Lactose tolerant	Lactose tolerant	Lactose non-persistent	chr2	135851076	11788828
+rs671	ALDH2	diet	Alcohol flush reaction (*2)	A	G	Strong flush, low tolerance	Flush reaction	No flush	chr12	111803962	8195092
+rs1229984	ADH1B	diet	Alcohol metabolism (fast)	T	C	Very fast acetaldehyde build-up	Faster metabolism	Typical	chr4	.	19456985
+rs762551	CYP1A2	diet	Caffeine metabolism	A	C	Fast caffeine metabolizer	Intermediate	Slow metabolizer	chr15	.	16522833
+rs713598	TAS2R38	diet	Bitter (PTC/PROP) taste — A49P	C	G	Bitter taster	Intermediate	Non-taster	chr7	.	12595690
+rs1726866	TAS2R38	diet	Bitter taste — V262A	A	G	Taster haplotype	Intermediate	Non-taster	chr7	.	12595690
+rs10246939	TAS2R38	diet	Bitter taste — I296V	C	T	Taster haplotype	Intermediate	Non-taster	chr7	.	12595690
+rs72921001	OR6A2	diet	Cilantro tastes like soap	C	A	Soapy-taste perception	Possible	No soapy taste	chr11	.	22916044
+rs4481887	OR2M7	diet	Asparagus urine odour detection	A	G	Can smell asparagus metabolites	Intermediate	Anosmic to it	chr1	.	27007555
+rs1815739	ACTN3	fitness	Muscle fibre type (sprint vs endurance) R577X	C	T	Power/sprint (alpha-actinin-3 +)	Mixed	Endurance-leaning	chr11	66560624	14564668
+rs1799752	ACE	fitness	ACE I/D endurance association	—	—	See note	See note	See note	chr17	.	9620797
+rs10427255	—	sensory	Photic sneeze reflex (ACHOO)	C	T	More likely to sneeze in bright light	Intermediate	Less likely	chr2	.	20021659
+rs2031526	—	sensory	Misophonia (sound sensitivity)	A	G	Higher misophonia tendency	Intermediate	Lower	chr11	.	34108838
+rs1801260	CLOCK	behaviour	Chronotype (morning/evening)	C	T	Evening-leaning	Intermediate	Morning-leaning	chr4	.	9718531
+rs4680	COMT	behaviour	Dopamine clearance ("warrior/worrier") Val158Met	A	G	Met/Met "worrier" — higher dopamine	Intermediate	Val/Val "warrior"	chr22	.	8639445
+rs53576	OXTR	behaviour	Oxytocin receptor — prosociality/empathy	G	A	Higher empathy association	Intermediate	Lower association	chr3	.	19934046
+rs1042725	HMGA2	appearance	Adult height (one of many loci)	C	T	~+0.4 cm per allele	Intermediate	Reference	chr12	.	18391951
+rs2802292	FOXO3	longevity	Longevity-associated allele	G	T	Longevity-associated genotype	Intermediate	Reference	chr6	.	18765803
+rs9939609	FTO	metabolism	Appetite/satiety variant (non-diagnostic)	A	T	Higher reported appetite	Intermediate	Reference	chr16	.	17434869

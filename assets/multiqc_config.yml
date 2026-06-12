@@ -1,0 +1,30 @@
+custom_logo_url: "https://github.com/your-org/genomeportrait"
+custom_logo_title: "genomeportrait"
+
+report_comment: >
+    This report aggregates technical QC for the <b>genomeportrait</b> personal WGS pipeline.
+    Interpretation tables and plots (ancestry, traits, polygenic scores, HLA, etc.) live in the
+    separate <b>GenomePortrait</b> HTML report.
+
+report_section_order:
+    "genomeportrait-summary":
+        order: -1000
+    "software_versions":
+        order: -1001
+
+export_plots: true
+
+module_order:
+    - fastqc
+    - fastp
+    - mosdepth
+    - samtools
+    - qualimap
+    - bcftools
+    - snpeff
+
+table_columns_visible:
+    mosdepth:
+        median_coverage: true
+        1_x_pc: true
+        30_x_pc: true

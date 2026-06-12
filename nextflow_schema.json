@@ -1,0 +1,177 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/your-org/genomeportrait/master/nextflow_schema.json",
+    "title": "your-org/genomeportrait pipeline parameters",
+    "description": "State-of-the-art personal whole-genome sequencing analysis for recreational, ancestry and educational genomics.",
+    "type": "object",
+    "$defs": {
+        "input_output_options": {
+            "title": "Input/output options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "Define where the pipeline should find input data and save output data.",
+            "required": ["input", "outdir"],
+            "properties": {
+                "input": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_input.json",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
+                    "description": "Path to comma-separated file containing information about the sample(s).",
+                    "fa_icon": "fas fa-file-csv"
+                },
+                "outdir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "The output directory where the results will be saved.",
+                    "fa_icon": "fas fa-folder-open"
+                },
+                "reference_base": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "Directory where downloaded references/databases are cached between runs.",
+                    "fa_icon": "fas fa-database"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email address for completion summary.",
+                    "fa_icon": "fas fa-envelope"
+                }
+            }
+        },
+        "reference_genome_options": {
+            "title": "Reference genome options",
+            "type": "object",
+            "fa_icon": "fas fa-dna",
+            "properties": {
+                "genome": {
+                    "type": "string",
+                    "default": "GRCh38",
+                    "description": "Reference genome build. 'hg38'/'grch38' are accepted aliases of GRCh38.",
+                    "enum": ["GRCh38", "hg38", "grch38", "GRCh38_chr21"]
+                },
+                "download_references": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Download and index all references on first run. Set false if reference_base is already populated."
+                },
+                "igenomes_ignore": {
+                    "type": "boolean",
+                    "default": true,
+                    "hidden": true
+                }
+            }
+        },
+        "sequencing_and_alignment": {
+            "title": "Sequencing & alignment",
+            "type": "object",
+            "fa_icon": "fas fa-align-center",
+            "properties": {
+                "seq_platform": {
+                    "type": "string",
+                    "default": "illumina",
+                    "enum": ["illumina", "ont", "pacbio"],
+                    "description": "Sequencing platform. Selects aligner/caller defaults for long reads."
+                },
+                "aligner": {
+                    "type": "string",
+                    "default": "bwa-mem2",
+                    "enum": ["bwa-mem2", "minimap2"]
+                },
+                "skip_trimming": { "type": "boolean", "default": false },
+                "skip_bqsr": { "type": "boolean", "default": false }
+            }
+        },
+        "variant_calling": {
+            "title": "Variant calling",
+            "type": "object",
+            "fa_icon": "fas fa-disease",
+            "properties": {
+                "variant_caller": {
+                    "type": "string",
+                    "default": "deepvariant",
+                    "enum": ["deepvariant", "haplotypecaller", "clair3"]
+                },
+                "dv_model_type": {
+                    "type": "string",
+                    "default": "WGS",
+                    "enum": ["WGS", "WES", "PACBIO", "ONT_R104"]
+                },
+                "call_sv": { "type": "boolean", "default": true },
+                "call_cnv": { "type": "boolean", "default": true }
+            }
+        },
+        "module_toggles": {
+            "title": "Module toggles",
+            "type": "object",
+            "fa_icon": "fas fa-toggle-on",
+            "properties": {
+                "skip_qc": { "type": "boolean", "default": false },
+                "skip_annotation": { "type": "boolean", "default": false },
+                "skip_ancestry": { "type": "boolean", "default": true, "description": "Ancestry/admixture needs the large 1000G+HGDP panel; opt-in." },
+                "skip_haplogroups": { "type": "boolean", "default": false },
+                "skip_str": { "type": "boolean", "default": false },
+                "skip_prs": { "type": "boolean", "default": false },
+                "skip_hla": { "type": "boolean", "default": false },
+                "skip_pharmcat": { "type": "boolean", "default": false },
+                "skip_traits": { "type": "boolean", "default": false },
+                "skip_telomere": { "type": "boolean", "default": false },
+                "skip_mito_heteroplasmy": { "type": "boolean", "default": false },
+                "skip_multiqc": { "type": "boolean", "default": false }
+            }
+        },
+        "trait_and_scoring": {
+            "title": "Traits & polygenic scoring",
+            "type": "object",
+            "fa_icon": "fas fa-chart-bar",
+            "properties": {
+                "pgs_ids": {
+                    "type": "string",
+                    "default": "PGS000297,PGS002724,PGS000845,PGS001780",
+                    "description": "Comma-separated PGS Catalog IDs to score."
+                },
+                "pgs_min_overlap": { "type": "number", "default": 0.75 },
+                "trait_panel": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "TSV of curated non-clinical trait SNPs."
+                }
+            }
+        },
+        "max_job_request_options": {
+            "title": "Max job request options",
+            "type": "object",
+            "fa_icon": "fab fa-acquisitions-incorporated",
+            "properties": {
+                "max_cpus": { "type": "integer", "default": 16, "hidden": true },
+                "max_memory": { "type": "string", "default": "128.GB", "hidden": true },
+                "max_time": { "type": "string", "default": "240.h", "hidden": true }
+            }
+        },
+        "generic_options": {
+            "title": "Generic options",
+            "type": "object",
+            "fa_icon": "fas fa-file-import",
+            "properties": {
+                "multiqc_config": { "type": "string", "format": "file-path", "hidden": true },
+                "multiqc_title": { "type": "string" },
+                "publish_dir_mode": { "type": "string", "default": "copy", "hidden": true, "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"] },
+                "validate_params": { "type": "boolean", "default": true, "hidden": true },
+                "version": { "type": "boolean", "hidden": true },
+                "monochrome_logs": { "type": "boolean", "hidden": true }
+            }
+        }
+    },
+    "allOf": [
+        { "$ref": "#/$defs/input_output_options" },
+        { "$ref": "#/$defs/reference_genome_options" },
+        { "$ref": "#/$defs/sequencing_and_alignment" },
+        { "$ref": "#/$defs/variant_calling" },
+        { "$ref": "#/$defs/module_toggles" },
+        { "$ref": "#/$defs/trait_and_scoring" },
+        { "$ref": "#/$defs/max_job_request_options" },
+        { "$ref": "#/$defs/generic_options" }
+    ]
+}

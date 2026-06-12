@@ -1,0 +1,3 @@
+sample,fastq_1,fastq_2,bam,sex,platform
+JOHN_DOE,/data/john_R1.fastq.gz,/data/john_R2.fastq.gz,,XY,illumina
+JANE_DOE,,,/data/jane.cram,XX,illumina

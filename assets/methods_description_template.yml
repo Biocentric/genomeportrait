@@ -1,0 +1,20 @@
+id: "genomeportrait-methods-description"
+description: "Suggested text and references to use when describing pipeline usage within the methods section of a publication."
+section_name: "genomeportrait Methods Description"
+section_href: "https://github.com/your-org/genomeportrait"
+plot_type: "html"
+data: |
+    <h4>Methods</h4>
+    <p>Data was processed using genomeportrait v${workflow.manifest.version} (${doi_text}) of the nf-core-style
+    collection (Ewels <em>et al.</em>, 2020), utilising reproducible software containers run under Singularity
+    (Kurtzer <em>et al.</em>, 2017).</p>
+    <p>The following command was used:</p>
+    <pre><code>${workflow.commandLine}</code></pre>
+    <p>Reads were quality-trimmed (fastp), aligned to GRCh38 (bwa-mem2 / minimap2), duplicate-marked and
+    base-recalibrated (GATK4). Germline small variants were called with DeepVariant and annotated with Ensembl VEP,
+    gnomAD and ClinVar. Ancestry was inferred by PCA projection and supervised ADMIXTURE against a joint
+    1000 Genomes + HGDP reference panel; maternal and paternal lineages by HaploGrep2 (mtDNA) and Yleaf (Y).
+    Forensic STR profiles were genotyped with HipSTR and ExpansionHunter, HLA types with T1K, pharmacogenomic
+    star alleles with PharmCAT, and polygenic scores with a PGS Catalog scoring engine.</p>
+    <h4>References</h4>
+    <ul>${tool_bibliography}</ul>
