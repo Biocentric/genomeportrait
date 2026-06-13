@@ -42,9 +42,10 @@ workflow PIPELINE_INITIALISATION {
     //
     Channel
         .fromList(samplesheetToList(input, "${projectDir}/assets/schema_input.json"))
-        .map { meta, fastq_1, fastq_2, bam, sex, platform ->
-            def m = meta + [ sex: sex ?: 'unknown', platform: platform ?: 'illumina' ]
-            // single-end FASTQ allowed (long read)
+        .map { meta, fastq_1, fastq_2, bam ->
+            // sample/sex/platform are meta columns (see assets/schema_input.json); the
+            // positional fields are fastq_1, fastq_2, bam. Backfill meta defaults.
+            def m = meta + [ sex: meta.sex ?: 'unknown', platform: meta.platform ?: 'illumina' ]
             return [ m, fastq_1 ?: null, fastq_2 ?: null, bam ?: null ]
         }
         .set { ch_samplesheet }
