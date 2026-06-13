@@ -82,7 +82,12 @@ workflow GENOMEPORTRAIT {
     // STAGE 2: Mark duplicates + BQSR
     //
     BAM_MARKDUP_BQSR ( ch_aligned, ch_reference, params.skip_bqsr )
-    ch_analysis_bam  = BAM_MARKDUP_BQSR.out.bam   // [ meta, cram, crai ]
+    // Gate all downstream stages (QC, calling, every report) on the report container
+    // being built, so report tasks never race ahead of the in-pipeline image build.
+    ch_build_ready   = ch_reference.report_sif.ifEmpty('ready').first()
+    ch_analysis_bam  = BAM_MARKDUP_BQSR.out.bam
+        .combine( ch_build_ready )
+        .map { meta, bam, bai, ready -> [ meta, bam, bai ] }   // [ meta, cram, crai ]
     ch_versions      = ch_versions.mix(BAM_MARKDUP_BQSR.out.versions)
     ch_multiqc_files = ch_multiqc_files.mix(BAM_MARKDUP_BQSR.out.metrics.collect{it[1]})
 
