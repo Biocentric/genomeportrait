@@ -13,7 +13,7 @@ process DOWNLOAD_RESOURCE {
     val storedir
 
     output:
-    tuple val(meta), path("${meta.id}.*"), emit: file
+    tuple val(meta), path("${meta.id}/*"), emit: file
     path "versions.yml",                   emit: versions
 
     when:
@@ -22,13 +22,10 @@ process DOWNLOAD_RESOURCE {
     script:
     def fname = url.tokenize('/').last()
     """
-    # Download with resume; index bgzipped VCFs that ship without a .tbi
-    wget --quiet --continue --tries=3 -O "${fname}" "${url}"
-
-    # Keep meta.id prefix so downstream globbing is deterministic
-    if [ "${fname}" != "${meta.id}.${fname#*.}" ]; then
-        ln -s "${fname}" "${meta.id}.${fname#*.}" 2>/dev/null || cp "${fname}" "${meta.id}.${fname#*.}"
-    fi
+    # Download into a per-resource subdir so the original filename (and its extension,
+    # which downstream tools rely on) is preserved without fragile shell renaming.
+    mkdir -p ${meta.id}
+    wget --quiet --continue --tries=3 -O "${meta.id}/${fname}" "${url}"
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
