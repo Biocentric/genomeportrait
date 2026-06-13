@@ -28,11 +28,15 @@ workflow BAM_EXTRAS {
         ch_versions = ch_versions.mix(MUTSERVE.out.versions.first())
     }
 
-    EXTRAS_REPORT (
-        ch_bam.map{ meta, b, i -> [meta] }
-            .join(ch_telseq, remainder: true)
-            .join(ch_mito, remainder: true)
-    )
+    // Combine per sample, keyed on the string id (not the meta map) so absent
+    // telomere/mito results become empty-file placeholders rather than corrupting
+    // the tuple. Missing values -> [] (no staged file); the report script guards on them.
+    ch_report_in = ch_bam.map { meta, b, i -> [ meta.id, meta ] }
+        .join( ch_telseq.map { meta, f -> [ meta.id, f ] }, remainder: true )
+        .join( ch_mito.map   { meta, f -> [ meta.id, f ] }, remainder: true )
+        .map  { id, meta, tel, mito -> [ meta, tel ?: [], mito ?: [] ] }
+
+    EXTRAS_REPORT ( ch_report_in )
     ch_versions = ch_versions.mix(EXTRAS_REPORT.out.versions.first())
 
     emit:

@@ -27,12 +27,14 @@ workflow BAM_CALL_SV_CNV {
         ch_versions = ch_versions.mix(CNVKIT_BATCH.out.versions.first())
     }
 
-    // Join SV + CNV per sample (either may be empty) and build a compact summary table
-    SVCNV_SUMMARY (
-        ch_bam.map{ meta, bam, bai -> [meta] }
-            .join(ch_sv.map{ m,f,t -> [m,f] }, remainder: true)
-            .join(ch_cnv, remainder: true)
-    )
+    // Join SV + CNV per sample (either may be empty) keyed on the string id, so an
+    // absent caller becomes an empty-file placeholder instead of corrupting the tuple.
+    ch_summary_in = ch_bam.map { meta, bam, bai -> [ meta.id, meta ] }
+        .join( ch_sv.map  { m, f, t -> [ m.id, f ] }, remainder: true )
+        .join( ch_cnv.map { m, f    -> [ m.id, f ] }, remainder: true )
+        .map  { id, meta, sv, cnv -> [ meta, sv ?: [], cnv ?: [] ] }
+
+    SVCNV_SUMMARY ( ch_summary_in )
     ch_versions = ch_versions.mix(SVCNV_SUMMARY.out.versions.first())
 
     emit:
