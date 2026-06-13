@@ -21,7 +21,6 @@ workflow BAM_MARKDUP_BQSR {
     ch_versions = ch_versions.mix(GATK4_MARKDUPLICATES.out.versions.first())
 
     if (!skip_bqsr) {
-        def known = Channel.value([ ch_reference.dbsnp, ch_reference.known_indels, ch_reference.mills ])
         GATK4_BASERECALIBRATOR (
             ch_md,
             ch_reference.fasta, ch_reference.fai, ch_reference.dict,
