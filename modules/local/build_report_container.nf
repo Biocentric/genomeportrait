@@ -11,9 +11,9 @@ process BUILD_REPORT_CONTAINER {
     path env_file        // containers/report/environment.yml
 
     output:
-    path "genomeportrait-report-${params.report_image_version}.sif", emit: sif,    optional: true
-    path "report_container.ready",                                   emit: ready
-    path "versions.yml",                                             emit: versions
+    path "genomeportrait-report-${params.report_image_version}.sif",  emit: sif, optional: true
+    path "report_container_${params.report_image_version}.ready",     emit: ready
+    path "versions.yml",                                              emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -33,7 +33,7 @@ process BUILD_REPORT_CONTAINER {
         echo "Building ${sif} with \$BUILDER ..." >&2
         \$BUILDER build --fakeroot ${sif} ${def_file} \\
             || \$BUILDER build ${sif} ${def_file}
-        touch report_container.ready
+        touch report_container_${ver}.ready
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
@@ -44,7 +44,7 @@ process BUILD_REPORT_CONTAINER {
         """
         echo "Building docker image ${params.report_docker} ..." >&2
         docker build -t ${params.report_docker} \$(dirname \$(readlink -f ${def_file}))
-        touch report_container.ready
+        touch report_container_${ver}.ready
 
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
@@ -55,7 +55,7 @@ process BUILD_REPORT_CONTAINER {
         // conda / mamba profile: nothing to build, the conda directive provides the env
         """
         echo "Container engine '${engine}': using conda env, no image build needed." >&2
-        touch report_container.ready
+        touch report_container_${ver}.ready
         cat <<-END_VERSIONS > versions.yml
         "${task.process}":
             builder: "none (conda profile)"
