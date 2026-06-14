@@ -2,16 +2,15 @@ process HIPSTR {
     tag "$meta.id"
     label 'process_medium'
 
-    conda "bioconda::hipstr=0.7"
-    container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/hipstr:0.7--he4a0461_1' :
-        'biocontainers/hipstr:0.7--he4a0461_1' }"
+    // HipSTR is not on bioconda — use the image built at runtime by BUILD_HIPSTR_CONTAINER.
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? params.hipstr_sif : params.hipstr_docker }"
 
     input:
     tuple val(meta), path(bam), path(bai)
     path  fasta
     path  fai
     path  str_bed
+    val   ready          // gate: ensures BUILD_HIPSTR_CONTAINER finished before this runs
 
     output:
     tuple val(meta), path("*.hipstr.vcf.gz"), emit: vcf

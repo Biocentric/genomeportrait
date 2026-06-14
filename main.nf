@@ -55,7 +55,8 @@ workflow YOURORG_GENOMEPORTRAIT {
         kgp_hgdp_panel: PREPARE_GENOME.out.kgp_hgdp,
         str_catalog   : PREPARE_GENOME.out.str_catalog,
         hipstr_codis  : PREPARE_GENOME.out.hipstr_codis,
-        report_sif    : PREPARE_GENOME.out.report_sif
+        report_sif    : PREPARE_GENOME.out.report_sif,
+        hipstr_ready  : PREPARE_GENOME.out.hipstr_ready
     ]
 
     //
