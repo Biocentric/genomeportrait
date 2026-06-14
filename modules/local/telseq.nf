@@ -4,8 +4,8 @@ process TELSEQ {
 
     conda "bioconda::telseq=0.0.2"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/telseq:0.0.2--hdfd78af_5' :
-        'biocontainers/telseq:0.0.2--hdfd78af_5' }"
+        'https://depot.galaxyproject.org/singularity/telseq:0.0.2--h06902ac_8' :
+        'biocontainers/telseq:0.0.2--h06902ac_8' }"
 
     input:
     tuple val(meta), path(bam), path(bai)
