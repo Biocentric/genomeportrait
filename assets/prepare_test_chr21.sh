@@ -20,37 +20,39 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 OUT="${SCRIPT_DIR}/../testdata"
 mkdir -p "$OUT"
 
-CRAM_URL="${1:-https://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/data/ERR3239334/NA12878.final.cram}"
-# GRCh38 reference the CRAM was aligned against (needed to decode a CRAM slice).
-REF_URL="${2:-https://storage.googleapis.com/genomics-public-data/references/GRCh38/v0/Homo_sapiens_assembly38.fasta}"
+# Correct SRA/ENA path for the 1000G 30x NA12878 CRAM (aligned to GRCh38 analysis set).
+CRAM_URL="${1:-https://ftp.sra.ebi.ac.uk/vol1/run/ERR323/ERR3239334/NA12878.final.cram}"
 REGION="chr21"
-THREADS="${THREADS:-4}"
+THREADS="${THREADS:-8}"
+# No samtools on the host? Point SAMTOOLS at a containerised one, e.g.:
+#   export SAMTOOLS="singularity exec --bind /mnt/big <samtools.sif> samtools"
+SAMTOOLS="${SAMTOOLS:-samtools}"
 
 echo ">> Using CRAM : $CRAM_URL"
-echo ">> Region     : $REGION"
+echo ">> samtools   : $SAMTOOLS"
 echo ">> Output dir : $OUT"
 
-# samtools can read both the CRAM and its reference over https and slice a region remotely.
-echo ">> Slicing $REGION (streaming; no full-genome download)..."
-samtools view -@ "$THREADS" -T "$REF_URL" -b \
-    "$CRAM_URL" "$REGION" \
+# CRAM decode uses htslib's default md5 ref service (EBI) — no need to download the
+# 3 GB reference FASTA. Region access uses the remote .crai automatically.
+echo ">> Slicing $REGION (streaming; only chr21 reads are fetched)..."
+$SAMTOOLS view -@ "$THREADS" -b "$CRAM_URL" "$REGION" \
     -o "$OUT/NA12878.chr21.30x.unsorted.bam"
 
 echo ">> Sorting by name for FASTQ extraction..."
-samtools sort -n -@ "$THREADS" -o "$OUT/NA12878.chr21.30x.namesort.bam" \
+$SAMTOOLS sort -n -@ "$THREADS" -o "$OUT/NA12878.chr21.30x.namesort.bam" \
     "$OUT/NA12878.chr21.30x.unsorted.bam"
 
 echo ">> Writing paired FASTQs..."
-samtools fastq -@ "$THREADS" \
+$SAMTOOLS fastq -@ "$THREADS" \
     -1 "$OUT/NA12878.chr21.30x_R1.fastq.gz" \
     -2 "$OUT/NA12878.chr21.30x_R2.fastq.gz" \
     -0 /dev/null -s /dev/null -n \
     "$OUT/NA12878.chr21.30x.namesort.bam"
 
 echo ">> Writing coordinate-sorted BAM (for optional BAM-start runs)..."
-samtools sort -@ "$THREADS" -o "$OUT/NA12878.chr21.30x.bam" \
+$SAMTOOLS sort -@ "$THREADS" -o "$OUT/NA12878.chr21.30x.bam" \
     "$OUT/NA12878.chr21.30x.unsorted.bam"
-samtools index "$OUT/NA12878.chr21.30x.bam"
+$SAMTOOLS index "$OUT/NA12878.chr21.30x.bam"
 rm -f "$OUT/NA12878.chr21.30x.unsorted.bam" "$OUT/NA12878.chr21.30x.namesort.bam"
 
 echo ">> Writing samplesheet..."
