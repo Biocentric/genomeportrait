@@ -2,10 +2,10 @@ process PGSCATALOG_DOWNLOAD {
     tag "$pgs_ids"
     label 'process_single'
 
-    conda "bioconda::pgscatalog-utils=1.4.5"
+    conda "bioconda::pgscatalog-utils=1.4.4"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/pgscatalog-utils:1.4.5--pyhdfd78af_0' :
-        'biocontainers/pgscatalog-utils:1.4.5--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/pgscatalog-utils:1.4.4--pyhdfd78af_0' :
+        'biocontainers/pgscatalog-utils:1.4.4--pyhdfd78af_0' }"
 
     input:
     val pgs_ids

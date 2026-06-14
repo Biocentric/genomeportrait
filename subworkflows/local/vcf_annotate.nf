@@ -28,9 +28,15 @@ workflow VCF_ANNOTATE {
     ch_versions = ch_versions.mix(ENSEMBLVEP_VEP.out.versions.first())
     ch_reports  = ch_reports.mix(ENSEMBLVEP_VEP.out.report)
 
-    SNPSIFT_GNOMAD  ( ENSEMBLVEP_VEP.out.vcf, ch_reference.gnomad,  'gnomad'  )
-    SNPSIFT_CLINVAR ( SNPSIFT_GNOMAD.out.vcf, ch_reference.clinvar, 'clinvar' )
-    ch_versions = ch_versions.mix(SNPSIFT_GNOMAD.out.versions.first())
+    // gnomAD allele frequencies are pulled from the VEP cache (--af_gnomadg), so no separate
+    // genome-wide gnomAD file is required. Optionally layer a gnomAD VCF in via SnpSift.
+    ch_vep = ENSEMBLVEP_VEP.out.vcf
+    if (params.use_snpsift_gnomad) {
+        SNPSIFT_GNOMAD ( ch_vep, ch_reference.gnomad, 'gnomad' )
+        ch_vep      = SNPSIFT_GNOMAD.out.vcf
+        ch_versions = ch_versions.mix(SNPSIFT_GNOMAD.out.versions.first())
+    }
+    SNPSIFT_CLINVAR ( ch_vep, ch_reference.clinvar, 'clinvar' )
 
     // Flatten to a tidy TSV used by the report (one row per consequence)
     VCF_TO_TABLE ( SNPSIFT_CLINVAR.out.vcf )

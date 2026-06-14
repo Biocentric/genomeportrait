@@ -2,10 +2,10 @@ process PLINK2_ROH {
     tag "$meta.id"
     label 'process_low'
 
-    conda "bioconda::plink=1.90b7.2"
+    conda "bioconda::plink=1.90b7.7"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/plink:1.90b7.2--h4ac6f70_0' :
-        'biocontainers/plink:1.90b7.2--h4ac6f70_0' }"
+        'https://depot.galaxyproject.org/singularity/plink:1.90b7.7--h18e278d_1' :
+        'biocontainers/plink:1.90b7.7--h18e278d_1' }"
 
     input:
     tuple val(meta), path(vcf), path(tbi)

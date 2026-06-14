@@ -30,19 +30,21 @@ def sv_counts(path):
 
 
 def cnv_counts(path):
+    """Parse a CNVpytor call TSV (no header): col0 = type (deletion|duplication)."""
     if not path:
         return (0, 0)
+    gains = losses = 0
     try:
-        df = pd.read_csv(path, sep="\t")
-        col = next((c for c in df.columns if c.lower() in ("log2", "cn")), None)
-        if col is None:
-            return (0, 0)
-        gains = int((df[col] > 0.3).sum())
-        losses = int((df[col] < -0.3).sum())
-        return (gains, losses)
+        with open(path) as fh:
+            for line in fh:
+                t = line.split("\t", 1)[0].strip().lower()
+                if t.startswith("dup"):
+                    gains += 1
+                elif t.startswith("del"):
+                    losses += 1
     except Exception as e:
         print(f"[svcnv] CNV parse: {e}", file=sys.stderr)
-        return (0, 0)
+    return (gains, losses)
 
 
 def main():
@@ -56,9 +58,9 @@ def main():
     rows = []
     for svt, n in sorted(sv_counts(a.sv).items()):
         rows.append({"category": "Structural variant", "type": svt, "count": n})
-    g, l = cnv_counts(a.cnr)
-    rows.append({"category": "Copy-number", "type": "gains (log2>0.3)", "count": g})
-    rows.append({"category": "Copy-number", "type": "losses (log2<-0.3)", "count": l})
+    dup, dele = cnv_counts(a.cnr)
+    rows.append({"category": "Copy-number (CNVpytor)", "type": "duplications", "count": dup})
+    rows.append({"category": "Copy-number (CNVpytor)", "type": "deletions", "count": dele})
     if not rows:
         rows.append({"category": "none", "type": "none", "count": 0})
 

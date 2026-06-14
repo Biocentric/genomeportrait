@@ -2,10 +2,10 @@ process HLA_T1K {
     tag "$meta.id"
     label 'process_medium'
 
-    conda "bioconda::t1k=1.0.5"
+    conda "bioconda::t1k=1.0.9"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/t1k:1.0.5--hdcf5f25_1' :
-        'biocontainers/t1k:1.0.5--hdcf5f25_1' }"
+        'https://depot.galaxyproject.org/singularity/t1k:1.0.9--h5ca1c30_0' :
+        'biocontainers/t1k:1.0.9--h5ca1c30_0' }"
 
     input:
     tuple val(meta), path(bam), path(bai)
