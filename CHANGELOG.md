@@ -25,6 +25,8 @@ Initial release of genomeportrait, created following the nf-core template.
 - Curated non-clinical "popular traits" SNP lookup.
 - Telomere length (Telseq) and mtDNA heteroplasmy (mutserve).
 - Unified GenomePortrait HTML report + MultiQC.
+- Runtime-built **HipSTR** container (compiled from source via `BUILD_HIPSTR_CONTAINER`, like
+  the report container) since HipSTR is not packaged on bioconda/BioContainers.
 
 ### `Fixed`
 

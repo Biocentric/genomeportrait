@@ -15,7 +15,7 @@ workflow BAM_FORENSIC_STR {
     main:
     ch_versions = Channel.empty()
 
-    HIPSTR ( ch_bam, ch_reference.fasta, ch_reference.fai, ch_reference.hipstr_codis )
+    HIPSTR ( ch_bam, ch_reference.fasta, ch_reference.fai, ch_reference.hipstr_codis, ch_reference.hipstr_ready )
     EXPANSIONHUNTER ( ch_bam, ch_reference.fasta, ch_reference.fai, ch_reference.str_catalog )
     ch_versions = ch_versions.mix(HIPSTR.out.versions.first(), EXPANSIONHUNTER.out.versions.first())
 

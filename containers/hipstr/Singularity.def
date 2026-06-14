@@ -1,0 +1,36 @@
+Bootstrap: docker
+From: ubuntu:20.04
+
+# genomeportrait HipSTR container — built locally by the pipeline (HipSTR is not on
+# bioconda / BioContainers, so we compile it from source, like the report container).
+#
+# Built automatically by modules/local/build_hipstr_container.nf via:
+#   apptainer build --fakeroot genomeportrait-hipstr-<ver>.sif containers/hipstr/Singularity.def
+# (falls back to `singularity build`). Build it by hand the same way if you prefer.
+
+%post
+    export DEBIAN_FRONTEND=noninteractive
+    apt-get update
+    # HipSTR build deps + htslib deps; procps provides `ps` (needed by Nextflow metrics)
+    apt-get install -y --no-install-recommends \
+        build-essential g++ make git autoconf automake \
+        zlib1g-dev libbz2-dev liblzma-dev libcurl4-openssl-dev libssl-dev \
+        ca-certificates procps
+    cd /opt
+    git clone --recursive https://github.com/HipSTR-Tool/HipSTR.git
+    cd HipSTR
+    make
+    install -m 0755 HipSTR /usr/local/bin/HipSTR
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+%environment
+    export PATH=/usr/local/bin:$PATH
+    export LC_ALL=C
+
+%labels
+    org.opencontainers.image.title genomeportrait-hipstr
+    org.opencontainers.image.version 0.7
+    org.opencontainers.image.description HipSTR (compiled from source) for forensic STR genotyping
+
+%runscript
+    exec HipSTR "$@"

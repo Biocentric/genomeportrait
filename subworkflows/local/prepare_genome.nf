@@ -26,6 +26,7 @@ include { SAMTOOLS_FAIDX                } from '../../modules/local/samtools_fai
 include { GATK4_CREATESEQUENCEDICTIONARY } from '../../modules/local/gatk4_dict'
 include { BWAMEM2_INDEX                 } from '../../modules/local/bwamem2_index'
 include { BUILD_REPORT_CONTAINER        } from '../../modules/local/build_report_container'
+include { BUILD_HIPSTR_CONTAINER        } from '../../modules/local/build_hipstr_container'
 
 workflow PREPARE_GENOME {
 
@@ -52,6 +53,18 @@ workflow PREPARE_GENOME {
         )
         ch_report_sif = BUILD_REPORT_CONTAINER.out.ready.first()
         ch_versions   = ch_versions.mix(BUILD_REPORT_CONTAINER.out.versions)
+    }
+
+    //
+    // Build the local HipSTR container (compiled from source; only when the STR stage runs)
+    //
+    ch_hipstr_ready = Channel.value('na')
+    if (!params.skip_str && params.build_hipstr_container) {
+        BUILD_HIPSTR_CONTAINER (
+            file("${projectDir}/containers/hipstr/Singularity.def", checkIfExists: true)
+        )
+        ch_hipstr_ready = BUILD_HIPSTR_CONTAINER.out.ready.first()
+        ch_versions     = ch_versions.mix(BUILD_HIPSTR_CONTAINER.out.versions)
     }
 
     //
@@ -141,5 +154,6 @@ workflow PREPARE_GENOME {
     str_catalog   = ch_str_catalog
     hipstr_codis  = ch_hipstr_codis
     report_sif    = ch_report_sif
+    hipstr_ready  = ch_hipstr_ready
     versions      = ch_versions
 }
