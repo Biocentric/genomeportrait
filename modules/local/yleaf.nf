@@ -4,8 +4,8 @@ process YLEAF {
 
     conda "bioconda::yleaf=3.2.1"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/yleaf:3.2.1--pyhdfd78af_0' :
-        'biocontainers/yleaf:3.2.1--pyhdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/yleaf:3.2.1--pyh1286868_0' :
+        'biocontainers/yleaf:3.2.1--pyh1286868_0' }"
 
     input:
     tuple val(meta), path(bam), path(bai)

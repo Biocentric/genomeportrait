@@ -106,12 +106,15 @@ workflow PREPARE_GENOME {
     ch_clinvar   = Channel.value([])
     if (!params.skip_annotation) {
         DOWNLOAD_VEP_CACHE ( refs.vep_cache, "${params.reference_base}/${genome}/vep_cache" )
-        DL_GNOMAD  ( [ [id:'gnomad'],  refs.gnomad  ], "${params.reference_base}/${genome}/annotation" )
         DL_CLINVAR ( [ [id:'clinvar'], refs.clinvar ], "${params.reference_base}/${genome}/annotation" )
         ch_vep_cache = DOWNLOAD_VEP_CACHE.out.cache.first()
-        ch_gnomad    = DL_GNOMAD.out.file.map { it[1] }.first()
         ch_clinvar   = DL_CLINVAR.out.file.map { it[1] }.first()
         ch_versions  = ch_versions.mix(DOWNLOAD_VEP_CACHE.out.versions)
+        // gnomAD VCF only needed if explicitly annotating with SnpSift (VEP cache covers AF otherwise)
+        if (params.use_snpsift_gnomad) {
+            DL_GNOMAD ( [ [id:'gnomad'], refs.gnomad ], "${params.reference_base}/${genome}/annotation" )
+            ch_gnomad = DL_GNOMAD.out.file.map { it[1] }.first()
+        }
     }
 
     //

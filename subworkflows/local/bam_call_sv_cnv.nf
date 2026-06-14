@@ -1,8 +1,10 @@
 //
-// BAM_CALL_SV_CNV: structural variants (Manta) + copy-number (CNVkit)
+// BAM_CALL_SV_CNV: structural variants (Manta) + copy-number (CNVpytor)
+//   CNVpytor (read-depth, CNVnator successor) is efficient for single-sample germline
+//   WGS, unlike CNVkit which targets exome / panel-of-normals designs.
 //
 include { MANTA_GERMLINE } from '../../modules/local/manta_germline'
-include { CNVKIT_BATCH   } from '../../modules/local/cnvkit_batch'
+include { CNVPYTOR       } from '../../modules/local/cnvpytor'
 include { SVCNV_SUMMARY  } from '../../modules/local/svcnv_summary'
 
 workflow BAM_CALL_SV_CNV {
@@ -22,9 +24,9 @@ workflow BAM_CALL_SV_CNV {
         ch_versions = ch_versions.mix(MANTA_GERMLINE.out.versions.first())
     }
     if (params.call_cnv) {
-        CNVKIT_BATCH ( ch_bam, ch_reference.fasta )
-        ch_cnv      = CNVKIT_BATCH.out.cnr
-        ch_versions = ch_versions.mix(CNVKIT_BATCH.out.versions.first())
+        CNVPYTOR ( ch_bam, ch_reference.fasta, ch_reference.fai )
+        ch_cnv      = CNVPYTOR.out.calls
+        ch_versions = ch_versions.mix(CNVPYTOR.out.versions.first())
     }
 
     // Join SV + CNV per sample (either may be empty) keyed on the string id, so an

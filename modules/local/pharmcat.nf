@@ -4,7 +4,7 @@ process PHARMCAT {
 
     conda "bioconda::pharmcat=2.15.5"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/pharmcat:2.15.5--hdfd78af_0' :
+        'docker://pgkb/pharmcat:2.15.5' :
         'pgkb/pharmcat:2.15.5' }"
 
     input:
