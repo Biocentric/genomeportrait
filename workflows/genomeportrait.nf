@@ -6,12 +6,11 @@
 
 // QC / prep
 include { FASTQ_QC_TRIM            } from '../subworkflows/local/fastq_qc_trim'
-include { FASTQ_ALIGN              } from '../subworkflows/local/fastq_align'
-include { BAM_MARKDUP_BQSR         } from '../subworkflows/local/bam_markdup_bqsr'
+include { CHECK_GPU                } from '../modules/local/check_gpu'
+include { ALIGN_AND_CALL           } from '../subworkflows/local/align_and_call'
 include { BAM_QC                   } from '../subworkflows/local/bam_qc'
 
 // Variants
-include { BAM_CALL_SMALLVARIANTS   } from '../subworkflows/local/bam_call_smallvariants'
 include { BAM_CALL_SV_CNV          } from '../subworkflows/local/bam_call_sv_cnv'
 include { VCF_ANNOTATE             } from '../subworkflows/local/vcf_annotate'
 
@@ -64,32 +63,35 @@ workflow GENOMEPORTRAIT {
         .set { ch_inputs }
 
     //
-    // STAGE 1: Read QC + trimming, then alignment (FASTQ inputs only)
+    // STAGE 1: Read QC + trimming
     //
     FASTQ_QC_TRIM ( ch_inputs.fastq, params.skip_trimming )
     ch_versions      = ch_versions.mix(FASTQ_QC_TRIM.out.versions)
     ch_multiqc_files = ch_multiqc_files.mix(FASTQ_QC_TRIM.out.multiqc.collect{it[1]})
 
-    FASTQ_ALIGN ( FASTQ_QC_TRIM.out.reads, ch_reference )
-    ch_versions = ch_versions.mix(FASTQ_ALIGN.out.versions)
-
-    // Unify aligned inputs (newly aligned + pre-aligned from the samplesheet)
-    ch_aligned = FASTQ_ALIGN.out.bam.mix(
-        ch_inputs.aligned.map { meta, bam -> [ meta, bam, "${bam}.bai" ] }
-    )
+    //
+    // STAGE 1b: Decide GPU vs CPU toolchain (Parabricks when a capable GPU is present)
+    //
+    CHECK_GPU ()
+    ch_gpu_ok   = CHECK_GPU.out.decision.map { it.text.trim() == 'true' }.first()
+    ch_versions = ch_versions.mix(CHECK_GPU.out.versions)
+    CHECK_GPU.out.report.subscribe { log.info "[genomeportrait] GPU check:\n${it.text.trim()}" }
 
     //
-    // STAGE 2: Mark duplicates + BQSR
+    // STAGE 2: Align + mark-dup/BQSR + small-variant calling (GPU Parabricks or CPU path)
     //
-    BAM_MARKDUP_BQSR ( ch_aligned, ch_reference, params.skip_bqsr )
-    // Gate all downstream stages (QC, calling, every report) on the report container
-    // being built, so report tasks never race ahead of the in-pipeline image build.
+    ch_prealigned = ch_inputs.aligned.map { meta, bam -> [ meta, bam, "${bam}.bai" ] }
+    ALIGN_AND_CALL ( FASTQ_QC_TRIM.out.reads, ch_prealigned, ch_reference, ch_gpu_ok )
+
+    // Gate all downstream stages on the report container being built (avoids resume race)
     ch_build_ready   = ch_reference.report_sif.ifEmpty('ready').first()
-    ch_analysis_bam  = BAM_MARKDUP_BQSR.out.bam
+    ch_analysis_bam  = ALIGN_AND_CALL.out.bam
         .combine( ch_build_ready )
-        .map { meta, bam, bai, ready -> [ meta, bam, bai ] }   // [ meta, cram, crai ]
-    ch_versions      = ch_versions.mix(BAM_MARKDUP_BQSR.out.versions)
-    ch_multiqc_files = ch_multiqc_files.mix(BAM_MARKDUP_BQSR.out.metrics.collect{it[1]})
+        .map { meta, bam, bai, ready -> [ meta, bam, bai ] }
+    ch_vcf           = ALIGN_AND_CALL.out.vcf      // [ meta, vcf.gz, tbi ]
+    ch_versions      = ch_versions.mix(ALIGN_AND_CALL.out.versions)
+    ch_multiqc_files = ch_multiqc_files.mix(ALIGN_AND_CALL.out.metrics.collect{it[1]})
+    ch_report_parts  = ch_report_parts.mix(ALIGN_AND_CALL.out.stats.map{ m,f -> [m,'variant_stats',f] })
 
     //
     // STAGE 3: Alignment QC
@@ -99,15 +101,6 @@ workflow GENOMEPORTRAIT {
         ch_versions      = ch_versions.mix(BAM_QC.out.versions)
         ch_multiqc_files = ch_multiqc_files.mix(BAM_QC.out.multiqc.collect{it[1]})
     }
-
-    //
-    // STAGE 4: Small-variant calling (DeepVariant by default)
-    //
-    BAM_CALL_SMALLVARIANTS ( ch_analysis_bam, ch_reference )
-    ch_vcf      = BAM_CALL_SMALLVARIANTS.out.vcf      // [ meta, vcf, tbi ]
-    ch_gvcf     = BAM_CALL_SMALLVARIANTS.out.gvcf
-    ch_versions = ch_versions.mix(BAM_CALL_SMALLVARIANTS.out.versions)
-    ch_report_parts = ch_report_parts.mix(BAM_CALL_SMALLVARIANTS.out.stats.map{ m,f -> [m,'variant_stats',f] })
 
     //
     // STAGE 5: SV / CNV

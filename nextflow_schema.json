@@ -81,7 +81,16 @@
                     "enum": ["bwa-mem2", "minimap2"]
                 },
                 "skip_trimming": { "type": "boolean", "default": false },
-                "skip_bqsr": { "type": "boolean", "default": false }
+                "skip_bqsr": { "type": "boolean", "default": false },
+                "use_gpu": {
+                    "type": "string",
+                    "default": "off",
+                    "enum": ["off", "auto", "on"],
+                    "description": "NVIDIA Parabricks GPU acceleration. 'auto' uses fq2bam + GPU DeepVariant when a capable GPU is detected; 'on' requires one; 'off' is CPU-only."
+                },
+                "gpu_count": { "type": "integer", "default": 1, "description": "GPUs to request per Parabricks task." },
+                "gpu_min_memory_mb": { "type": "integer", "default": 16000, "description": "Minimum GPU VRAM (MiB) to consider a device Parabricks-capable.", "hidden": true },
+                "gpu_min_compute_cap": { "type": "number", "default": 7.0, "description": "Minimum CUDA compute capability for Parabricks (Volta+ = 7.0).", "hidden": true }
             }
         },
         "variant_calling": {

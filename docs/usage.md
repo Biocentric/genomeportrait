@@ -111,6 +111,29 @@ GRCh38 references, so the first run performs the one-time reference download (in
 ~25 GB VEP cache). Genome-wide-only stages (ancestry, polygenic scores) are off because chr21-only
 input isn't meaningful for them — flip `--skip_ancestry false --skip_prs false` on whole-genome data.
 
+## GPU acceleration (NVIDIA Parabricks) — `dev` branch
+
+When a Parabricks-capable GPU is available, the pipeline can swap the CPU alignment/calling
+toolchain for [NVIDIA Parabricks](https://docs.nvidia.com/clara/parabricks/) — typically a
+10–50× speed-up for `fq2bam` (bwa-mem + MarkDuplicates + BQSR) and `deepvariant`.
+
+```bash
+nextflow run . -profile gpu,singularity --input s.csv --outdir results        # auto-detect
+nextflow run . -profile singularity --use_gpu on  ...                          # require a GPU
+```
+
+- `--use_gpu off` (default) — CPU tools only.
+- `--use_gpu auto` — a `CHECK_GPU` preflight queries `nvidia-smi`; if **any** GPU meets
+  `--gpu_min_memory_mb` (default 16000) **and** `--gpu_min_compute_cap` (default 7.0, i.e.
+  Volta+), short-read samples run on Parabricks; otherwise it transparently falls back to CPU.
+- `--use_gpu on` — same detection, but the run **fails fast** if no capable GPU is found.
+
+Requirements: an NVIDIA GPU with **compute capability ≥ 7.0** and **≥ 16 GB VRAM** (T4, V100,
+A100, L4, A6000, H100, …; note Pascal cards such as the **P40/P100 are *not* supported by
+Parabricks 4.x**), the NVIDIA Container Toolkit, and Singularity/Apptainer started with `--nv`
+(handled by the `gpu` profile). The Parabricks container is pulled from
+`nvcr.io/nvidia/clara/clara-parabricks`. Long-read (ONT/PacBio) samples always use the CPU path.
+
 ## Core Nextflow arguments
 
 - `-profile` — configuration profile. Use `singularity` (recommended) or `apptainer`, `docker`, `conda`.
