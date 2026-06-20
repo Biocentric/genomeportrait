@@ -157,10 +157,35 @@
             "properties": {
                 "multiqc_config": { "type": "string", "format": "file-path", "hidden": true },
                 "multiqc_title": { "type": "string" },
+                "multiqc_logo": { "type": "string", "hidden": true },
+                "multiqc_methods_description": { "type": "string", "hidden": true },
+                "max_multiqc_email_size": { "type": "string", "default": "25.MB", "hidden": true },
                 "publish_dir_mode": { "type": "string", "default": "copy", "hidden": true, "enum": ["symlink", "rellink", "link", "copy", "copyNoFollow", "move"] },
                 "validate_params": { "type": "boolean", "default": true, "hidden": true },
                 "version": { "type": "boolean", "hidden": true },
+                "help_full": { "type": "boolean", "hidden": true },
+                "show_hidden": { "type": "boolean", "hidden": true },
                 "monochrome_logs": { "type": "boolean", "hidden": true }
+            }
+        },
+        "advanced_options": {
+            "title": "Advanced options",
+            "type": "object",
+            "fa_icon": "fas fa-cogs",
+            "description": "Annotation, reference-download and in-pipeline container build options.",
+            "properties": {
+                "download_references": { "type": "boolean", "default": true, "hidden": true },
+                "vep_cache_version": { "type": "integer", "default": 113, "hidden": true },
+                "vep_species": { "type": "string", "default": "homo_sapiens", "hidden": true },
+                "use_snpsift_gnomad": { "type": "boolean", "hidden": true, "description": "Also annotate gnomAD AF from a SnpSift VCF (default: AF from VEP cache)." },
+                "build_report_container": { "type": "boolean", "default": true, "hidden": true },
+                "report_image_version": { "type": "string", "default": "1.0.1", "hidden": true },
+                "report_sif": { "type": "string", "hidden": true },
+                "report_docker": { "type": "string", "hidden": true },
+                "build_hipstr_container": { "type": "boolean", "default": true, "hidden": true },
+                "hipstr_image_version": { "type": "string", "default": "0.7", "hidden": true },
+                "hipstr_sif": { "type": "string", "hidden": true },
+                "hipstr_docker": { "type": "string", "hidden": true }
             }
         }
     },
@@ -172,6 +197,7 @@
         { "$ref": "#/$defs/module_toggles" },
         { "$ref": "#/$defs/trait_and_scoring" },
         { "$ref": "#/$defs/max_job_request_options" },
-        { "$ref": "#/$defs/generic_options" }
+        { "$ref": "#/$defs/generic_options" },
+        { "$ref": "#/$defs/advanced_options" }
     ]
 }
