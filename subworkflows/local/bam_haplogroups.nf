@@ -26,8 +26,11 @@ workflow BAM_HAPLOGROUPS {
     YLEAF ( ch_bam_xy, ch_reference.fasta, ch_reference.fai )
     ch_versions = ch_versions.mix(YLEAF.out.versions.first())
 
+    // For XX samples Yleaf is skipped, so the remainder-join yields a null Y result;
+    // convert it to an empty placeholder (null is rejected by the module's path input).
     LINEAGE_REPORT (
         HAPLOGREP2.out.result.join(YLEAF.out.hg, remainder: true)
+            .map { meta, mt, y -> [ meta, mt, y ?: [] ] }
     )
     ch_versions = ch_versions.mix(LINEAGE_REPORT.out.versions.first())
 
