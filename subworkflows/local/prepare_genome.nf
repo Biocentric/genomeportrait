@@ -6,7 +6,7 @@
     build the local report container. Everything is staged into
     params.reference_base/<genome>/ and re-used on subsequent runs (storeDir cache).
 
-    Each resource is emitted as its own value channel (`.first()`), so the caller can
+    Each resource is emitted as its own value channel, so the caller can
     assemble a plain map of value-channels (see main.nf). That keeps proper data
     dependencies while letting downstream code reference e.g. `ch_reference.fasta`.
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -51,7 +51,7 @@ workflow PREPARE_GENOME {
             file("${projectDir}/containers/report/Singularity.def", checkIfExists: true),
             file("${projectDir}/containers/report/environment.yml", checkIfExists: true)
         )
-        ch_report_sif = BUILD_REPORT_CONTAINER.out.ready.first()
+        ch_report_sif = BUILD_REPORT_CONTAINER.out.ready
         ch_versions   = ch_versions.mix(BUILD_REPORT_CONTAINER.out.versions)
     }
 
@@ -63,7 +63,7 @@ workflow PREPARE_GENOME {
         BUILD_HIPSTR_CONTAINER (
             file("${projectDir}/containers/hipstr/Singularity.def", checkIfExists: true)
         )
-        ch_hipstr_ready = BUILD_HIPSTR_CONTAINER.out.ready.first()
+        ch_hipstr_ready = BUILD_HIPSTR_CONTAINER.out.ready
         ch_versions     = ch_versions.mix(BUILD_HIPSTR_CONTAINER.out.versions)
     }
 
@@ -71,20 +71,20 @@ workflow PREPARE_GENOME {
     // Core genome FASTA + indices
     //
     DL_FASTA ( [ [id:'genome'], refs.fasta ], "${params.reference_base}/${genome}/genome" )
-    ch_fasta = DL_FASTA.out.file.map { meta, f -> f }.first()
+    ch_fasta = DL_FASTA.out.file.map { meta, f -> f }
     ch_versions = ch_versions.mix(DL_FASTA.out.versions)
 
     SAMTOOLS_FAIDX ( ch_fasta.map { [ [id:'genome'], it ] } )
     GATK4_CREATESEQUENCEDICTIONARY ( ch_fasta.map { [ [id:'genome'], it ] } )
-    ch_fai  = SAMTOOLS_FAIDX.out.fai.map { it[1] }.first()
-    ch_dict = GATK4_CREATESEQUENCEDICTIONARY.out.dict.map { it[1] }.first()
+    ch_fai  = SAMTOOLS_FAIDX.out.fai.map { it[1] }
+    ch_dict = GATK4_CREATESEQUENCEDICTIONARY.out.dict.map { it[1] }
     ch_versions = ch_versions.mix(SAMTOOLS_FAIDX.out.versions)
 
     // bwa-mem2 index is large/slow; only build for short-read alignment from FASTQ
     ch_bwamem2 = Channel.value([])
     if (params.aligner == 'bwa-mem2') {
         BWAMEM2_INDEX ( ch_fasta.map { [ [id:'genome'], it ] } )
-        ch_bwamem2  = BWAMEM2_INDEX.out.index.first()
+        ch_bwamem2  = BWAMEM2_INDEX.out.index
         ch_versions = ch_versions.mix(BWAMEM2_INDEX.out.versions)
     }
 
@@ -94,9 +94,9 @@ workflow PREPARE_GENOME {
     DL_DBSNP ( [ [id:'dbsnp'], refs.dbsnp ], "${params.reference_base}/${genome}/knownsites" )
     DL_KNOWN ( [ [id:'known_indels'], refs.known_indels ], "${params.reference_base}/${genome}/knownsites" )
     DL_MILLS ( [ [id:'mills'], refs.mills ], "${params.reference_base}/${genome}/knownsites" )
-    ch_dbsnp        = DL_DBSNP.out.file.map { it[1] }.first()
-    ch_known_indels = DL_KNOWN.out.file.map { it[1] }.first()
-    ch_mills        = DL_MILLS.out.file.map { it[1] }.first()
+    ch_dbsnp        = DL_DBSNP.out.file.map { it[1] }
+    ch_known_indels = DL_KNOWN.out.file.map { it[1] }
+    ch_mills        = DL_MILLS.out.file.map { it[1] }
 
     //
     // Annotation databases (only downloaded when annotation is enabled — the VEP cache is ~25 GB)
@@ -107,13 +107,13 @@ workflow PREPARE_GENOME {
     if (!params.skip_annotation) {
         DOWNLOAD_VEP_CACHE ( refs.vep_cache, "${params.reference_base}/${genome}/vep_cache" )
         DL_CLINVAR ( [ [id:'clinvar'], refs.clinvar ], "${params.reference_base}/${genome}/annotation" )
-        ch_vep_cache = DOWNLOAD_VEP_CACHE.out.cache.first()
-        ch_clinvar   = DL_CLINVAR.out.file.map { it[1] }.first()
+        ch_vep_cache = DOWNLOAD_VEP_CACHE.out.cache
+        ch_clinvar   = DL_CLINVAR.out.file.map { it[1] }
         ch_versions  = ch_versions.mix(DOWNLOAD_VEP_CACHE.out.versions)
         // gnomAD VCF only needed if explicitly annotating with SnpSift (VEP cache covers AF otherwise)
         if (params.use_snpsift_gnomad) {
             DL_GNOMAD ( [ [id:'gnomad'], refs.gnomad ], "${params.reference_base}/${genome}/annotation" )
-            ch_gnomad = DL_GNOMAD.out.file.map { it[1] }.first()
+            ch_gnomad = DL_GNOMAD.out.file.map { it[1] }
         }
     }
 
@@ -126,7 +126,7 @@ workflow PREPARE_GENOME {
             [ refs.kgp_hgdp_panel, refs.kgp_hgdp_pvar, refs.kgp_hgdp_psam ],
             "${params.reference_base}/${genome}/ancestry_panel"
         )
-        ch_kgp = DOWNLOAD_KGP_HGDP.out.panel.first()
+        ch_kgp = DOWNLOAD_KGP_HGDP.out.panel
         ch_versions = ch_versions.mix(DOWNLOAD_KGP_HGDP.out.versions)
     }
 
@@ -138,8 +138,8 @@ workflow PREPARE_GENOME {
     if (!params.skip_str) {
         DL_STR    ( [ [id:'str_catalog'],  refs.str_catalog  ], "${params.reference_base}/${genome}/str" )
         DL_HIPSTR ( [ [id:'hipstr_codis'], refs.hipstr_codis ], "${params.reference_base}/${genome}/str" )
-        ch_str_catalog  = DL_STR.out.file.map { it[1] }.first()
-        ch_hipstr_codis = DL_HIPSTR.out.file.map { it[1] }.first()
+        ch_str_catalog  = DL_STR.out.file.map { it[1] }
+        ch_hipstr_codis = DL_HIPSTR.out.file.map { it[1] }
     }
 
     emit:
