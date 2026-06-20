@@ -17,9 +17,22 @@ process HIPSTR {
     path "versions.yml",                      emit: versions
 
     script:
+    def panel = params.str_panel ?: 'curated'
+    def codis = 'CSF1PO|FGA|TH01|TPOX|vWA|D3S1358|D5S818|D7S820|D8S1179|D13S317|D16S539|D18S51|D21S11|D1S1656|D2S441|D2S1338|D10S1248|D12S391|D19S433|D22S1045'
     """
-    REGIONS=${str_bed}
-    if [[ ${str_bed} == *.gz ]]; then gunzip -kf ${str_bed}; REGIONS=${str_bed.baseName}; fi
+    # Build the STR regions for HipSTR. The reference bed is genome-wide (~1.6M loci, hours);
+    #   curated = named forensic/genealogy markers (CODIS + Y-STRs + Marshfield, ~860) [default]
+    #   codis   = CODIS core only (~20)
+    #   all     = full genome-wide reference
+    BED=${str_bed}
+    if [[ \$BED == *.gz ]]; then gunzip -kf \$BED; BED=${str_bed.baseName}; fi
+    case "${panel}" in
+        all)   REGIONS=\$BED ;;
+        codis) grep -iwE '${codis}' \$BED > str_regions.bed; REGIONS=str_regions.bed ;;
+        *)     grep -vE 'Human_STR_[0-9]' \$BED > str_regions.bed; REGIONS=str_regions.bed ;;
+    esac
+    echo "HipSTR panel='${panel}': \$(wc -l < \$REGIONS) loci" >&2
+
     HipSTR \\
         --bams $bam \\
         --fasta $fasta \\
