@@ -17,13 +17,16 @@ process PGSCATALOG_DOWNLOAD {
 
     script:
     """
-    # Download + harmonise the requested scoring files to GRCh38
+    # pgscatalog-utils 1.4.x requires the output dirs to already exist
+    mkdir -p scorefiles meta
+
+    # Download scoring files (already on GRCh38, so no liftover needed)
     pgscatalog-download --pgs ${pgs_ids.replace(',', ' ')} \\
         --build GRCh38 --outdir scorefiles
 
     # Combine into a single weighted-allele file for PLINK2 --score
     pgscatalog-combine -s scorefiles/*.txt.gz \\
-        --liftover --target-build GRCh38 \\
+        --target-build GRCh38 \\
         -o scorefiles_combined.txt.gz
 
     # Lightweight metadata table for the report (trait labels per PGS ID)
