@@ -26,7 +26,7 @@ process PGSCATALOG_DOWNLOAD {
 
     # Combine into a single weighted-allele file for PLINK2 --score
     pgscatalog-combine -s scorefiles/*.txt.gz \\
-        --target-build GRCh38 \\
+        -t GRCh38 \\
         -o scorefiles_combined.txt.gz
 
     # Lightweight metadata table for the report (trait labels per PGS ID)
