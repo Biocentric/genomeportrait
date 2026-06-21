@@ -36,16 +36,24 @@ def load_geno(path):
     return g
 
 
+def _comp(b):
+    return {"A": "T", "T": "A", "C": "G", "G": "C"}.get(b, b)
+
+
 def classify(eff, oth, called):
     if not called:
         return "no_call", "./."
-    if called == {eff}:
-        return "hom_effect", f"{eff}/{eff}"
-    if called == {oth}:
-        return "hom_other", f"{oth}/{oth}"
-    if eff in called and oth in called:
-        return "het", f"{eff}/{oth}"
-    return "other_allele", "/".join(sorted(called))
+    dosage = "/".join(sorted(called))
+    # Match on the forward strand, or the complement (panel alleles are sometimes given
+    # on the opposite strand to the GATK hg38 forward-strand VCF, e.g. rs4988235 T/C vs A/G).
+    for e, o in [(eff, oth), (_comp(eff), _comp(oth))]:
+        if called == {e}:
+            return "hom_effect", dosage
+        if called == {o}:
+            return "hom_other", dosage
+        if e in called and o in called:
+            return "het", dosage
+    return "other_allele", dosage
 
 
 def main():
