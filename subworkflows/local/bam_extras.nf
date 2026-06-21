@@ -1,6 +1,7 @@
 //
 // BAM_EXTRAS: telomere length estimate (Telseq) + mtDNA heteroplasmy (mutserve)
 //
+include { CRAM_TO_BAM as EXTRAS_CRAM_TO_BAM } from '../../modules/local/cram_to_bam'
 include { TELSEQ   } from '../../modules/local/telseq'
 include { MUTSERVE } from '../../modules/local/mutserve'
 include { EXTRAS_REPORT } from '../../modules/local/extras_report'
@@ -17,13 +18,18 @@ workflow BAM_EXTRAS {
     ch_telseq = Channel.empty()
     ch_mito   = Channel.empty()
 
+    // Telseq/mutserve (older tools) read poorly from CRAM — convert once to BAM.
+    EXTRAS_CRAM_TO_BAM ( ch_bam, ch_reference.fasta, ch_reference.fai )
+    ch_xbam = EXTRAS_CRAM_TO_BAM.out.bam
+    ch_versions = ch_versions.mix(EXTRAS_CRAM_TO_BAM.out.versions.first())
+
     if (!params.skip_telomere) {
-        TELSEQ ( ch_bam )
+        TELSEQ ( ch_xbam )
         ch_telseq   = TELSEQ.out.tsv
         ch_versions = ch_versions.mix(TELSEQ.out.versions.first())
     }
     if (!params.skip_mito_heteroplasmy) {
-        MUTSERVE ( ch_bam, ch_reference.fasta, ch_reference.fai )
+        MUTSERVE ( ch_xbam, ch_reference.fasta, ch_reference.fai )
         ch_mito     = MUTSERVE.out.txt
         ch_versions = ch_versions.mix(MUTSERVE.out.versions.first())
     }

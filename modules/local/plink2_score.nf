@@ -15,16 +15,23 @@ process PLINK2_SCORE {
     tuple val(meta), path("*.sscore"), emit: sscore
     path "versions.yml",               emit: versions
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
-    def args = task.ext.args ?: ''
+    // pgscatalog-combine long format: chr_name pos effect_allele other_allele effect_weight
+    //                                 effect_type is_duplicated accession row_nr
+    // Score each PGS separately: ID=chr:pos (chr-prefixed to match the pgen), A1=effect, BETA=weight.
     """
-    # scorefile columns: 1=variant_id (chr:pos:ref:alt), 2=effect_allele, 3..=per-PGS weights
-    zcat -f $scorefile > scorefile.txt
-    NCOL=\$(head -n1 scorefile.txt | awk '{print NF}')
-    plink2 --pfile ${pgen.baseName} \\
-        --score scorefile.txt 1 2 header-read cols=+scoresums,+denom ignore-dup-ids \\
-        --score-col-nums 3-\${NCOL} \\
-        --out ${meta.id}.prs
+    zcat -f $scorefile > combined.txt
+    for acc in \$(tail -n +2 combined.txt | cut -f8 | sort -u); do
+        safe=\$(echo "\$acc" | tr -c 'A-Za-z0-9._-' '_')
+        { printf "ID\\tA1\\tBETA\\n"; awk -F'\\t' -v a="\$acc" 'NR>1 && \$8==a {print "chr"\$1":"\$2"\\t"\$3"\\t"\$5}' combined.txt; } > sf.\$safe.txt
+        plink2 --pfile ${pgen.baseName} \\
+            --score sf.\$safe.txt 1 2 3 header-read cols=+scoresums,+denom ignore-dup-ids list-variants \\
+            --out ${meta.id}.\$safe 2>/dev/null || echo "score failed for \$acc" >&2
+    done
+    ls *.sscore >/dev/null 2>&1 || printf "" > ${meta.id}.none.sscore
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":

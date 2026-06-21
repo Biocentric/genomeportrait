@@ -16,7 +16,9 @@ process PLINK2_VCF2PGEN {
 
     script:
     """
-    plink2 --vcf $vcf --set-all-var-ids '@:#:\$r:\$a' --new-id-max-allele-len 200 missing \\
+    # ID = chr:pos so PGS scoring files (matched on position + effect allele) can align;
+    # drop duplicate positions (split multiallelics) keeping the first.
+    plink2 --vcf $vcf --set-all-var-ids '@:#' --rm-dup force-first \\
         --make-pgen --out ${meta.id}
 
     cat <<-END_VERSIONS > versions.yml

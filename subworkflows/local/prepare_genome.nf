@@ -27,6 +27,7 @@ include { GATK4_CREATESEQUENCEDICTIONARY } from '../../modules/local/gatk4_dict'
 include { BWAMEM2_INDEX                 } from '../../modules/local/bwamem2_index'
 include { BUILD_REPORT_CONTAINER        } from '../../modules/local/build_report_container'
 include { BUILD_HIPSTR_CONTAINER        } from '../../modules/local/build_hipstr_container'
+include { BUILD_T1K_HLA                 } from '../../modules/local/build_t1k_hla'
 
 workflow PREPARE_GENOME {
 
@@ -65,6 +66,16 @@ workflow PREPARE_GENOME {
         )
         ch_hipstr_ready = BUILD_HIPSTR_CONTAINER.out.ready
         ch_versions     = ch_versions.mix(BUILD_HIPSTR_CONTAINER.out.versions)
+    }
+
+    //
+    // Build the T1K HLA reference (IPD-IMGT/HLA), only when HLA typing runs
+    //
+    ch_hla_index = Channel.value([])
+    if (!params.skip_hla) {
+        BUILD_T1K_HLA ()
+        ch_hla_index = BUILD_T1K_HLA.out.index
+        ch_versions  = ch_versions.mix(BUILD_T1K_HLA.out.versions)
     }
 
     //
@@ -158,5 +169,6 @@ workflow PREPARE_GENOME {
     hipstr_codis  = ch_hipstr_codis
     report_sif    = ch_report_sif
     hipstr_ready  = ch_hipstr_ready
+    hla_index     = ch_hla_index
     versions      = ch_versions
 }

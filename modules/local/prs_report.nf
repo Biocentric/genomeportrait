@@ -17,7 +17,7 @@ process PRS_REPORT {
     """
     prs_report.py \\
         --sample ${meta.id} \\
-        --sscore ${sscore} \\
+        --indir . \\
         --metadata ${metadata} \\
         --min-overlap ${params.pgs_min_overlap} \\
         --out ${meta.id}.prs.tsv
