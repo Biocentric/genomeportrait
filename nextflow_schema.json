@@ -188,6 +188,7 @@
                 "vep_species": { "type": "string", "default": "homo_sapiens", "hidden": true },
                 "use_snpsift_gnomad": { "type": "boolean", "hidden": true, "description": "Also annotate gnomAD AF from a SnpSift VCF (default: AF from VEP cache)." },
                 "str_panel": { "type": "string", "default": "curated", "enum": ["curated", "codis", "all"], "hidden": true, "description": "HipSTR loci: curated named markers (CODIS+Y-STR+Marshfield), CODIS core, or genome-wide." },
+                "hipstr_min_reads": { "type": "integer", "default": 10, "hidden": true, "description": "HipSTR minimum reads per locus (lower for low-coverage data)." },
                 "build_report_container": { "type": "boolean", "default": true, "hidden": true },
                 "report_image_version": { "type": "string", "default": "1.0.1", "hidden": true },
                 "report_sif": { "type": "string", "hidden": true },
