@@ -16,7 +16,7 @@ process PLINK2_VCF2PGEN {
 
     script:
     """
-    plink2 --vcf $vcf --set-all-var-ids '@:#:\$r:\$a' \\
+    plink2 --vcf $vcf --set-all-var-ids '@:#:\$r:\$a' --new-id-max-allele-len 200 missing \\
         --make-pgen --out ${meta.id}
 
     cat <<-END_VERSIONS > versions.yml

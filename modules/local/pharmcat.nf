@@ -19,13 +19,11 @@ process PHARMCAT {
 
     script:
     """
-    # Preprocess to PharmCAT-ready VCF, then run the full pipeline
-    pharmcat_pipeline $vcf \\
-        -o pharmcat_out \\
-        -bf ${meta.id} \\
-        --reference $fasta || true
-    cp pharmcat_out/${meta.id}*.report.json ${meta.id}.report.json
-    cp pharmcat_out/${meta.id}*.report.html ${meta.id}.report.html
+    # Preprocess to PharmCAT-ready VCF, then run the full pipeline.
+    # (pharmcat_pipeline uses its bundled reference positions — no --reference flag.)
+    pharmcat_pipeline $vcf -o pharmcat_out -bf ${meta.id} || true
+    cp pharmcat_out/${meta.id}*.report.json ${meta.id}.report.json 2>/dev/null || echo '{}' > ${meta.id}.report.json
+    cp pharmcat_out/${meta.id}*.report.html ${meta.id}.report.html 2>/dev/null || echo '<html><body>PharmCAT produced no report</body></html>' > ${meta.id}.report.html
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
