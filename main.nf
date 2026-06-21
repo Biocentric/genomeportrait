@@ -56,7 +56,8 @@ workflow YOURORG_GENOMEPORTRAIT {
         str_catalog   : PREPARE_GENOME.out.str_catalog,
         hipstr_codis  : PREPARE_GENOME.out.hipstr_codis,
         report_sif    : PREPARE_GENOME.out.report_sif,
-        hipstr_ready  : PREPARE_GENOME.out.hipstr_ready
+        hipstr_ready  : PREPARE_GENOME.out.hipstr_ready,
+        hla_index     : PREPARE_GENOME.out.hla_index
     ]
 
     //
