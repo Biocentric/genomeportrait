@@ -16,8 +16,8 @@ process SNPSIFT_ANNOTATE {
     val   dbtag
 
     output:
-    tuple val(meta), path("*.${dbtag}.vcf.gz"), path("*.${dbtag}.vcf.gz.tbi"), emit: vcf
-    path "versions.yml",                                                       emit: versions
+    tuple val(meta), path("${meta.id}.${dbtag}.vcf.gz"), path("${meta.id}.${dbtag}.vcf.gz.tbi"), emit: vcf
+    path "versions.yml",                                                                          emit: versions
 
     when:
     task.ext.when == null || task.ext.when
@@ -29,12 +29,13 @@ process SNPSIFT_ANNOTATE {
     for c in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y; do echo "\$c chr\$c"; done > chr_map.txt
     echo "MT chrM" >> chr_map.txt
 
-    # ClinVar's header omits ##contig lines, so bcftools needs the tabix index to resolve contigs
+    # ClinVar's header omits ##contig lines, so bcftools needs the tabix index to resolve contigs.
+    # Name the intermediate so it does NOT match the output glob (${meta.id}.${dbtag}.vcf.gz).
     [ -f "${database}.tbi" ] || tabix -p vcf $database
-    bcftools annotate --rename-chrs chr_map.txt -Oz -o db.${dbtag}.vcf.gz $database
-    tabix -p vcf db.${dbtag}.vcf.gz
+    bcftools annotate --rename-chrs chr_map.txt -Oz -o renamed_db.vcf.gz $database
+    tabix -p vcf renamed_db.vcf.gz
 
-    bcftools annotate -a db.${dbtag}.vcf.gz -c ${fields} --threads $task.cpus \\
+    bcftools annotate -a renamed_db.vcf.gz -c ${fields} --threads $task.cpus \\
         -Oz -o ${meta.id}.${dbtag}.vcf.gz $vcf
     tabix -p vcf ${meta.id}.${dbtag}.vcf.gz
 
