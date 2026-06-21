@@ -2,10 +2,13 @@ process SNPSIFT_ANNOTATE {
     tag "$meta.id|$dbtag"
     label 'process_medium'
 
-    conda "bioconda::snpsift=5.2 bioconda::htslib=1.21"
+    // Implemented with bcftools annotate: the SnpSift biocontainer lacks bgzip/tabix, so it
+    // could not index ClinVar. bcftools has the full htslib toolchain. Also renames ClinVar's
+    // '1'..'MT' contigs to chr-prefixed so they match our GATK hg38 VCF.
+    conda "bioconda::bcftools=1.21"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/snpsift:5.2--hdfd78af_0' :
-        'biocontainers/snpsift:5.2--hdfd78af_0' }"
+        'https://depot.galaxyproject.org/singularity/bcftools:1.21--h8b25389_0' :
+        'biocontainers/bcftools:1.21--h8b25389_0' }"
 
     input:
     tuple val(meta), path(vcf), path(tbi)
@@ -16,17 +19,26 @@ process SNPSIFT_ANNOTATE {
     tuple val(meta), path("*.${dbtag}.vcf.gz"), path("*.${dbtag}.vcf.gz.tbi"), emit: vcf
     path "versions.yml",                                                       emit: versions
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
-    // Pull a sensible set of INFO fields per database
-    def info = dbtag == 'gnomad' ? '-info AF,AF_grpmax,nhomalt' : (dbtag == 'clinvar' ? '-info CLNSIG,CLNDN,CLNREVSTAT' : '')
+    def fields = dbtag == 'gnomad' ? 'INFO/AF' : (dbtag == 'clinvar' ? 'INFO/CLNSIG,INFO/CLNDN,INFO/CLNREVSTAT' : 'INFO')
     """
-    [ -f "${database}.tbi" ] || tabix -p vcf $database || true
-    SnpSift annotate $info $database $vcf | bgzip -c > ${meta.id}.${dbtag}.vcf.gz
+    # Map NCBI-style contigs ('1'..'22','X','Y','MT') to chr-prefixed (no-op for chr-prefixed DBs)
+    for c in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y; do echo "\$c chr\$c"; done > chr_map.txt
+    echo "MT chrM" >> chr_map.txt
+
+    bcftools annotate --rename-chrs chr_map.txt -Oz -o db.${dbtag}.vcf.gz $database
+    tabix -p vcf db.${dbtag}.vcf.gz
+
+    bcftools annotate -a db.${dbtag}.vcf.gz -c ${fields} --threads $task.cpus \\
+        -Oz -o ${meta.id}.${dbtag}.vcf.gz $vcf
     tabix -p vcf ${meta.id}.${dbtag}.vcf.gz
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        snpsift: \$(SnpSift 2>&1 | grep -oP 'SnpSift version \\K[0-9.]+' | head -n1)
+        bcftools: \$(bcftools --version | head -n1 | sed 's/bcftools //')
     END_VERSIONS
     """
 }
