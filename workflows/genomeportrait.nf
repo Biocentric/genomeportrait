@@ -189,7 +189,7 @@ workflow GENOMEPORTRAIT {
     // STAGE 13: "Popular" non-clinical trait lookup
     //
     if (!params.skip_traits) {
-        VCF_TRAITS ( ch_vcf_annotated, file(params.trait_panel) )
+        VCF_TRAITS ( ch_analysis_bam, ch_reference, file(params.trait_panel) )
         ch_versions     = ch_versions.mix(VCF_TRAITS.out.versions)
         ch_report_parts = ch_report_parts.mix(VCF_TRAITS.out.results.map{ m,f -> [m,'traits',f] })
     }

@@ -1,62 +1,39 @@
 #!/usr/bin/env python3
 """
-trait_lookup.py — genotype the curated non-clinical trait panel in a sample VCF.
+trait_lookup.py — interpret the curated non-clinical trait panel from targeted genotypes.
 
-Pure-Python: reads the (optionally bgzipped) VCF directly — no bcftools needed — so it
-runs in the slim report container. For each panel rsID we find the record by its ID
-(or by Existing_variation from VEP), read the sample genotype, count effect-allele
-dosage, and emit the matching plain-language interpretation from the panel.
+Reads a per-position genotype table (CHROM POS REF ALT GT DP) produced by bcftools mpileup
+at the panel coordinates. Because the sites are genotyped directly from the BAM (not taken
+from a variant-only VCF), homozygous-reference calls are captured too — so a panel SNP is
+reported as hom-reference rather than "no call" when the individual simply matches the genome.
 """
 import argparse
-import gzip
 import sys
 
 import pandas as pd
 
 
-def opener(p):
-    return gzip.open(p, "rt") if str(p).endswith(".gz") or str(p).endswith(".bgz") else open(p)
-
-
-def load_genotypes(vcf, rsids):
-    """Return {rsid: set(called_alleles)} for panel rsIDs present in the VCF."""
-    want = set(rsids)
-    found = {}
-    with opener(vcf) as fh:
+def load_geno(path):
+    """Return {(chrom,pos): set(called_alleles)} from the bcftools query TSV."""
+    g = {}
+    with open(path) as fh:
         for line in fh:
-            if line.startswith("#"):
-                continue
             f = line.rstrip("\n").split("\t")
-            if len(f) < 10:
+            if len(f) < 5:
                 continue
-            chrom, pos, vid, ref, alt = f[0], f[1], f[2], f[3], f[4]
-            ids = set(vid.split(";"))
-            # also scan VEP CSQ Existing_variation in INFO for rsIDs
-            if "rs" in f[7]:
-                for tok in f[7].replace("|", ";").replace(",", ";").split(";"):
-                    if tok.startswith("rs"):
-                        ids.add(tok)
-            hit = ids & want
-            if not hit:
-                continue
-            alleles = [ref] + alt.split(",")
-            fmt = f[8].split(":")
-            try:
-                gt_idx = fmt.index("GT")
-            except ValueError:
-                continue
-            gt = f[9].split(":")[gt_idx].replace("|", "/")
+            # f layout: CHROM POS REF ALT GT [DP]
+            chrom, pos, ref, alt, gt = f[0], f[1], f[2], f[3], f[4]
+            alleles = [ref] + ([] if alt in (".", "") else alt.split(","))
             called = set()
-            for tok in gt.split("/"):
+            for tok in gt.replace("|", "/").split("/"):
                 if tok in (".", ""):
                     continue
                 try:
                     called.add(alleles[int(tok)])
                 except (ValueError, IndexError):
                     pass
-            for rs in hit:
-                found[rs] = called
-    return found
+            g[(chrom, str(pos))] = called
+    return g
 
 
 def classify(eff, oth, called):
@@ -74,18 +51,18 @@ def classify(eff, oth, called):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sample", required=True)
-    ap.add_argument("--vcf", required=True)
+    ap.add_argument("--geno", required=True)
     ap.add_argument("--panel", required=True)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
 
     panel = pd.read_csv(a.panel, sep="\t", comment="#")
-    gts = load_genotypes(a.vcf, panel["rsid"].tolist())
+    geno = load_geno(a.geno)
 
     rows = []
     for _, r in panel.iterrows():
-        rs = r["rsid"]
-        called = gts.get(rs, set())
+        key = (str(r["chrom"]), str(r["pos_grch38"]))
+        called = geno.get(key, set())
         state, dosage = classify(str(r["effect_allele"]), str(r["other_allele"]), called)
         interp = {
             "hom_effect": r["geno_hom_effect"],
@@ -96,7 +73,7 @@ def main():
         }[state]
         rows.append({
             "category": r["category"], "trait": r["trait"], "gene": r["gene"],
-            "rsid": rs, "your_genotype": dosage, "interpretation": interp,
+            "rsid": r["rsid"], "your_genotype": dosage, "interpretation": interp,
             "effect_allele": r["effect_allele"],
         })
 

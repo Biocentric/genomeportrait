@@ -37,6 +37,7 @@ process HIPSTR {
         --bams $bam \\
         --fasta $fasta \\
         --regions \${REGIONS} \\
+        --min-reads ${params.hipstr_min_reads} \\
         --str-vcf ${meta.id}.hipstr.vcf.gz \\
         --output-filters
 

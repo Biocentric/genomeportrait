@@ -6,25 +6,27 @@ process TRAIT_LOOKUP {
     container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? params.report_sif : params.report_docker }"
 
     input:
-    tuple val(meta), path(vcf), path(tbi)
+    tuple val(meta), path(geno)
     path  panel
 
     output:
     tuple val(meta), path("*.traits.tsv"), emit: tsv
     path "versions.yml",                   emit: versions
 
+    when:
+    task.ext.when == null || task.ext.when
+
     script:
     """
     trait_lookup.py \\
         --sample ${meta.id} \\
-        --vcf ${vcf} \\
+        --geno ${geno} \\
         --panel ${panel} \\
         --out ${meta.id}.traits.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         python: \$(python --version | sed 's/Python //')
-        bcftools: \$(bcftools --version | head -n1 | sed 's/bcftools //')
     END_VERSIONS
     """
 }
