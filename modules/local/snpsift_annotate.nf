@@ -29,6 +29,8 @@ process SNPSIFT_ANNOTATE {
     for c in 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 X Y; do echo "\$c chr\$c"; done > chr_map.txt
     echo "MT chrM" >> chr_map.txt
 
+    # ClinVar's header omits ##contig lines, so bcftools needs the tabix index to resolve contigs
+    [ -f "${database}.tbi" ] || tabix -p vcf $database
     bcftools annotate --rename-chrs chr_map.txt -Oz -o db.${dbtag}.vcf.gz $database
     tabix -p vcf db.${dbtag}.vcf.gz
 
