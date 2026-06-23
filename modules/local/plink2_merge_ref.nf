@@ -16,14 +16,29 @@ process PLINK2_MERGE_REF {
     path "versions.yml", emit: versions
 
     script:
+    // The panel ships rsID variant IDs while the sample VCF has none, so re-ID BOTH to
+    // <chr>:<pos> (plink2 normalises chr1->1, so the schemes line up across GRCh38) and
+    // intersect on that. --allow-extra-chr tolerates the alt/random contigs in the sample
+    // VCF; --autosome keeps 1-22 for PCA/ADMIXTURE.
     """
-    # Convert sample VCF -> pgen, restrict to bi-allelic SNPs shared with the panel
-    plink2 --vcf $vcf --max-alleles 2 --snps-only --set-all-var-ids '@:#' \\
+    plink2 --vcf $vcf --allow-extra-chr --autosome \\
+        --max-alleles 2 --min-alleles 2 --snps-only \\
+        --set-all-var-ids '@:#' --rm-dup force-first \\
         --make-pgen --out sample
 
-    # Intersect on variant IDs and merge sample into the reference panel
-    plink2 --pfile ${ref_pgen.baseName} --extract sample.pvar --make-pgen --out ref_common
-    plink2 --pfile sample --extract ref_common.pvar --make-pgen --out sample_common
+    plink2 --pfile ${ref_pgen.baseName} --allow-extra-chr --autosome \\
+        --max-alleles 2 --min-alleles 2 --snps-only \\
+        --set-all-var-ids '@:#' --rm-dup force-first \\
+        --make-pgen --out ref
+
+    # variant IDs (chr:pos) shared by sample and panel
+    awk '!/^#/{print \$3}' sample.pvar | sort -T . -u > sample.ids
+    awk '!/^#/{print \$3}' ref.pvar    | sort -T . -u > ref.ids
+    comm -12 sample.ids ref.ids > common.ids
+    echo "shared variants: \$(wc -l < common.ids)"
+
+    plink2 --pfile ref    --extract common.ids --make-pgen --out ref_common
+    plink2 --pfile sample --extract common.ids --make-pgen --out sample_common
     plink2 --pfile ref_common --pmerge sample_common --make-pgen --out ${meta.id}.merged
 
     cat <<-END_VERSIONS > versions.yml
