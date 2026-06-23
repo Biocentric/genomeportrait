@@ -23,7 +23,8 @@ process HLA_T1K {
     // so BAM mode (which requires -c) is impossible. We feed the pre-extracted MHC-region
     // FASTQ pair (HLA_EXTRACT_FASTQ) and run T1K in FASTQ mode, which needs only -f.
     """
-    SEQ=\$(find ${index} -name "*_dna_seq.fa" | head -1)
+    # -L: the staged index is a symlink to the storeDir; find won't descend it otherwise.
+    SEQ=\$(find -L ${index} -name "*_dna_seq.fa" | head -1)
     run-t1k -1 ${reads1} -2 ${reads2} --preset hla-wgs \\
         -f \$SEQ -t $task.cpus --od . -o ${meta.id} || true
     [ -f ${meta.id}_genotype.tsv ] || printf "gene\\tnum\\tallele1\\n" > ${meta.id}_genotype.tsv
