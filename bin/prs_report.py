@@ -37,9 +37,11 @@ def main():
             continue
         if len(df) == 0:
             continue
-        sum_col = next((c for c in df.columns if c.upper().endswith("SCORE1_SUM")), None)
-        avg_col = next((c for c in df.columns if c.upper().endswith("SCORE1_AVG")), None)
-        nvar_col = next((c for c in df.columns if "ALLELE_CT" in c.upper() or "DENOM" in c.upper()), None)
+        # plink2 names the score columns after the weight column header (BETA_SUM/BETA_AVG here,
+        # SCORE1_* by default). Match the *_SUM / *_AVG columns, ignoring the dosage-sum column.
+        sum_col = next((c for c in df.columns if c.upper().endswith("_SUM") and "DOSAGE" not in c.upper()), None)
+        avg_col = next((c for c in df.columns if c.upper().endswith("_AVG")), None)
+        nvar_col = next((c for c in df.columns if c.upper() == "DENOM" or "ALLELE_CT" in c.upper()), None)
         rows.append({
             "pgs_id": pgs_id,
             "trait": labels.get(pgs_id, "see PGS Catalog"),
