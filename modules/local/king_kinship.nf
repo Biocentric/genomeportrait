@@ -4,8 +4,8 @@ process KING_KINSHIP {
 
     conda "bioconda::king=2.3.2"
     container "${ workflow.containerEngine == 'singularity' && !task.ext.singularity_pull_docker_container ?
-        'https://depot.galaxyproject.org/singularity/king:2.3.2--h4ac6f70_0' :
-        'biocontainers/king:2.3.2--h4ac6f70_0' }"
+        'https://depot.galaxyproject.org/singularity/king:2.3.2--h3be2455_0' :
+        'biocontainers/king:2.3.2--h3be2455_0' }"
 
     input:
     tuple val(meta), path(c_bed), path(c_bim), path(c_fam)
