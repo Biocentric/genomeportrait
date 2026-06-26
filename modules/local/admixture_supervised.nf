@@ -35,9 +35,15 @@ process ADMIXTURE_SUPERVISED {
 
     admixture --supervised -j${task.cpus} ${meta.id}.combined.bed \$K
 
-    { printf "IID\\tlabel"; for i in \$(seq 1 \$K); do printf "\\tQ%d" \$i; done; printf "\\n";
-      paste <(awk '{print \$2}' ${meta.id}.combined.fam) ${meta.id}.combined.pop ${meta.id}.combined.\${K}.Q | tr ' ' '\\t';
-    } > ${meta.id}.admixture.tsv
+    # Assemble IID + label + Q with a single awk (the admixture container lacks paste/cat/tr);
+    # all three files share combined.fam row order, so join by line number.
+    awk -v K=\$K '
+      BEGIN { printf "IID\\tlabel"; for (j=1;j<=K;j++) printf "\\tQ%d", j; printf "\\n" }
+      FNR==1 { fi++ }
+      fi==1 { iid[FNR]=\$2; next }
+      fi==2 { pop[FNR]=\$1; next }
+      fi==3 { printf "%s\\t%s", iid[FNR], pop[FNR]; for (j=1;j<=NF;j++) printf "\\t%s", \$j; printf "\\n" }
+    ' ${meta.id}.combined.fam ${meta.id}.combined.pop ${meta.id}.combined.\${K}.Q > ${meta.id}.admixture.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
