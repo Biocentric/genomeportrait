@@ -16,7 +16,7 @@ include { BAM_CALL_SV_CNV          } from '../subworkflows/local/bam_call_sv_cnv
 include { VCF_ANNOTATE             } from '../subworkflows/local/vcf_annotate'
 
 // Interpretation layers
-include { VCF_ANCESTRY             } from '../subworkflows/local/vcf_ancestry'
+include { BAM_ANCESTRY             } from '../subworkflows/local/vcf_ancestry'
 include { BAM_HAPLOGROUPS          } from '../subworkflows/local/bam_haplogroups'
 include { BAM_FORENSIC_STR         } from '../subworkflows/local/bam_forensic_str'
 include { VCF_POLYGENIC            } from '../subworkflows/local/vcf_polygenic'
@@ -135,9 +135,9 @@ workflow GENOMEPORTRAIT {
     // STAGE 7: Ancestry & admixture (opt-in; needs 1000G+HGDP panel)
     //
     if (!params.skip_ancestry) {
-        VCF_ANCESTRY ( ch_vcf, ch_reference )
-        ch_versions     = ch_versions.mix(VCF_ANCESTRY.out.versions)
-        ch_report_parts = ch_report_parts.mix(VCF_ANCESTRY.out.results.map{ m,f -> [m,'ancestry',f] })
+        BAM_ANCESTRY ( ch_analysis_bam, ch_vcf, ch_reference )
+        ch_versions     = ch_versions.mix(BAM_ANCESTRY.out.versions)
+        ch_report_parts = ch_report_parts.mix(BAM_ANCESTRY.out.results.map{ m,f -> [m,'ancestry',f] })
     }
 
     //

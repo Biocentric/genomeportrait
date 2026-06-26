@@ -8,26 +8,32 @@ process PLINK2_PCA_PROJECT {
         'biocontainers/plink2:2.00a5.10--h4ac6f70_0' }"
 
     input:
-    tuple val(meta), path(pgen), path(pvar), path(psam)
-    tuple path(ref_pgen), path(ref_pvar), path(ref_psam)
+    tuple val(meta), path(c_bed), path(c_bim), path(c_fam)
+    tuple path(panel_bed), path(panel_bim), path(panel_fam)
 
     output:
-    tuple val(meta), path("*.eigenvec"),      emit: eigenvec
-    tuple val(meta), path("*.eigenvec.allele"), emit: loadings, optional: true
-    path "versions.yml",                      emit: versions
+    tuple val(meta), path("${meta.id}.pca.tsv"), emit: eigenvec
+    path "versions.yml",                         emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
 
     script:
-    def args = task.ext.args ?: ''
+    // Learn the PCA basis on the reference panel, then PROJECT everyone (reference + query)
+    // onto it via --score (allele-orientation safe). The .eigenvec.allele file has a
+    // PROVISIONAL_REF? column, so A1=col6 and the PC weights are cols 7-16.
+    def panel = panel_bed.baseName
     """
-    # Learn PCA on the reference panel, then project the merged sample onto it
-    plink2 --pfile ${ref_pgen.baseName} $args \\
-        --pca 10 allele-wts --out ref_pca
-    plink2 --pfile ${pgen.baseName} \\
-        --read-freq ref_pca.afreq \\
-        --score ref_pca.eigenvec.allele 2 5 header-read no-mean-imputation variance-standardize \\
-        --score-col-nums 6-15 --out ${meta.id}.proj
-    # Reformat scores as an eigenvec table (PC1..PC10 per individual)
-    cp ${meta.id}.proj.sscore ${meta.id}.eigenvec
+    plink2 --bfile ${panel} --freq --out reff
+    plink2 --bfile ${panel} --read-freq reff.afreq --pca 10 allele-wts --out refpca
+
+    plink2 --bfile ${meta.id}.combined --read-freq reff.afreq \\
+        --score refpca.eigenvec.allele 2 6 header-read no-mean-imputation variance-standardize \\
+        --score-col-nums 7-16 --out proj
+
+    # tidy: IID PC1..PC10 (drop FID/ALLELE_CT/dosage cols; PCs are the last 10 columns)
+    awk 'NR==1{printf "IID"; for(i=1;i<=10;i++) printf "\\tPC%d", i; printf "\\n"; next}
+         {printf "%s", \$2; for(i=NF-9;i<=NF;i++) printf "\\t%s", \$i; printf "\\n"}' proj.sscore > ${meta.id}.pca.tsv
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
