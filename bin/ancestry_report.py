@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
-"""ancestry_report.py — build ancestry tables + PCA/admixture plots into a bundle dir."""
+"""ancestry_report.py — ancestry tables + PCA/admixture plots into a bundle dir.
+
+Inputs come from the BAM_ANCESTRY subworkflow:
+  --eigenvec   IID PC1..PC10   (reference + query, projected onto the panel basis)
+  --admixture  IID label Q1..QK (supervised ADMIXTURE; label '-' = query, else superpop/pop)
+The query is located by IID (== --sample); plink/admixture reorder rows, so never by position.
+"""
 import argparse
 import os
 import sys
 
 import pandas as pd
 
-# Plotting is optional: tables are always written, plots only if matplotlib is present.
 try:
     import matplotlib
     matplotlib.use("Agg")
@@ -28,50 +33,75 @@ def main():
     a = ap.parse_args()
     os.makedirs(a.outdir, exist_ok=True)
 
-    # ---- PCA plot: reference panel coloured by superpopulation + the sample marked ----
-    try:
-        ev = pd.read_csv(a.eigenvec, sep=r"\s+")
-        pc_cols = [c for c in ev.columns if c.upper().startswith("PC") or "SCORE" in c.upper()][:2]
-        ref = pd.read_csv(a.ref_psam, sep=r"\s+")
-        popcol = next((c for c in ref.columns if c.lower() in ("superpop", "population", "pop")), None)
-        fig, ax = plt.subplots(figsize=(6, 5))
-        if len(pc_cols) == 2:
-            ax.scatter(ev[pc_cols[0]], ev[pc_cols[1]], s=6, alpha=.5, c="#5cc8ff", label="reference")
-            ax.scatter(ev[pc_cols[0]].iloc[-1], ev[pc_cols[1]].iloc[-1], s=120, marker="*",
-                       c="#ffd166", edgecolor="k", label=a.sample, zorder=5)
-            ax.set_xlabel(pc_cols[0]); ax.set_ylabel(pc_cols[1])
-        ax.set_title("PCA projection onto 1000G + HGDP")
-        ax.legend(fontsize=8); fig.tight_layout()
-        fig.savefig(os.path.join(a.outdir, "pca_projection.png"), dpi=130)
-        plt.close(fig)
-    except Exception as e:
-        print(f"[ancestry] PCA plot skipped: {e}", file=sys.stderr)
+    # reference labels: #IID -> SuperPop / Population
+    ref = pd.read_csv(a.ref_psam, sep=r"\s+")
+    ref.columns = [c.lstrip("#") for c in ref.columns]
+    idcol = ref.columns[0]
+    popcol = next((c for c in ref.columns if c.lower() in ("superpop", "population", "pop")), None)
+    labels = dict(zip(ref[idcol].astype(str), ref[popcol].astype(str))) if popcol else {}
 
-    # ---- Admixture proportions ----
+    # ---- PCA: reference coloured by superpopulation + the query star ----
     try:
-        q = pd.read_csv(a.admixture, sep=r"\s+", header=None)
-        props = q.iloc[-1, 1:].astype(float)
-        props.index = [f"K{i+1}" for i in range(len(props))]
-        adf = props.sort_values(ascending=False).rename("proportion").reset_index().rename(columns={"index": "component"})
-        adf["proportion"] = (adf["proportion"] * 100).round(1)
-        adf.to_csv(os.path.join(a.outdir, "admixture_proportions.tsv"), sep="\t", index=False)
-        fig, ax = plt.subplots(figsize=(6, 1.6))
-        left = 0
-        for _, r in adf.iterrows():
-            ax.barh(0, r["proportion"], left=left, label=r["component"])
-            left += r["proportion"]
-        ax.set_xlim(0, 100); ax.set_yticks([]); ax.set_xlabel("% ancestry")
-        ax.set_title("Supervised admixture"); ax.legend(ncol=6, fontsize=7, loc="upper center", bbox_to_anchor=(.5, -.4))
-        fig.tight_layout(); fig.savefig(os.path.join(a.outdir, "admixture.png"), dpi=130); plt.close(fig)
+        ev = pd.read_csv(a.eigenvec, sep="\t")
+        ev["IID"] = ev["IID"].astype(str)
+        ev["grp"] = ev["IID"].map(lambda i: labels.get(i, "QUERY" if i == a.sample else "ref"))
+        q = ev[ev["IID"] == a.sample]
+        ev.to_csv(os.path.join(a.outdir, "pca.tsv"), sep="\t", index=False)
+        if HAVE_MPL and {"PC1", "PC2"}.issubset(ev.columns):
+            fig, ax = plt.subplots(figsize=(6, 5))
+            for grp, sub in ev[ev["grp"] != "QUERY"].groupby("grp"):
+                ax.scatter(sub["PC1"], sub["PC2"], s=7, alpha=.55, label=grp)
+            if len(q):
+                ax.scatter(q["PC1"], q["PC2"], s=240, marker="*", c="#111", edgecolor="w",
+                           linewidth=1.2, label=a.sample, zorder=6)
+            ax.set_xlabel("PC1"); ax.set_ylabel("PC2")
+            ax.set_title("PCA projection onto 1000G + HGDP")
+            ax.legend(fontsize=8, markerscale=1.5)
+            fig.tight_layout(); fig.savefig(os.path.join(a.outdir, "pca_projection.png"), dpi=130)
+            plt.close(fig)
+    except Exception as e:
+        print(f"[ancestry] PCA skipped: {e}", file=sys.stderr)
+
+    # ---- Supervised ADMIXTURE: map Q columns -> populations, extract the query ----
+    try:
+        q = pd.read_csv(a.admixture, sep="\t")
+        q["IID"] = q["IID"].astype(str)
+        qcols = [c for c in q.columns if c.upper().startswith("Q")]
+        lab = q[(q["label"] != "-") & (q["label"].astype(str) != "QUERY")]
+        # each population's column = the Q column with the highest mean among its labelled rows
+        col2pop = {}
+        for pop, sub in lab.groupby("label"):
+            col2pop[sub[qcols].mean().idxmax()] = str(pop)
+        names = [col2pop.get(c, c) for c in qcols]
+        qrow = q[q["IID"] == a.sample]
+        if len(qrow):
+            frac = qrow.iloc[0][qcols].astype(float).values
+            adf = (pd.DataFrame({"population": names, "fraction_pct": (frac * 100).round(2)})
+                   .groupby("population", as_index=False)["fraction_pct"].sum()
+                   .sort_values("fraction_pct", ascending=False).reset_index(drop=True))
+            adf.to_csv(os.path.join(a.outdir, "admixture_proportions.tsv"), sep="\t", index=False)
+            if HAVE_MPL:
+                fig, ax = plt.subplots(figsize=(6, 1.7))
+                left = 0
+                for _, r in adf.iterrows():
+                    ax.barh(0, r["fraction_pct"], left=left, label=f"{r['population']} {r['fraction_pct']:.0f}%")
+                    left += r["fraction_pct"]
+                ax.set_xlim(0, 100); ax.set_yticks([]); ax.set_xlabel("% ancestry")
+                ax.set_title(f"Supervised admixture — {a.sample}")
+                ax.legend(ncol=5, fontsize=7, loc="upper center", bbox_to_anchor=(.5, -.5))
+                fig.tight_layout(); fig.savefig(os.path.join(a.outdir, "admixture.png"), dpi=130)
+                plt.close(fig)
+            top = adf.iloc[0]
+            print(f"[ancestry] {a.sample}: {top['population']} {top['fraction_pct']:.1f}%", file=sys.stderr)
     except Exception as e:
         print(f"[ancestry] admixture skipped: {e}", file=sys.stderr)
 
-    # ---- ROH / inbreeding + kinship summary table ----
-    try:
-        roh = pd.read_csv(a.roh, sep="\t")
-        roh.to_csv(os.path.join(a.outdir, "roh_inbreeding.tsv"), sep="\t", index=False)
-    except Exception as e:
-        print(f"[ancestry] roh skipped: {e}", file=sys.stderr)
+    # ---- ROH / inbreeding + kinship ----
+    for src, name in ((a.roh, "roh_inbreeding.tsv"), (a.kin, "kinship.tsv")):
+        try:
+            pd.read_csv(src, sep="\t").to_csv(os.path.join(a.outdir, name), sep="\t", index=False)
+        except Exception as e:
+            print(f"[ancestry] {name} skipped: {e}", file=sys.stderr)
 
     print(f"[ancestry_report] bundle written to {a.outdir}", file=sys.stderr)
 
