@@ -31,8 +31,11 @@ process PLINK2_ANCESTRY_PANEL {
         --indep-pairwise 200 50 0.2 --out prune
 
     head -n ${params.ancestry_max_snps} prune.prune.in > keep.ids
+    # SNP-only here too: otherwise long indel allele codes blow past --new-id-max-allele-len
+    # before --extract can drop them.
     plink2 --pfile ${ref_pgen.baseName} --allow-extra-chr \\
-        --set-all-var-ids '@:#:\$r:\$a' --new-id-max-allele-len 100 \\
+        --snps-only --max-alleles 2 --min-alleles 2 \\
+        --set-all-var-ids '@:#:\$r:\$a' --new-id-max-allele-len 100 --rm-dup force-first \\
         --extract keep.ids --make-bed --out panel_anc
 
     # sites for bcftools mpileup (.bim: CHROM ID cM POS A1 A2 -> chr-prefixed CHROM POS A1 A2)
