@@ -27,15 +27,16 @@ process ADMIXTURE_SUPERVISED {
     // psam cols: #IID PAT MAT SEX SuperPop(5) Population(6).
     def lcol = params.ancestry_label_col == 'Population' ? 6 : 5
     """
+    # ADMIXTURE reads <bedprefix>.pop, so the .pop MUST be named to match the bed file.
     awk 'NR==FNR{lab[\$1]=\$${lcol}; next}{print ((\$2 in lab)? lab[\$2] : "-")}' \\
-        <(tail -n +2 ${ref_psam}) ${meta.id}.combined.fam > combined.pop
-    K=\$(grep -vx - combined.pop | sort -u | wc -l)
+        <(tail -n +2 ${ref_psam}) ${meta.id}.combined.fam > ${meta.id}.combined.pop
+    K=\$(grep -vx - ${meta.id}.combined.pop | sort -u | wc -l)
     echo "ADMIXTURE K=\$K (${params.ancestry_label_col})"
 
     admixture --supervised -j${task.cpus} ${meta.id}.combined.bed \$K
 
     { printf "IID\\tlabel"; for i in \$(seq 1 \$K); do printf "\\tQ%d" \$i; done; printf "\\n";
-      paste <(awk '{print \$2}' ${meta.id}.combined.fam) combined.pop ${meta.id}.combined.\${K}.Q | tr ' ' '\\t';
+      paste <(awk '{print \$2}' ${meta.id}.combined.fam) ${meta.id}.combined.pop ${meta.id}.combined.\${K}.Q | tr ' ' '\\t';
     } > ${meta.id}.admixture.tsv
 
     cat <<-END_VERSIONS > versions.yml
