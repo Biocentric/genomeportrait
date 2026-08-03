@@ -109,8 +109,9 @@
             "fa_icon": "fas fa-toggle-on",
             "properties": {
                 "skip_qc": { "type": "boolean", "default": false },
+                "skip_qualimap": { "type": "boolean", "default": true, "description": "Qualimap can't read CRAM, so it needs a decompressed BAM (~3-4x CRAM size). mosdepth + samtools stats cover the same ground." },
                 "skip_annotation": { "type": "boolean", "default": false },
-                "skip_ancestry": { "type": "boolean", "default": true, "description": "Ancestry/admixture needs the large 1000G+HGDP panel; opt-in." },
+                "skip_ancestry": { "type": "boolean", "default": false, "description": "PCA + supervised ADMIXTURE against the 1000G+HGDP panel (downloads ~6 GB on first run)." },
                 "skip_haplogroups": { "type": "boolean", "default": false },
                 "skip_str": { "type": "boolean", "default": false },
                 "skip_prs": { "type": "boolean", "default": false },
@@ -137,6 +138,22 @@
                     "type": "string",
                     "format": "file-path",
                     "description": "TSV of curated non-clinical trait SNPs."
+                },
+                "ancestry_label_col": {
+                    "type": "string",
+                    "default": "SuperPop",
+                    "enum": ["SuperPop", "Population"],
+                    "description": "Ancestry label resolution: SuperPop (~5 continental groups) or Population (~80 1000G+HGDP populations; finer but slower and weaker within-continent)."
+                },
+                "ancestry_min_maf": {
+                    "type": "number",
+                    "default": 0.05,
+                    "description": "Minimum panel MAF for ancestry SNPs. Rare variants let single-sample false positives dominate the PCA."
+                },
+                "ancestry_max_snps": {
+                    "type": "integer",
+                    "default": 50000,
+                    "description": "Cap on the LD-pruned ancestry SNP set."
                 }
             }
         },
