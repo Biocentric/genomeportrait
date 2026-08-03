@@ -18,7 +18,11 @@ process PLINK2_VCF2PGEN {
     """
     # ID = chr:pos so PGS scoring files (matched on position + effect allele) can align;
     # drop duplicate positions (split multiallelics) keeping the first.
-    plink2 --vcf $vcf --set-all-var-ids '@:#' --rm-dup force-first \\
+    # --autosome: chrX ploidy needs sex information that a single-sample VCF doesn't carry
+    # (plink2 exits 7 otherwise). PGS Catalog scores are overwhelmingly autosomal, so the
+    # X-linked weights we forgo are negligible next to needing a sex-annotated psam.
+    plink2 --vcf $vcf --allow-extra-chr --autosome \\
+        --set-all-var-ids '@:#' --rm-dup force-first \\
         --make-pgen --out ${meta.id}
 
     cat <<-END_VERSIONS > versions.yml
