@@ -118,7 +118,6 @@
             "fa_icon": "fas fa-toggle-on",
             "properties": {
                 "skip_qc": { "type": "boolean", "default": false },
-                "skip_qualimap": { "type": "boolean", "default": true, "description": "Qualimap can't read CRAM, so it needs a decompressed BAM (~3-4x CRAM size). mosdepth + samtools stats cover the same ground." },
                 "skip_annotation": { "type": "boolean", "default": false },
                 "skip_ancestry": { "type": "boolean", "default": false, "description": "PCA + supervised ADMIXTURE against the 1000G+HGDP panel (downloads ~6 GB on first run)." },
                 "skip_haplogroups": { "type": "boolean", "default": false },

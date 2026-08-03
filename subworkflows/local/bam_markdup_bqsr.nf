@@ -38,6 +38,7 @@ workflow BAM_MARKDUP_BQSR {
 
     emit:
     bam      = ch_final   // [ meta, cram/bam, crai/bai ]
+    md_bam   = ch_md      // [ meta, bam, bai ] — real BAM, for tools that can't read CRAM
     metrics  = ch_metrics
     versions = ch_versions
 }
