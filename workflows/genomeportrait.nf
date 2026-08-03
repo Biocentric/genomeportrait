@@ -95,7 +95,7 @@ workflow GENOMEPORTRAIT {
     // STAGE 3: Alignment QC
     //
     if (!params.skip_qc) {
-        BAM_QC ( ch_analysis_bam, ch_reference )
+        BAM_QC ( ch_analysis_bam, BAM_MARKDUP_BQSR.out.md_bam, ch_reference )
         ch_versions      = ch_versions.mix(BAM_QC.out.versions)
         ch_multiqc_files = ch_multiqc_files.mix(BAM_QC.out.multiqc.collect{it[1]})
     }
