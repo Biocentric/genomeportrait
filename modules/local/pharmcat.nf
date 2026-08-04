@@ -21,8 +21,19 @@ process PHARMCAT {
     """
     # Preprocess to PharmCAT-ready VCF, then run the full pipeline.
     # (pharmcat_pipeline uses its bundled reference positions — no --reference flag.)
-    pharmcat_pipeline $vcf -o pharmcat_out -bf ${meta.id} || true
-    cp pharmcat_out/${meta.id}*.report.json ${meta.id}.report.json 2>/dev/null || echo '{}' > ${meta.id}.report.json
+    # -reporterJson is REQUIRED: without it PharmCAT writes only the HTML report, the
+    # .report.json copy below falls back to "{}", and the downstream reporter then dies with
+    # "No columns to parse from file".
+    pharmcat_pipeline $vcf -o pharmcat_out -bf ${meta.id} -reporterJson || true
+    # Fall back to phenotype.json (always written) if the reporter JSON is missing.
+    if [ -s pharmcat_out/${meta.id}.report.json ]; then
+        cp pharmcat_out/${meta.id}.report.json ${meta.id}.report.json
+    elif [ -s pharmcat_out/${meta.id}.phenotype.json ]; then
+        echo "no reporter JSON; falling back to phenotype.json" >&2
+        cp pharmcat_out/${meta.id}.phenotype.json ${meta.id}.report.json
+    else
+        cp pharmcat_out/${meta.id}*.report.json ${meta.id}.report.json 2>/dev/null || echo '{}' > ${meta.id}.report.json
+    fi
     cp pharmcat_out/${meta.id}*.report.html ${meta.id}.report.html 2>/dev/null || echo '<html><body>PharmCAT produced no report</body></html>' > ${meta.id}.report.html
 
     cat <<-END_VERSIONS > versions.yml
