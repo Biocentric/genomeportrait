@@ -15,8 +15,12 @@ process SAMTOOLS_FAIDX {
     path "versions.yml",            emit: versions
 
     script:
+    // --fai-idx pins the index to the task work dir. Without it samtools writes
+    // "<fasta>.fai" beside the resolved source, i.e. INTO the reference storeDir — and since
+    // DOWNLOAD_RESOURCE emits a glob ("<id>/*"), the next run then matches BOTH the fasta and
+    // the stray .fai, so "$fasta" expands to two paths and faidx reads the .fai as a region.
     """
-    samtools faidx $fasta
+    samtools faidx --fai-idx ${fasta}.fai $fasta
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
