@@ -15,12 +15,16 @@ process SAMTOOLS_FAIDX {
     path "versions.yml",            emit: versions
 
     script:
-    // --fai-idx pins the index to the task work dir. Without it samtools writes
-    // "<fasta>.fai" beside the resolved source, i.e. INTO the reference storeDir — and since
-    // DOWNLOAD_RESOURCE emits a glob ("<id>/*"), the next run then matches BOTH the fasta and
-    // the stray .fai, so "$fasta" expands to two paths and faidx reads the .fai as a region.
+    // NOTE: deliberately plain `samtools faidx <fasta>`.
+    // samtools resolves the staged symlink and writes "<fasta>.fai" beside the real file, i.e.
+    // into the DOWNLOAD_RESOURCE storeDir. Since that module emits a glob ("<id>/*"), a later
+    // run would then match both the FASTA and the stray .fai and expand $fasta to two paths.
+    // That is neutralised in prepare_genome.nf, which selects the FASTA out of the glob.
+    // Do NOT "fix" it here with --fai-idx: changing this script changes the task hash, which
+    // produces a new .fai and cascades a cache miss through markdup/BQSR/DeepVariant/VEP —
+    // i.e. a full multi-hour re-run. Only change it when a full re-run is acceptable anyway.
     """
-    samtools faidx --fai-idx ${fasta}.fai $fasta
+    samtools faidx $fasta
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
