@@ -23,8 +23,18 @@ def y_haplogroup(path):
         return "NA (no Y chromosome)"
     try:
         df = pd.read_csv(path, sep="\t")
-        col = next((c for c in df.columns if "haplo" in c.lower()), df.columns[-1])
-        return str(df[col].iloc[0])
+        if len(df) == 0:
+            return "NA (no call)"
+        # Yleaf's hg_prediction.hg columns are:
+        #   Sample_name  Hg  Hg_marker  Total_reads  Valid_markers  QC-score  QC-1..3
+        # None of them contain "haplo", so match "Hg" exactly first — otherwise the old
+        # fallback to the last column returned the QC score as the haplogroup.
+        col = next((c for c in df.columns if c.strip().lower() == "hg"), None)
+        if col is None:
+            col = next((c for c in df.columns if "haplo" in c.lower()), df.columns[-1])
+        hg = str(df[col].iloc[0])
+        marker = next((c for c in df.columns if c.strip().lower() == "hg_marker"), None)
+        return f"{hg} ({df[marker].iloc[0]})" if marker else hg
     except Exception as e:
         return f"NA ({e})"
 

@@ -23,7 +23,7 @@ workflow BAM_HAPLOGROUPS {
 
     // Y haplogroup with Yleaf (only meaningful for XY samples; module no-ops otherwise)
     ch_bam_xy = ch_bam.filter { meta, bam, bai -> meta.sex != 'XX' }
-    YLEAF ( ch_bam_xy, ch_reference.fasta, ch_reference.fai )
+    YLEAF ( ch_bam_xy, ch_reference.fasta, ch_reference.fai, ch_reference.yleaf_data, ch_reference.yleaf_ready )
     ch_versions = ch_versions.mix(YLEAF.out.versions.first())
 
     // For XX samples Yleaf is skipped, so the remainder-join yields a null Y result;

@@ -28,6 +28,8 @@ include { BWAMEM2_INDEX                 } from '../../modules/local/bwamem2_inde
 include { BUILD_REPORT_CONTAINER        } from '../../modules/local/build_report_container'
 include { BUILD_HIPSTR_CONTAINER        } from '../../modules/local/build_hipstr_container'
 include { BUILD_T1K_HLA                 } from '../../modules/local/build_t1k_hla'
+include { DOWNLOAD_YLEAF_DATA           } from '../../modules/local/download_yleaf_data'
+include { BUILD_YLEAF_CONTAINER        } from '../../modules/local/build_yleaf_container'
 
 workflow PREPARE_GENOME {
 
@@ -76,6 +78,24 @@ workflow PREPARE_GENOME {
         BUILD_T1K_HLA ()
         ch_hla_index = BUILD_T1K_HLA.out.index
         ch_versions  = ch_versions.mix(BUILD_T1K_HLA.out.versions)
+    }
+
+    //
+    // Yleaf's Y-SNP data files (absent from the biocontainer), only when haplogroups run
+    //
+    ch_yleaf_data  = Channel.value([])
+    ch_yleaf_ready = Channel.value('na')
+    if (!params.skip_haplogroups) {
+        DOWNLOAD_YLEAF_DATA ()
+        ch_yleaf_data = DOWNLOAD_YLEAF_DATA.out.data
+        ch_versions   = ch_versions.mix(DOWNLOAD_YLEAF_DATA.out.versions)
+        if (params.build_yleaf_container) {
+            BUILD_YLEAF_CONTAINER (
+                file("${projectDir}/containers/yleaf/Singularity.def", checkIfExists: true)
+            )
+            ch_yleaf_ready = BUILD_YLEAF_CONTAINER.out.ready
+            ch_versions    = ch_versions.mix(BUILD_YLEAF_CONTAINER.out.versions)
+        }
     }
 
     //
@@ -170,5 +190,7 @@ workflow PREPARE_GENOME {
     report_sif    = ch_report_sif
     hipstr_ready  = ch_hipstr_ready
     hla_index     = ch_hla_index
+    yleaf_data    = ch_yleaf_data
+    yleaf_ready   = ch_yleaf_ready
     versions      = ch_versions
 }

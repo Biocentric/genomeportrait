@@ -430,6 +430,33 @@
                     "default": "https://www.pgscatalog.org/rest",
                     "description": "PGS Catalog REST endpoint.",
                     "hidden": true
+                },
+                "yleaf_data_url": {
+                    "type": "string",
+                    "default": "https://github.com/genid/Yleaf/archive/refs/heads/master.tar.gz",
+                    "description": "Source of Yleaf's Y-SNP data directory (absent from the biocontainer).",
+                    "hidden": true
+                },
+                "build_yleaf_container": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Build a usable Yleaf image at runtime (the biocontainer lacks data/, samtools and bcftools).",
+                    "hidden": true
+                },
+                "yleaf_image_version": {
+                    "type": "string",
+                    "default": "1.0",
+                    "hidden": true
+                },
+                "yleaf_sif": {
+                    "type": "string",
+                    "description": "Path to the locally built Yleaf SIF.",
+                    "hidden": true
+                },
+                "yleaf_docker": {
+                    "type": "string",
+                    "default": "genomeportrait-yleaf:1.0",
+                    "hidden": true
                 }
             }
         },
