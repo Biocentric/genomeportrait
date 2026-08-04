@@ -102,7 +102,12 @@ workflow PREPARE_GENOME {
     // Core genome FASTA + indices
     //
     DL_FASTA ( [ [id:'genome'], refs.fasta ], "${params.reference_base}/${genome}/genome" )
-    ch_fasta = DL_FASTA.out.file.map { meta, f -> f }
+    // A download dir can end up holding companion files (e.g. a stray .fai written by a tool
+    // that resolved the symlink), and DOWNLOAD_RESOURCE emits a glob — so pick the FASTA
+    // explicitly rather than passing whatever the glob matched.
+    ch_fasta = DL_FASTA.out.file.map { meta, f ->
+        (f instanceof List) ? f.find { it.name ==~ /(?i).*\.(fa|fasta|fna)(\.gz)?$/ } ?: f[0] : f
+    }
     ch_versions = ch_versions.mix(DL_FASTA.out.versions)
 
     SAMTOOLS_FAIDX ( ch_fasta.map { [ [id:'genome'], it ] } )
