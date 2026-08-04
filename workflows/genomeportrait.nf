@@ -20,7 +20,7 @@ include { BAM_HAPLOGROUPS          } from '../subworkflows/local/bam_haplogroups
 include { BAM_FORENSIC_STR         } from '../subworkflows/local/bam_forensic_str'
 include { VCF_POLYGENIC            } from '../subworkflows/local/vcf_polygenic'
 include { BAM_HLA                  } from '../subworkflows/local/bam_hla'
-include { VCF_PHARMACOGENOMICS     } from '../subworkflows/local/vcf_pharmacogenomics'
+include { BAM_PHARMACOGENOMICS     } from '../subworkflows/local/vcf_pharmacogenomics'
 include { VCF_TRAITS               } from '../subworkflows/local/vcf_traits'
 include { BAM_EXTRAS               } from '../subworkflows/local/bam_extras'
 
@@ -173,9 +173,9 @@ workflow GENOMEPORTRAIT {
     // STAGE 12: Pharmacogenomics (PharmCAT)
     //
     if (!params.skip_pharmcat) {
-        VCF_PHARMACOGENOMICS ( ch_vcf, ch_reference )
-        ch_versions     = ch_versions.mix(VCF_PHARMACOGENOMICS.out.versions)
-        ch_report_parts = ch_report_parts.mix(VCF_PHARMACOGENOMICS.out.results.map{ m,f -> [m,'pharmcat',f] })
+        BAM_PHARMACOGENOMICS ( ch_analysis_bam, ch_reference )
+        ch_versions     = ch_versions.mix(BAM_PHARMACOGENOMICS.out.versions)
+        ch_report_parts = ch_report_parts.mix(BAM_PHARMACOGENOMICS.out.results.map{ m,f -> [m,'pharmcat',f] })
     }
 
     //
