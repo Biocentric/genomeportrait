@@ -1,0 +1,44 @@
+Bootstrap: docker
+From: mambaorg/micromamba:1.5.8
+
+# genomeportrait Yleaf container — built locally by the pipeline.
+#
+# Why build our own? The published `yleaf` biocontainer is unusable:
+#   1. it ships ONLY the .py files — the package's data/ directory (Y-SNP position tables
+#      for ISOGG/FTDNA/YFull plus the haplogroup prediction tree) is absent, so Yleaf dies
+#      with FileNotFoundError on .../yleaf/data/hg38/full_reference.fa;
+#   2. it contains neither samtools nor bcftools, which Yleaf shells out to for every input
+#      mode, so it cannot process a BAM/CRAM/VCF at all.
+# There is only one published tag, so there is no working image to switch to.
+#
+# This image supplies python + samtools + bcftools + the yleaf code. The data/ directory is
+# still fetched separately (modules/local/download_yleaf_data.nf) because the conda package
+# omits it too, and the reference genome is pointed at the pipeline's own GRCh38 FASTA via a
+# generated config.txt (see modules/local/yleaf.nf) rather than re-downloading 3 GB.
+#
+# Built automatically by modules/local/build_yleaf_container.nf via:
+#   apptainer build --fakeroot genomeportrait-yleaf-<ver>.sif containers/yleaf/Singularity.def
+# (falls back to `singularity build`). Build it by hand the same way if you prefer.
+
+%post
+    set -eu
+    # procps-ng provides `ps`, which Nextflow's task wrapper needs for metrics.
+    micromamba install -y -n base -c conda-forge -c bioconda \
+        python=3.9 samtools bcftools yleaf procps-ng
+    micromamba clean --all --yes
+    # Fail the build early if the pieces we depend on are missing.
+    /opt/conda/bin/samtools --version | head -n1
+    /opt/conda/bin/bcftools --version | head -n1
+    /opt/conda/bin/python -c "import yleaf, os; print('yleaf at', os.path.dirname(yleaf.__file__))"
+    /opt/conda/bin/ps --version
+
+%environment
+    export PATH=/opt/conda/bin:$PATH
+    export PYTHONNOUSERSITE=1
+
+%labels
+    org.opencontainers.image.title genomeportrait-yleaf
+    org.opencontainers.image.description Yleaf + samtools + bcftools for Y-haplogroup calling
+
+%runscript
+    exec Yleaf "$@"
