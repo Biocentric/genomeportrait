@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """prs_report.py — collate per-PGS PLINK2 --score outputs into a polygenic-score table."""
 import argparse
+import bisect
 import glob
 import os
 import sys
@@ -8,11 +9,64 @@ import sys
 import pandas as pd
 
 
+
+def load_reference(dirpath):
+    """Reference-panel score distributions: {pgs_id: {group: sorted list of scores}}.
+
+    A polygenic score only means something relative to a population scored with the SAME
+    file, and PGS distributions differ strongly by ancestry, so keep them per superpopulation
+    rather than pooling."""
+    dist = {}
+    if not dirpath or not os.path.isdir(dirpath):
+        return dist
+    psam = os.path.join(dirpath, "reference.psam")
+    groups = {}
+    if os.path.exists(psam):
+        try:
+            ref = pd.read_csv(psam, sep=r"\s+")
+            ref.columns = [c.lstrip("#") for c in ref.columns]
+            idc = ref.columns[0]
+            gcol = next((c for c in ref.columns if c.lower() in ("superpop", "population", "pop")), None)
+            if gcol:
+                groups = dict(zip(ref[idc].astype(str), ref[gcol].astype(str)))
+        except Exception as e:
+            print(f"[prs_report] reference psam: {e}", file=sys.stderr)
+    for f in sorted(glob.glob(os.path.join(dirpath, "*.sscore"))):
+        pgs_id = os.path.basename(f)[:-7].split("_")[0]
+        try:
+            d = pd.read_csv(f, sep=r"\s+")
+        except Exception:
+            continue
+        sum_col = next((c for c in d.columns if c.upper().endswith("_SUM") and "DOSAGE" not in c.upper()), None)
+        idc = next((c for c in d.columns if c.upper().lstrip("#") in ("IID", "FID")), d.columns[0])
+        if not sum_col:
+            continue
+        by = {"ALL": []}
+        for iid, val in zip(d[idc].astype(str), pd.to_numeric(d[sum_col], errors="coerce")):
+            if pd.isna(val):
+                continue
+            by["ALL"].append(float(val))
+            g = groups.get(iid)
+            if g:
+                by.setdefault(g, []).append(float(val))
+        dist[pgs_id] = {g: sorted(v) for g, v in by.items() if len(v) >= 20}
+    return dist
+
+
+def percentile_of(value, sorted_vals):
+    if not sorted_vals or value is None or pd.isna(value):
+        return None
+    below = bisect.bisect_left(sorted_vals, float(value))
+    return round(100.0 * below / len(sorted_vals), 1)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sample", required=True)
     ap.add_argument("--indir", default=".")
     ap.add_argument("--metadata", default=None)
+    ap.add_argument("--ref-scores", default=None,
+                    help="dir of reference-panel .sscore files + reference.psam")
     ap.add_argument("--min-overlap", type=float, default=0.0)
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
@@ -25,6 +79,7 @@ def main():
         except Exception:
             pass
 
+    refdist = load_reference(a.ref_scores)
     rows = []
     for f in sorted(glob.glob(os.path.join(a.indir, "*.sscore"))):
         acc = os.path.basename(f)[:-7]                      # strip .sscore
@@ -59,6 +114,11 @@ def main():
             "coverage": cover,
             "pgs_catalog": ex.get("pgs_catalog", f"https://www.pgscatalog.org/score/{pgs_id}/"),
         })
+        raw = rows[-1]["raw_score"]
+        for grp, vals in sorted((refdist.get(pgs_id) or {}).items()):
+            pct = percentile_of(raw, vals)
+            if pct is not None:
+                rows[-1][f"percentile_{grp}"] = pct
 
     df = pd.DataFrame(rows)
     # NOTE: no cross-score z-score here. The previous version standardised a person's scores

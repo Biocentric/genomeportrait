@@ -8,6 +8,7 @@ process PRS_REPORT {
     input:
     tuple val(meta), path(sscore)
     path  metadata
+    path  ref_scores
 
     output:
     tuple val(meta), path("*.prs.tsv"), emit: tsv
@@ -19,6 +20,7 @@ process PRS_REPORT {
         --sample ${meta.id} \\
         --indir . \\
         --metadata ${metadata} \\
+        ${ref_scores ? "--ref-scores ${ref_scores}" : ''} \\
         --min-overlap ${params.pgs_min_overlap} \\
         --out ${meta.id}.prs.tsv
 
