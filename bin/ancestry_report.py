@@ -21,6 +21,41 @@ except Exception:  # pragma: no cover
     HAVE_MPL = False
 
 
+
+def write_proximity(ev, ref, idcol, sample, outdir, n_top=8):
+    """Which reference populations does this genome actually sit closest to?
+
+    Distance from the sample to each population's centroid in PC1-4 space (the PCs that carry
+    the continental/sub-continental signal). This is the readable version of the PCA."""
+    try:
+        pcs = [c for c in ("PC1", "PC2", "PC3", "PC4") if c in ev.columns]
+        q = ev[ev["IID"] == sample]
+        if not pcs or len(q) == 0:
+            return
+        qv = q.iloc[0][pcs].astype(float).values
+        rows = []
+        for col in ("Population", "SuperPop"):
+            if col not in ref.columns:
+                continue
+            lab = dict(zip(ref[idcol].astype(str), ref[col].astype(str)))
+            d = ev[ev["IID"] != sample].copy()
+            d["_g"] = d["IID"].map(lab)
+            d = d.dropna(subset=["_g"])
+            if len(d) == 0:
+                continue
+            cent = d.groupby("_g")[pcs].mean()
+            dist = ((cent - qv) ** 2).sum(axis=1) ** 0.5
+            for grp, dv in dist.sort_values().head(n_top).items():
+                rows.append({"level": "population" if col == "Population" else "superpopulation",
+                             "closest_group": grp, "distance": round(float(dv), 4),
+                             "n_reference_samples": int((d["_g"] == grp).sum())})
+        if rows:
+            pd.DataFrame(rows).to_csv(os.path.join(outdir, "pca_closest_populations.tsv"),
+                                      sep="	", index=False)
+    except Exception as e:
+        print(f"[ancestry] proximity summary skipped: {e}", file=sys.stderr)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--sample", required=True)

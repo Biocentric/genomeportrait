@@ -59,19 +59,92 @@ footer{color:var(--muted);font-size:12px;text-align:center;padding:30px}
 """
 
 
+# ---------------------------------------------------------------- annotation ranking
+IMPACT_RANK = {"HIGH": 0, "MODERATE": 1, "LOW": 2, "MODIFIER": 3}
+# Rough ClinVar ordering; anything unmatched sorts after these.
+CLINSIG_RANK = [
+    ("pathogenic/likely_pathogenic", 0), ("likely_pathogenic", 1), ("pathogenic", 0),
+    ("drug_response", 2), ("risk_factor", 3), ("protective", 3),
+    ("conflicting", 5), ("uncertain", 6), ("likely_benign", 8), ("benign", 9),
+]
+ANNOT_TOP_N = 150
+
+
+def _clinsig_rank(v):
+    t = str(v).strip().lower()
+    if t in (".", "", "nan"):
+        return 7
+    for key, rank in CLINSIG_RANK:
+        if key in t:
+            return rank
+    return 7
+
+
+def rank_annotation(df):
+    """Pick the most informative variants instead of the first N rows on chr1.
+
+    The raw table is one row per VEP consequence in genomic order, so head() only ever
+    shows telomeric MODIFIER noise. Collapse to one row per variant (keeping its most
+    severe consequence) and rank by predicted impact, then ClinVar significance, then
+    rarity."""
+    if df is None or len(df) == 0:
+        return df, 0
+    d = df.copy()
+    d.columns = [str(c).strip() for c in d.columns]
+    if "IMPACT" not in d.columns:
+        return d, len(d)
+    d["_imp"] = d["IMPACT"].map(lambda v: IMPACT_RANK.get(str(v).strip().upper(), 4))
+    d["_cln"] = d["CLINSIG"].map(_clinsig_rank) if "CLINSIG" in d.columns else 7
+    d["_af"] = pd.to_numeric(d.get("GNOMAD_AF"), errors="coerce").fillna(1.0)         if "GNOMAD_AF" in d.columns else 1.0
+    d = d.sort_values(["_imp", "_cln", "_af"], kind="mergesort")
+    keys = [c for c in ("CHROM", "POS", "REF", "ALT") if c in d.columns]
+    if keys:
+        d = d.drop_duplicates(subset=keys, keep="first")   # keep worst consequence per variant
+    total = len(d)
+    d = d.head(ANNOT_TOP_N).drop(columns=["_imp", "_cln", "_af"], errors="ignore")
+    return d, total
+
+
+def linkify(col, value):
+    """Turn identifiers into outbound links so they can be looked up."""
+    v = html.escape(str(value))
+    if v in (".", "", "nan"):
+        return v
+    if col == "DBSNP":
+        ids = [x for x in str(value).replace(",", "&").split("&") if x.startswith("rs")]
+        if ids:
+            return ", ".join(
+                f'<a href="https://www.ncbi.nlm.nih.gov/snp/{html.escape(i)}" target="_blank" rel="noopener">{html.escape(i)}</a>'
+                for i in ids)
+        return v
+    if col == "GENE":
+        return f'<a href="https://www.genecards.org/cgi-bin/carddisp.pl?gene={v}" target="_blank" rel="noopener">{v}</a>'
+    if col == "CLINSIG":
+        return f'<span class="badge b-warn">{v}</span>' if _clinsig_rank(value) <= 3 else v
+    if col == "IMPACT":
+        cls = {"HIGH": "b-warn", "MODERATE": "b-acc"}.get(v.upper(), "b-mut")
+        return f'<span class="badge {cls}">{v}</span>'
+    return v
+
+
 def b64_img(path):
     with open(path, "rb") as fh:
         return "data:image/png;base64," + base64.b64encode(fh.read()).decode()
 
 
-def df_to_html(df, max_rows=200):
+LINK_COLS = {"DBSNP", "GENE", "CLINSIG", "IMPACT"}
+
+
+def df_to_html(df, max_rows=200, rich=False):
     if df is None or len(df) == 0:
         return '<p class="muted">No data produced for this section.</p>'
     df = df.head(max_rows)
     head = "".join(f"<th>{html.escape(str(c))}</th>" for c in df.columns)
     rows = []
     for _, r in df.iterrows():
-        cells = "".join(f"<td>{html.escape(str(v))}</td>" for v in r)
+        cells = "".join(
+            f"<td>{linkify(c, v) if rich and c in LINK_COLS else html.escape(str(v))}</td>"
+            for c, v in zip(df.columns, r))
         rows.append(f"<tr>{cells}</tr>")
     return f"<table><thead><tr>{head}</tr></thead><tbody>{''.join(rows)}</tbody></table>"
 
@@ -81,6 +154,8 @@ def read_part(path):
     tables, plots = [], []
     if os.path.isdir(path):
         for tsv in sorted(glob.glob(os.path.join(path, "*.tsv"))):
+            if tsv.endswith(".raw.tsv"):
+                continue   # bulk data kept on disk, too large/raw to render
             try:
                 tables.append((os.path.basename(tsv), pd.read_csv(tsv, sep="\t")))
             except Exception:
@@ -109,6 +184,8 @@ def main():
     # Group discovered parts by which section their filename matches
     by_section = {sid: [] for _, sid, _, _ in SECTIONS}
     for pf in part_files:
+        if ".raw." in os.path.basename(pf):
+            continue   # bulk artifact (full annotation table etc.) — published, not rendered
         base = os.path.basename(pf)
         for suffix, sid, _, _ in SECTIONS:
             if suffix in base:
@@ -125,7 +202,28 @@ def main():
         for pf in files:
             tables, plots = read_part(pf)
             for name, df in tables:
-                chunks.append(df_to_html(df))
+                if sid == "annotation":
+                    df, total = rank_annotation(df)
+                    if total > len(df):
+                        chunks.append(
+                            f'<p class="muted">Showing the {len(df)} most impactful of '
+                            f'{total:,} annotated variants — one row per variant (most severe '
+                            f'consequence), ranked by predicted impact, then ClinVar '
+                            f'significance, then rarity. rsIDs and genes link out. The full '
+                            f'table is in the results folder.</p>'
+                            '<div class="disclaim"><b>How to read this — it is not a health '
+                            'finding.</b> "HIGH impact" is a prediction about the effect on a '
+                            'protein sequence, not evidence that anything is wrong. A ClinVar '
+                            '"Pathogenic" label describes a variant as recorded in a public '
+                            'database, usually established in patients with a specific '
+                            'condition; for recessive genes it most often indicates ordinary '
+                            'carrier status, which is unremarkable — everyone carries some. '
+                            'These calls are unconfirmed short-read genotypes: rare '
+                            'frameshift/splice calls are the most error-prone class, and none '
+                            'have been validated. Do not draw conclusions from this table.</div>')
+                    chunks.append(df_to_html(df, max_rows=ANNOT_TOP_N, rich=True))
+                else:
+                    chunks.append(df_to_html(df))
             for img in plots:
                 chunks.append(f'<div class="plot"><img src="{img}"></div>')
         if sid in ("prs", "pgx", "traits", "annotation"):

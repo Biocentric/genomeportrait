@@ -9,7 +9,7 @@ process STR_REPORT {
     tuple val(meta), path(hipstr_vcf), path(eh_vcf)
 
     output:
-    tuple val(meta), path("*.str_profile.tsv"), emit: tsv
+    tuple val(meta), path("${meta.id}_str_profile"), emit: tsv
     path "versions.yml",                         emit: versions
 
     script:
@@ -18,7 +18,7 @@ process STR_REPORT {
         --sample ${meta.id} \\
         --hipstr ${hipstr_vcf} \\
         --expansionhunter ${eh_vcf} \\
-        --out ${meta.id}.str_profile.tsv
+        --outdir ${meta.id}_str_profile
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
