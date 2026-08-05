@@ -29,11 +29,23 @@ process PGSCATALOG_DOWNLOAD {
         -t GRCh38 \\
         -o scorefiles_combined.txt.gz
 
-    # Lightweight metadata table for the report (trait labels per PGS ID)
+    # Lightweight metadata table for the report (trait labels per PGS ID).
+    # NB the downloaded scoring files are .txt.gz — the previous glob looked for *.txt, found
+    # nothing, and every trait fell through to the "see PGS Catalog" placeholder.
     pgscatalog-download --pgs ${pgs_ids.replace(',', ' ')} --metadata-only -o meta || true
-    printf "pgs_id\\ttrait\\n" > pgs_metadata.tsv
+    printf "pgs_id\ttrait\tn_variants\turl\n" > pgs_metadata.tsv
     for id in \$(echo ${pgs_ids} | tr ',' ' '); do
-        printf "%s\\t%s\\n" "\$id" "\$(grep -h "\$id" scorefiles/*.txt 2>/dev/null | grep -m1 trait_reported | cut -f2- || echo 'see PGS Catalog')" >> pgs_metadata.tsv
+        f=\$(ls scorefiles/\${id}*.txt.gz 2>/dev/null | head -1)
+        trait="."; nvar="."
+        if [ -n "\$f" ]; then
+            hdr=\$(zcat "\$f" | head -40)
+            trait=\$(printf '%s' "\$hdr" | grep -m1 '^#trait_reported=' | cut -d= -f2- || true)
+            [ -z "\$trait" ] && trait=\$(printf '%s' "\$hdr" | grep -m1 '^#trait_mapped=' | cut -d= -f2- || true)
+            nvar=\$(printf '%s' "\$hdr" | grep -m1 '^#variants_number=' | cut -d= -f2- || true)
+        fi
+        [ -z "\$trait" ] && trait="(trait not stated in scoring file)"
+        [ -z "\$nvar" ] && nvar="."
+        printf "%s\t%s\t%s\thttps://www.pgscatalog.org/score/%s/\n" "\$id" "\$trait" "\$nvar" "\$id" >> pgs_metadata.tsv
     done
 
     cat <<-END_VERSIONS > versions.yml
