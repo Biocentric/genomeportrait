@@ -49,7 +49,7 @@ process PLINK2_SCORE_REFERENCE {
             --out ref_scores/\$safe 2>/dev/null || echo "reference scoring failed for \$acc" >&2
     done
     cp ${ref_psam} ref_scores/reference.psam
-    ls ref_scores | head -20 >&2
+    ls ref_scores | awk 'NR<=20' >&2 || true
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
