@@ -32,13 +32,14 @@ process PGSCATALOG_DOWNLOAD {
     # Lightweight metadata table for the report (trait labels per PGS ID).
     # NB the downloaded scoring files are .txt.gz — the previous glob looked for *.txt, found
     # nothing, and every trait fell through to the "see PGS Catalog" placeholder.
-    pgscatalog-download --pgs ${pgs_ids.replace(',', ' ')} --metadata-only -o meta || true
     printf "pgs_id\ttrait\tn_variants\turl\n" > pgs_metadata.tsv
     for id in \$(echo ${pgs_ids} | tr ',' ' '); do
         f=\$(ls scorefiles/\${id}*.txt.gz 2>/dev/null | head -1)
         trait="."; nvar="."
         if [ -n "\$f" ]; then
-            hdr=\$(zcat "\$f" | head -40)
+            # awk (not head) reads to EOF: `zcat | head` closes the pipe early, so zcat dies
+            # with SIGPIPE and the whole task fails 141 under Nextflow's `set -o pipefail`.
+            hdr=\$(zcat "\$f" 2>/dev/null | awk 'NR<=40' || true)
             trait=\$(printf '%s' "\$hdr" | grep -m1 '^#trait_reported=' | cut -d= -f2- || true)
             [ -z "\$trait" ] && trait=\$(printf '%s' "\$hdr" | grep -m1 '^#trait_mapped=' | cut -d= -f2- || true)
             nvar=\$(printf '%s' "\$hdr" | grep -m1 '^#variants_number=' | cut -d= -f2- || true)

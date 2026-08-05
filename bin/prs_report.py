@@ -98,7 +98,10 @@ def main():
         avg_col = next((c for c in df.columns if c.upper().endswith("_AVG")), None)
         nvar_col = next((c for c in df.columns if c.upper() == "DENOM" or "ALLELE_CT" in c.upper()), None)
         ex = meta_extra.get(pgs_id, {})
-        used = int(df[nvar_col].iloc[0]) if nvar_col else None
+        # plink2's DENOM/ALLELE_CT is an ALLELE count (2 per diploid variant), not a variant
+        # count — dividing by 2 gives the variants actually used.
+        alleles = int(df[nvar_col].iloc[0]) if nvar_col else None
+        used = alleles // 2 if alleles is not None else None
         total = ex.get("n_variants_in_score", ".")
         try:
             cover = f"{100.0 * used / float(total):.1f}%" if used and str(total).isdigit() else "."
@@ -110,6 +113,7 @@ def main():
             "raw_score": round(float(df[sum_col].iloc[0]), 5) if sum_col else float("nan"),
             "per_allele_avg": round(float(df[avg_col].iloc[0]), 8) if avg_col else float("nan"),
             "variants_used": used if used is not None else "NA",
+            "alleles_counted": alleles if alleles is not None else "NA",
             "variants_in_score": total,
             "coverage": cover,
             "pgs_catalog": ex.get("pgs_catalog", f"https://www.pgscatalog.org/score/{pgs_id}/"),
