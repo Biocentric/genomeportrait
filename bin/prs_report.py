@@ -71,13 +71,19 @@ def main():
     ap.add_argument("--out", required=True)
     a = ap.parse_args()
 
-    labels = {}
+    labels, meta_extra = {}, {}
     if a.metadata and os.path.exists(a.metadata):
         try:
             m = pd.read_csv(a.metadata, sep="\t")
-            labels = {str(r["pgs_id"]): str(r["trait"]) for _, r in m.iterrows()}
-        except Exception:
-            pass
+            for _, r in m.iterrows():
+                pid = str(r["pgs_id"])
+                labels[pid] = str(r.get("trait", "."))
+                meta_extra[pid] = {
+                    "n_variants_in_score": r.get("n_variants", "."),
+                    "pgs_catalog": r.get("url", f"https://www.pgscatalog.org/score/{pid}/"),
+                }
+        except Exception as e:
+            print(f"[prs_report] metadata: {e}", file=sys.stderr)
 
     refdist = load_reference(a.ref_scores)
     rows = []
