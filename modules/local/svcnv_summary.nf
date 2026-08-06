@@ -9,7 +9,7 @@ process SVCNV_SUMMARY {
     tuple val(meta), path(sv_vcf), path(cnr)
 
     output:
-    tuple val(meta), path("*svcnv_summary*.tsv"), emit: tsv
+    tuple val(meta), path("${meta.id}_svcnv_summary"), emit: tsv
     path "versions.yml",                          emit: versions
 
     script:
@@ -18,7 +18,7 @@ process SVCNV_SUMMARY {
         --sample ${meta.id} \\
         ${sv_vcf ? "--sv ${sv_vcf}" : ''} \\
         ${cnr ? "--cnr ${cnr}" : ''} \\
-        --out ${meta.id}.svcnv_summary.tsv
+        --outdir ${meta.id}_svcnv_summary
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
