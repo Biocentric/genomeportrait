@@ -51,7 +51,7 @@ def write_proximity(ev, ref, idcol, sample, outdir, n_top=8):
                              "n_reference_samples": int((d["_g"] == grp).sum())})
         if rows:
             pd.DataFrame(rows).to_csv(os.path.join(outdir, "pca_closest_populations.tsv"),
-                                      sep="	", index=False)
+                                      sep="\t", index=False)
     except Exception as e:
         print(f"[ancestry] proximity summary skipped: {e}", file=sys.stderr)
 
@@ -81,7 +81,10 @@ def main():
         ev["IID"] = ev["IID"].astype(str)
         ev["grp"] = ev["IID"].map(lambda i: labels.get(i, "QUERY" if i == a.sample else "ref"))
         q = ev[ev["IID"] == a.sample]
-        ev.to_csv(os.path.join(a.outdir, "pca.tsv"), sep="\t", index=False)
+        # Full coordinates are kept as data but NOT rendered: 3200+ reference rows x 10 PCs is
+        # unreadable in a report. The plot carries that; the proximity table is the takeaway.
+        ev.to_csv(os.path.join(a.outdir, "pca_coordinates.raw.tsv"), sep="\t", index=False)
+        write_proximity(ev, ref, idcol, a.sample, a.outdir)
         if HAVE_MPL and {"PC1", "PC2"}.issubset(ev.columns):
             fig, ax = plt.subplots(figsize=(6, 5))
             for grp, sub in ev[ev["grp"] != "QUERY"].groupby("grp"):
