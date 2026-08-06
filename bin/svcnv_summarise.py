@@ -11,6 +11,8 @@ import sys
 import pandas as pd
 
 TOP_N = 15
+# Germline SVs are typically well under a megabase; larger calls warrant a health warning.
+ARTIFACT_BP = 5_000_000
 # BNDs are single breakend records with no span, so they can't be size-ranked.
 SIZED_TYPES = ("DEL", "DUP", "INS", "INV")
 
@@ -122,11 +124,17 @@ def main():
         df["_pass"] = df["filter"].map(lambda v: 0 if str(v).upper() in ("PASS", "CNVPYTOR", ".") else 1)
         df = df.sort_values(["_pass", "size_bp"], ascending=[True, False]).drop(columns="_pass")
         df = df.head(TOP_N)
+        # Short-read SV callers routinely emit multi-megabase events that are mapping or
+        # assembly artifacts rather than real germline variation, and sorting by size puts
+        # them straight at the top — so say so rather than presenting them as findings.
+        df["note"] = df["size_bp"].map(
+            lambda v: "implausibly large for a germline event — usually a short-read calling "
+                      "artifact" if v >= ARTIFACT_BP else ".")
         df["size_bp"] = df["size_bp"].map(lambda v: f"{int(v):,}")
-        df = df[["type", "location", "size_bp", "filter", "id"]]
+        df = df[["type", "location", "size_bp", "filter", "note", "id"]]
     else:
         df = pd.DataFrame([{"type": ".", "location": ".", "size_bp": ".",
-                            "filter": "no sized SV/CNV calls", "id": "."}])
+                            "filter": "no sized SV/CNV calls", "note": ".", "id": "."}])
     with open(top, "w") as fh:
         fh.write(f"# largest structural / copy-number changes for {a.sample}\n")
     df.to_csv(top, sep="\t", index=False, mode="a")
