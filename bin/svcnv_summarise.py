@@ -6,6 +6,7 @@ biggest PASS events with coordinates and size, which is what you can actually lo
 """
 import argparse
 import gzip
+import os
 import sys
 
 import pandas as pd
@@ -99,7 +100,7 @@ def main():
     ap.add_argument("--sample", required=True)
     ap.add_argument("--sv", default=None)
     ap.add_argument("--cnr", default=None)
-    ap.add_argument("--out", required=True)
+    ap.add_argument("--outdir", required=True)
     a = ap.parse_args()
 
     sv_counts, sv_recs = parse_sv(a.sv)
@@ -112,13 +113,15 @@ def main():
     if not rows:
         rows.append({"category": "none", "type": "none", "count": 0})
 
-    with open(a.out, "w") as fh:
-        fh.write(f"# svcnv_summary for {a.sample}\n")
-    pd.DataFrame(rows).to_csv(a.out, sep="\t", index=False, mode="a")
+    os.makedirs(a.outdir, exist_ok=True)
+    counts = os.path.join(a.outdir, "1_counts.tsv")
+    with open(counts, "w") as fh:
+        fh.write(f"# structural / copy-number variant counts for {a.sample}\n")
+    pd.DataFrame(rows).to_csv(counts, sep="\t", index=False, mode="a")
 
     # Largest events, PASS first — the part that is actually interpretable.
     allrecs = sv_recs + cnv_recs
-    top = a.out.replace(".tsv", ".top.tsv")
+    top = os.path.join(a.outdir, "2_largest_events.tsv")
     if allrecs:
         df = pd.DataFrame(allrecs)
         df["_pass"] = df["filter"].map(lambda v: 0 if str(v).upper() in ("PASS", "CNVPYTOR", ".") else 1)
