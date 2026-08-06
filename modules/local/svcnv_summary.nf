@@ -9,7 +9,7 @@ process SVCNV_SUMMARY {
     tuple val(meta), path(sv_vcf), path(cnr)
 
     output:
-    tuple val(meta), path("*.svcnv_summary.tsv"), emit: tsv
+    tuple val(meta), path("*svcnv_summary*.tsv"), emit: tsv
     path "versions.yml",                          emit: versions
 
     script:
