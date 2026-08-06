@@ -157,7 +157,9 @@ def read_part(path):
             if tsv.endswith(".raw.tsv"):
                 continue   # bulk data kept on disk, too large/raw to render
             try:
-                tables.append((os.path.basename(tsv), pd.read_csv(tsv, sep="\t")))
+                # comment="#": bundle TSVs carry a leading "# ..." title line. Without this it
+                # is parsed as the header row, pushing the real header down into the data.
+                tables.append((os.path.basename(tsv), pd.read_csv(tsv, sep="\t", comment="#")))
             except Exception:
                 pass
         for png in sorted(glob.glob(os.path.join(path, "*.png"))):
