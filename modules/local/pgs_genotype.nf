@@ -33,14 +33,22 @@ process PGS_GENOTYPE {
     // restricting to the scored blocks FIRST and expanding only those took ~5 s per 31k
     // positions, versus ~6 min for the equivalent bcftools mpileup (~3 min vs ~4 h genome-wide).
     """
-    CHRPFX=\$(bcftools view -h ${gvcf} | grep -m1 '^##contig=<ID=chr' >/dev/null 2>&1 && echo chr || echo '')
-    zcat -f ${scorefile} | awk -F'\\t' -v p="\$CHRPFX" 'NR>1 {print p\$1"\\t"\$2}' \\
+    # Does this gVCF use chr-prefixed contigs? PGS files use bare "1". Detect with awk, which
+    # reads to EOF — `bcftools view -h | grep -m1` makes grep exit early, SIGPIPEs bcftools and
+    # (under pipefail) silently yields an empty prefix, so every region then fails to match.
+    CHRPFX=\$(bcftools view -h ${gvcf} | awk '/^##contig=<ID=/ && !seen { s=\$0; sub(/^##contig=<ID=/,"",s); seen=1 } END { print (s ~ /^chr/ ? "chr" : "") }')
+    echo "gVCF contig prefix: '\$CHRPFX'" >&2
+
+    # Skip blank/short records: a single malformed line makes bcftools reject the whole file
+    # ("Could not parse 1-th line ... Failed to read the regions").
+    zcat -f ${scorefile} \\
+        | awk -F'\\t' -v p="\$CHRPFX" 'NR>1 && \$1!="" && \$2 ~ /^[0-9]+\$/ {print p\$1"\\t"\$2}' \\
         | sort -k1,1 -k2,2n -u > pgs_sites.tsv
     echo "PGS positions requested: \$(wc -l < pgs_sites.tsv)" >&2
 
-    bcftools view -R pgs_sites.tsv -Ou ${gvcf} 2>/dev/null \\
-        | bcftools convert --gvcf2vcf -f ${fasta} 2>/dev/null \\
-        | bcftools view -T pgs_sites.tsv -Oz -o ${meta.id}.pgs.vcf.gz 2>/dev/null
+    bcftools view -R pgs_sites.tsv -Ou ${gvcf} \\
+        | bcftools convert --gvcf2vcf -f ${fasta} \\
+        | bcftools view -T pgs_sites.tsv -Oz -o ${meta.id}.pgs.vcf.gz
     bcftools index -t ${meta.id}.pgs.vcf.gz
     echo "genotyped: \$(bcftools view -H ${meta.id}.pgs.vcf.gz | wc -l)" >&2
 
