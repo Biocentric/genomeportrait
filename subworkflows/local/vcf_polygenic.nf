@@ -5,6 +5,7 @@
 //   the 1000G distribution shipped with each scoring file where available.
 //
 include { PGSCATALOG_DOWNLOAD } from '../../modules/local/pgscatalog_download'
+include { PGS_GENOTYPE        } from '../../modules/local/pgs_genotype'
 include { PLINK2_VCF2PGEN     } from '../../modules/local/plink2_vcf2pgen'
 include { PLINK2_SCORE        } from '../../modules/local/plink2_score'
 include { PLINK2_SCORE_REFERENCE } from '../../modules/local/plink2_score_reference'
@@ -13,7 +14,7 @@ include { PRS_REPORT          } from '../../modules/local/prs_report'
 workflow VCF_POLYGENIC {
 
     take:
-    ch_vcf       // channel: [ meta, vcf, tbi ]
+    ch_gvcf      // channel: [ meta, gvcf, tbi ] — needs hom-ref blocks, see PGS_GENOTYPE
     ch_reference // map
 
     main:
@@ -23,7 +24,11 @@ workflow VCF_POLYGENIC {
     PGSCATALOG_DOWNLOAD ( params.pgs_ids )
     ch_versions = ch_versions.mix(PGSCATALOG_DOWNLOAD.out.versions)
 
-    PLINK2_VCF2PGEN ( ch_vcf )
+    // Complete genotypes at every scored position (hom-ref included) — see PGS_GENOTYPE
+    PGS_GENOTYPE ( ch_gvcf, ch_reference.fasta, ch_reference.fai, PGSCATALOG_DOWNLOAD.out.scorefiles )
+    ch_versions = ch_versions.mix(PGS_GENOTYPE.out.versions.first())
+
+    PLINK2_VCF2PGEN ( PGS_GENOTYPE.out.vcf )
     PLINK2_SCORE ( PLINK2_VCF2PGEN.out.pgen, PGSCATALOG_DOWNLOAD.out.scorefiles )
     ch_versions = ch_versions.mix(PLINK2_VCF2PGEN.out.versions.first(), PLINK2_SCORE.out.versions.first())
 
