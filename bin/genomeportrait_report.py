@@ -80,6 +80,38 @@ def _clinsig_rank(v):
     return 7
 
 
+def call_quality(row):
+    """Flag calls whose support looks weak, so ranking can't imply confidence.
+
+    Rare frameshift/splice calls are the most error-prone class in short-read data, and a
+    HIGH-impact label says nothing about whether the call is real. Depth, genotype quality
+    and the variant allele fraction are what distinguish a genuine call from an artifact:
+    a heterozygote should sit near 0.5 and a homozygote near 1.0."""
+    notes = []
+    try:
+        dp = pd.to_numeric(row.get("DEPTH"), errors="coerce")
+        gq = pd.to_numeric(row.get("GQ"), errors="coerce")
+        vaf = pd.to_numeric(str(row.get("VAF")).split(",")[0], errors="coerce")
+        gt = str(row.get("GT", ""))
+        if pd.notna(dp):
+            if dp < 10:
+                notes.append(f"low depth ({int(dp)}x)")
+            elif dp > 100:
+                notes.append(f"very high depth ({int(dp)}x — repeat/CNV region?)")
+        if pd.notna(gq) and gq < 20:
+            notes.append(f"low genotype quality (GQ {int(gq)})")
+        if pd.notna(vaf):
+            het = gt in ("0/1", "1/0", "0|1", "1|0")
+            hom = gt in ("1/1", "1|1")
+            if het and not (0.30 <= vaf <= 0.70):
+                notes.append(f"VAF {vaf:.2f} unusual for a heterozygote")
+            elif hom and vaf < 0.85:
+                notes.append(f"VAF {vaf:.2f} low for a homozygote")
+    except Exception:
+        pass
+    return "; ".join(notes) if notes else "looks well supported"
+
+
 def rank_annotation(df):
     """Pick the most informative variants instead of the first N rows on chr1.
 
@@ -102,6 +134,8 @@ def rank_annotation(df):
         d = d.drop_duplicates(subset=keys, keep="first")   # keep worst consequence per variant
     total = len(d)
     d = d.head(ANNOT_TOP_N).drop(columns=["_imp", "_cln", "_af"], errors="ignore")
+    if "DEPTH" in d.columns or "GQ" in d.columns or "VAF" in d.columns:
+        d["call_quality"] = d.apply(call_quality, axis=1)
     return d, total
 
 
