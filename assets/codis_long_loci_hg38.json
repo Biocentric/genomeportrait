@@ -1,0 +1,91 @@
+[
+  {
+    "LocusId": "D21S11",
+    "LocusStructure": "(CTAT)*(CTGT)*(CTAT)*(ATCT)*ATCATCTATCTATCCA(TATC)*TA",
+    "ReferenceRegion": [
+      "chr21:19181973-19181989",
+      "chr21:19181989-19182013",
+      "chr21:19182013-19182025",
+      "chr21:19182025-19182037",
+      "chr21:19182053-19182097"
+    ],
+    "VariantId": [
+      "D21S11_CTAT_1",
+      "D21S11_CTGT_2",
+      "D21S11_CTAT_3",
+      "D21S11_ATCT_4",
+      "D21S11_TATC_5"
+    ],
+    "VariantType": [
+      "Repeat",
+      "Repeat",
+      "Repeat",
+      "Repeat",
+      "Repeat"
+    ]
+  },
+  {
+    "LocusId": "D2S1338",
+    "LocusStructure": "GAAGGAAGGAC(GGAA)*(GGCA)*",
+    "ReferenceRegion": [
+      "chr2:218014870-218014922",
+      "chr2:218014922-218014950"
+    ],
+    "VariantId": [
+      "D2S1338_GGAA_1",
+      "D2S1338_GGCA_2"
+    ],
+    "VariantType": [
+      "Repeat",
+      "Repeat"
+    ]
+  },
+  {
+    "LocusId": "FGA",
+    "LocusStructure": "GAAGGAAGG(AGAA)*AGAGAAA(AAAG)*AAA",
+    "ReferenceRegion": [
+      "chr4:154587745-154587801",
+      "chr4:154587808-154587820"
+    ],
+    "VariantId": [
+      "FGA_AGAA_1",
+      "FGA_AAAG_2"
+    ],
+    "VariantType": [
+      "Repeat",
+      "Repeat"
+    ]
+  },
+  {
+    "LocusId": "vWA",
+    "LocusStructure": "AGATG(GATA)*(GACA)*GATAGA",
+    "ReferenceRegion": [
+      "chr12:5983974-5984018",
+      "chr12:5984018-5984038"
+    ],
+    "VariantId": [
+      "vWA_GATA_1",
+      "vWA_GACA_2"
+    ],
+    "VariantType": [
+      "Repeat",
+      "Repeat"
+    ]
+  },
+  {
+    "LocusId": "D12S391",
+    "LocusStructure": "(GATA)*(GACA)*GAT",
+    "ReferenceRegion": [
+      "chr12:12297020-12297064",
+      "chr12:12297064-12297092"
+    ],
+    "VariantId": [
+      "D12S391_GATA_1",
+      "D12S391_GACA_2"
+    ],
+    "VariantType": [
+      "Repeat",
+      "Repeat"
+    ]
+  }
+]

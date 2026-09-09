@@ -33,11 +33,21 @@ process HIPSTR {
     esac
     echo "HipSTR panel='${panel}': \$(wc -l < \$REGIONS) loci" >&2
 
+    # --def-stutter-model is decisive at single-sample WGS depth. HipSTR otherwise fits a
+    # stutter model per locus from that locus's own reads; spanning coverage at these
+    # markers runs only ~10-21 reads even at ~30x nominal, because most read pairs never
+    # cross the repeat. That is not enough to fit a model, and HipSTR then DROPS the locus
+    # rather than calling it -- it omits the locus instead of emitting a filtered record,
+    # so the failure leaves no trace in the VCF at all.
+    # --use-unpaired keeps reads whose mate is unmapped or maps elsewhere, common right at
+    # a repeat; --output-filters records why a call was dropped so failures become visible.
     HipSTR \\
         --bams $bam \\
         --fasta $fasta \\
         --regions \${REGIONS} \\
         --min-reads ${params.hipstr_min_reads} \\
+        --def-stutter-model \\
+        --use-unpaired \\
         --str-vcf ${meta.id}.hipstr.vcf.gz \\
         --output-filters
 
