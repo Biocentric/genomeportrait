@@ -484,6 +484,18 @@
                     "type": "string",
                     "default": "genomeportrait-yleaf:1.0",
                     "hidden": true
+                },
+                "codis_long_catalog": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "ExpansionHunter catalog for CODIS loci too long for HipSTR to span (>71 bp).",
+                    "hidden": true
+                },
+                "codis_long_max_bp": {
+                    "type": "integer",
+                    "default": 71,
+                    "description": "Reference tract length above which a CODIS locus is handed to ExpansionHunter rather than HipSTR.",
+                    "hidden": true
                 }
             }
         },
