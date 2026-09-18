@@ -1,3 +1,7 @@
+// KEEP THIS SCRIPT STABLE ONCE AN ALIGNMENT EXISTS. The task hash covers the script
+// text, so any edit here - even to a comment inside the script block - forces the
+// multi-hour GPU alignment to re-run on -resume. Post-processing belongs in a separate
+// process for exactly that reason.
 process PARABRICKS_FQ2BAM_DOCKER {
     tag "$meta.id"
     label 'process_high'
@@ -40,7 +44,10 @@ process PARABRICKS_FQ2BAM_DOCKER {
 
     script:
     def args                  = task.ext.args ?: ''
-    def prefix                = task.ext.prefix ?: "${meta.id}"
+    // Stage-specific suffix, like every other alignment in this pipeline (.sorted.bam,
+    // .markdup.bam, .recal.cram). A bare <id>.bam is what a downstream module that
+    // writes `-o <id>.bam` onto its staged input will silently truncate.
+    def prefix                = task.ext.prefix ?: "${meta.id}.pb"
     def in_fq_command         = meta.single_end ? "--in-se-fq ${reads}" : "--in-fq ${reads}"
     def known_sites_command   = known_sites ? known_sites.collect { "--knownSites $it" }.join(' ') + " --out-recal-file ${prefix}.table" : ''
     def interval_file_command = interval_file ? interval_file.collect { "--interval-file $it" }.join(' ') : ''

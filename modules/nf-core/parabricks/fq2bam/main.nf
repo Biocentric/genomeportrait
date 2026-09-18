@@ -28,7 +28,10 @@ process PARABRICKS_FQ2BAM {
 
     script:
     def args                  = task.ext.args ?: ''
-    def prefix                = task.ext.prefix ?: "${meta.id}"
+    // Stage-specific suffix, like every other alignment in this pipeline (.sorted.bam,
+    // .markdup.bam, .recal.cram). A bare <id>.bam is what a downstream module that
+    // writes `-o <id>.bam` onto its staged input will silently truncate.
+    def prefix                = task.ext.prefix ?: "${meta.id}.pb"
     // Build --in-fq pairs from the (paired) reads list
     def in_fq_command         = meta.single_end ? "--in-se-fq ${reads}" : "--in-fq ${reads}"
     def known_sites_command   = known_sites ? known_sites.collect { "--knownSites $it" }.join(' ') + " --out-recal-file ${prefix}.table" : ''
