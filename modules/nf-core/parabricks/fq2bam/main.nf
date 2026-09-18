@@ -33,6 +33,9 @@ process PARABRICKS_FQ2BAM {
     def in_fq_command         = meta.single_end ? "--in-se-fq ${reads}" : "--in-fq ${reads}"
     def known_sites_command   = known_sites ? known_sites.collect { "--knownSites $it" }.join(' ') + " --out-recal-file ${prefix}.table" : ''
     def interval_file_command = interval_file ? interval_file.collect { "--interval-file $it" }.join(' ') : ''
+    // pbrun defaults the read group to LB:lib1 PL:bar. PL:bar is not a valid platform and
+    // GATK rejects it; set the same @RG the CPU path writes via bwa-mem2 -R.
+    def platform              = (meta.platform ?: 'illumina').toString().toUpperCase()
     def num_gpus              = task.accelerator ? "--num-gpus ${task.accelerator.request}" : ''
     """
     # Parabricks' GPU-BWA takes the BWA index prefix from --ref, i.e. it opens
@@ -51,6 +54,9 @@ process PARABRICKS_FQ2BAM {
         --ref ${fasta} \\
         ${in_fq_command} \\
         --read-group-sm ${meta.id} \\
+            --read-group-lb ${meta.id} \\
+            --read-group-pl ${platform} \\
+            --read-group-id-prefix ${meta.id} \\
         ${known_sites_command} \\
         ${interval_file_command} \\
         --out-bam ${prefix}.bam \\
