@@ -19,8 +19,16 @@ workflow BAM_EXTRAS {
     ch_mito   = Channel.empty()
 
     // Telseq/mutserve (older tools) read poorly from CRAM — convert once to BAM.
-    EXTRAS_CRAM_TO_BAM ( ch_bam, ch_reference.fasta, ch_reference.fai )
-    ch_xbam = EXTRAS_CRAM_TO_BAM.out.bam
+    // When the analysis alignment is already a BAM (Parabricks path, or --skip_bqsr) there
+    // is nothing to convert: pass it straight through rather than copy ~100 GB to itself.
+    ch_bam
+        .branch { meta, f, idx ->
+            cram: f.name.endsWith('.cram')
+            bam:  true
+        }
+        .set { ch_by_type }
+    EXTRAS_CRAM_TO_BAM ( ch_by_type.cram, ch_reference.fasta, ch_reference.fai )
+    ch_xbam     = EXTRAS_CRAM_TO_BAM.out.bam.mix(ch_by_type.bam)
     ch_versions = ch_versions.mix(EXTRAS_CRAM_TO_BAM.out.versions.first())
 
     if (!params.skip_telomere) {
