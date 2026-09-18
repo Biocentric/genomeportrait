@@ -198,6 +198,10 @@
                 "call_cnv": {
                     "type": "boolean",
                     "default": true
+                },
+                "dv_intermediate_dir": {
+                    "type": "string",
+                    "description": "Directory for DeepVariant make_examples TFRecords. Use a local kernel filesystem when the work dir is on FUSE/NFS."
                 }
             }
         },
