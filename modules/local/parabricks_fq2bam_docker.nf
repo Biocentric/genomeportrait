@@ -2,7 +2,10 @@ process PARABRICKS_FQ2BAM_DOCKER {
     tag "$meta.id"
     label 'process_high'
     label 'process_gpu'
-    stageInMode 'copy'
+    // NOT stageInMode 'copy': the trimmed FASTQ pair for a WGS sample is ~95 GB and
+    // copying it into the task dir would double that on disk for no benefit. Inputs
+    // stay symlinked, and params.parabricks_docker_binds mounts the underlying
+    // filesystems at their real paths so the symlink targets resolve inside Docker.
 
     // Deliberately NOT a Nextflow-managed container process.
     //
@@ -44,6 +47,9 @@ process PARABRICKS_FQ2BAM_DOCKER {
     def num_gpus              = task.accelerator ? "--num-gpus ${task.accelerator.request}" : '--num-gpus 1'
     def image                 = params.parabricks_container
     def device                = params.parabricks_gpu_device
+    // Mount the underlying filesystems at their real paths so symlinked inputs
+    // (reads, reference, index) resolve to the same absolute path inside Docker.
+    def binds                 = (params.parabricks_docker_binds ?: '').toString()
     """
     # pbrun takes the BWA index prefix from --ref, i.e. it opens
     # <ref>.{amb,ann,bwt,pac,sa} beside the reference. BWA_INDEX emits them into a
@@ -60,7 +66,8 @@ process PARABRICKS_FQ2BAM_DOCKER {
 
     docker run --rm --gpus device=${device} \\
         -u \$(id -u):\$(id -g) \\
-        -v "\$PWD":/wd -w /wd \\
+        ${binds} \\
+        -v "\$PWD":"\$PWD" -w "\$PWD" \\
         ${image} \\
         pbrun fq2bam \\
             --ref ${fasta} \\
@@ -69,7 +76,7 @@ process PARABRICKS_FQ2BAM_DOCKER {
             ${known_sites_command} \\
             ${interval_file_command} \\
             --out-bam ${prefix}.bam \\
-            --tmp-dir /wd/pbtmp \\
+            --tmp-dir "\$PWD/pbtmp" \\
             ${num_gpus} \\
             $args
 
