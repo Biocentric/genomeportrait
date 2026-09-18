@@ -32,7 +32,9 @@ process HLA_EXTRACT_FASTQ {
     # primary MHC interval + every HLA-* and chr6_*_alt decoy contig present in the header
     ALTS=\$(sed -n 's/.*\\tSN:\\(HLA-[^\\t]*\\).*/\\1/p; s/.*\\tSN:\\(chr6_[A-Za-z0-9]*_alt\\).*/\\1/p' hdr.sam | tr '\\n' ' ')
     samtools view -@ $task.cpus -b -T $fasta $cram \${MHC}:28510120-33480577 \$ALTS > mhc.bam
-    samtools collate -@ $task.cpus -u -O mhc.bam | \\
+    # Explicit temp prefix: samtools >= 1.13 otherwise collates into /tmp, which inside a
+    # container overlay is a few GB and fills on real data (seen in oncoanalyser-pb).
+    samtools collate -@ $task.cpus -u -O mhc.bam collate_tmp | \\
         samtools fastq -@ $task.cpus \\
             -1 ${meta.id}_hla_1.fq.gz -2 ${meta.id}_hla_2.fq.gz \\
             -0 /dev/null -s /dev/null -n
