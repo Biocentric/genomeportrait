@@ -6,7 +6,7 @@ process PARABRICKS_FQ2BAM {
 
     // NVIDIA Clara Parabricks — GPU container only (no conda/singularity-from-bioconda).
     // Pulled by Singularity/Apptainer directly from the NVIDIA registry.
-    container "nvcr.io/nvidia/clara/clara-parabricks:4.6.0-1"
+    container "${params.parabricks_container}"
 
     input:
     tuple val(meta), path(reads), path(interval_file)
@@ -35,7 +35,17 @@ process PARABRICKS_FQ2BAM {
     def interval_file_command = interval_file ? interval_file.collect { "--interval-file $it" }.join(' ') : ''
     def num_gpus              = task.accelerator ? "--num-gpus ${task.accelerator.request}" : ''
     """
-    INDEX=`find -L ./ -name "*.amb" | sed 's/\\.amb\$//'`
+    # Parabricks' GPU-BWA takes the BWA index prefix from --ref, i.e. it opens
+    # <ref>.{amb,ann,bwt,pac,sa} beside the reference. BWA_INDEX emits them in a
+    # bwa/ subdirectory under the bare basename ("Homo_sapiens_assembly38.amb",
+    # not "Homo_sapiens_assembly38.fasta.amb"), so pbrun would not find them.
+    # stageInMode is 'copy', so these are task-local files: move them into place.
+    INDEX=\$(find -L . -name "*.amb" | head -n1 | sed 's/\\.amb\$//')
+    if [ -n "\${INDEX}" ] && [ "\${INDEX#./}" != "${fasta}" ]; then
+        for e in amb ann bwt pac sa; do
+            [ -e "${fasta}.\${e}" ] || mv -f "\${INDEX}.\${e}" "${fasta}.\${e}"
+        done
+    fi
 
     pbrun fq2bam \\
         --ref ${fasta} \\
