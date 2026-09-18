@@ -154,6 +154,11 @@
                     "type": "integer",
                     "default": 0,
                     "description": "GPU index passed to `docker run --gpus device=N` when parabricks_launcher is 'docker'."
+                },
+                "parabricks_docker_binds": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Extra `docker run` bind flags used when parabricks_launcher is 'docker'."
                 }
             }
         },
