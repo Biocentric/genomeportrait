@@ -159,6 +159,11 @@
                     "type": "string",
                     "default": "",
                     "description": "Extra `docker run` bind flags used when parabricks_launcher is 'docker'."
+                },
+                "parabricks_docker_opts": {
+                    "type": "string",
+                    "default": "--ipc=host --ulimit memlock=-1 --ulimit stack=67108864",
+                    "description": "Runtime limits passed to `docker run` for pbrun (shared memory, locked memory, stack)."
                 }
             }
         },
