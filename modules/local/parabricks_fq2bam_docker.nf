@@ -50,6 +50,11 @@ process PARABRICKS_FQ2BAM_DOCKER {
     // Mount the underlying filesystems at their real paths so symlinked inputs
     // (reads, reference, index) resolve to the same absolute path inside Docker.
     def binds                 = (params.parabricks_docker_binds ?: '').toString()
+    // Docker defaults starve pbrun when it is not run as root: /dev/shm is 64 MB and
+    // locked memory is capped at 8 MB. Root can raise memlock (CAP_IPC_LOCK); an
+    // unprivileged uid cannot, so CUDA pinned-host allocations fail as the dataset
+    // grows -- silently, producing a header-only BAM.
+    def dopts                 = (params.parabricks_docker_opts ?: '').toString()
     """
     # pbrun takes the BWA index prefix from --ref, i.e. it opens
     # <ref>.{amb,ann,bwt,pac,sa} beside the reference. BWA_INDEX emits them into a
@@ -68,7 +73,7 @@ process PARABRICKS_FQ2BAM_DOCKER {
     mkdir -p pbtmp
 
     docker run --rm --gpus device=${device} \\
-        -u \$(id -u):\$(id -g) \\
+        -u \$(id -u):\$(id -g) ${dopts} \\
         ${binds} \\
         -v "\$PWD":"\$PWD" -w "\$PWD" \\
         ${image} \\
