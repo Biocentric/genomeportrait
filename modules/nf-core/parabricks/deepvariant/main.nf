@@ -3,7 +3,7 @@ process PARABRICKS_DEEPVARIANT {
     label 'process_high'
     label 'process_gpu'
 
-    container "nvcr.io/nvidia/clara/clara-parabricks:4.6.0-1"
+    container "${params.parabricks_container}"
 
     input:
     tuple val(meta), path(input), path(input_index), path(interval_file)

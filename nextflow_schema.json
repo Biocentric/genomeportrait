@@ -129,6 +129,31 @@
                     "default": 7.0,
                     "description": "Minimum CUDA compute capability for Parabricks (Volta+ = 7.0).",
                     "hidden": true
+                },
+                "parabricks_container": {
+                    "type": "string",
+                    "default": "nvcr.io/nvidia/clara/clara-parabricks:4.6.0-1",
+                    "description": "Parabricks container image (or a local .sif path).",
+                    "help_text": "Pin 4.0.0-1 for Pascal GPUs (P40/P100); 4.6.x requires Volta or newer."
+                },
+                "gpu_variant_calling": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Run pbrun deepvariant on the GPU. Set false on Pascal: fq2bam stays on the GPU and the CPU caller takes over."
+                },
+                "parabricks_launcher": {
+                    "type": "string",
+                    "default": "container",
+                    "enum": [
+                        "container",
+                        "docker"
+                    ],
+                    "description": "How to launch pbrun. 'docker' shells out to `docker run --gpus device=N` so a specific GPU can be pinned."
+                },
+                "parabricks_gpu_device": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "GPU index passed to `docker run --gpus device=N` when parabricks_launcher is 'docker'."
                 }
             }
         },
