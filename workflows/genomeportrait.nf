@@ -97,7 +97,7 @@ workflow GENOMEPORTRAIT {
     // STAGE 3: Alignment QC
     //
     if (!params.skip_qc) {
-        BAM_QC ( ch_analysis_bam, BAM_MARKDUP_BQSR.out.md_bam, ch_reference )
+        BAM_QC ( ch_analysis_bam, ALIGN_AND_CALL.out.md_bam, ch_reference )
         ch_versions      = ch_versions.mix(BAM_QC.out.versions)
         ch_multiqc_files = ch_multiqc_files.mix(BAM_QC.out.multiqc.collect{it[1]})
     }
@@ -155,7 +155,7 @@ workflow GENOMEPORTRAIT {
     // STAGE 10: Polygenic scores (PGS Catalog)
     //
     if (!params.skip_prs) {
-        VCF_POLYGENIC ( ch_gvcf, ch_reference )
+        VCF_POLYGENIC ( ALIGN_AND_CALL.out.gvcf, ch_reference )
         ch_versions     = ch_versions.mix(VCF_POLYGENIC.out.versions)
         ch_report_parts = ch_report_parts.mix(VCF_POLYGENIC.out.scores.map{ m,f -> [m,'polygenic',f] })
     }

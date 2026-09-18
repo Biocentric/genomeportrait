@@ -87,7 +87,14 @@ workflow ALIGN_AND_CALL {
     //
     emit:
     bam      = BAM_MARKDUP_BQSR.out.bam.mix(ch_gpu_bam)        // [ meta, bam/cram, bai/crai ]
+    // A guaranteed-real BAM for tools that cannot read CRAM (Qualimap). The CPU path
+    // yields the MarkDuplicates BAM; the GPU path's fq2bam output already is one.
+    md_bam   = BAM_MARKDUP_BQSR.out.md_bam.mix(ch_gpu_bam)     // [ meta, bam, bai ]
     vcf      = BAM_CALL_SMALLVARIANTS.out.vcf.mix(ch_gpu_vcf)  // [ meta, vcf.gz, tbi ]
+    // gVCF (hom-ref blocks) is required by VCF_POLYGENIC. CPU path only: `pbrun
+    // deepvariant` is not invoked with --gvcf, so GPU samples emit nothing here and
+    // the polygenic stage simply does not run for them.
+    gvcf     = BAM_CALL_SMALLVARIANTS.out.gvcf                 // [ meta, gvcf.gz, tbi ]
     metrics  = BAM_MARKDUP_BQSR.out.metrics
     stats    = BAM_CALL_SMALLVARIANTS.out.stats
     versions = ch_versions
