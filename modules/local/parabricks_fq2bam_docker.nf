@@ -75,10 +75,28 @@ process PARABRICKS_FQ2BAM_DOCKER {
             --read-group-sm ${meta.id} \\
             ${known_sites_command} \\
             ${interval_file_command} \\
-            --out-bam ${prefix}.bam \\
+            --out-bam "\$PWD/${prefix}.bam" \\
             --tmp-dir "\$PWD/pbtmp" \\
             ${num_gpus} \\
             $args
+
+    # pbrun can exit 0 having written nothing but a BAM header. Observed on a
+    # 1.24 B-read WGS run: every phase reported success, <prefix>_chrs.txt tallied
+    # 1.1 B mapped reads per chromosome, and the BAM held 0 records. Nextflow saw a
+    # zero exit and passed the empty file downstream, where it cost hours before
+    # anything noticed. Check the output against pbrun's own read tally and fail
+    # loudly instead, keeping --tmp-dir for diagnosis.
+    bam_bytes=\$(stat -c %s "${prefix}.bam")
+    if [ -s "${prefix}_chrs.txt" ]; then
+        mapped=\$(awk '{s+=\$2} END{print s+0}' "${prefix}_chrs.txt")
+        min_bytes=\$(( mapped * 10 ))        # real BAMs run ~80-120 bytes/read
+        if [ "\$bam_bytes" -lt "\$min_bytes" ]; then
+            echo "ERROR: pbrun exited 0 but ${prefix}.bam is \$bam_bytes bytes for \$mapped mapped reads." >&2
+            echo "       Expected at least \$min_bytes. The BAM is header-only - refusing to continue." >&2
+            echo "       Temp dir kept at \$PWD/pbtmp for inspection." >&2
+            exit 65
+        fi
+    fi
 
     rm -rf pbtmp
 
