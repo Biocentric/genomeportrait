@@ -58,7 +58,10 @@ process PARABRICKS_FQ2BAM_DOCKER {
     INDEX=\$(find -L . -name "*.amb" | head -n1 | sed 's/\\.amb\$//')
     if [ -n "\${INDEX}" ] && [ "\${INDEX#./}" != "${fasta}" ]; then
         for e in amb ann bwt pac sa; do
-            [ -e "${fasta}.\${e}" ] || mv -f "\${INDEX}.\${e}" "${fasta}.\${e}"
+            # Symlink, never move: BWA_INDEX's output is staged as a symlink to its
+            # storeDir, so `mv` here follows it and rips the index out of the
+            # reference store, silently arming a 90-minute rebuild on the next run.
+            [ -e "${fasta}.\${e}" ] || ln -sf "\$(readlink -f "\${INDEX}.\${e}")" "${fasta}.\${e}"
         done
     fi
 
