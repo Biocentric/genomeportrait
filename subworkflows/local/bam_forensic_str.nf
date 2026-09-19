@@ -19,8 +19,17 @@ workflow BAM_FORENSIC_STR {
 
     // HipSTR (and ExpansionHunter) are happiest with BAM; the analysis file is a CRAM,
     // and HipSTR's older htslib reads 0 reads from it. Convert once and feed both.
-    CRAM_TO_BAM ( ch_bam, ch_reference.fasta, ch_reference.fai )
-    ch_strbam = CRAM_TO_BAM.out.bam
+    // HipSTR/ExpansionHunter want a BAM. When the analysis alignment already is one
+    // (Parabricks path, or --skip_bqsr) there is nothing to convert: passing it through
+    // avoids ~40 min and a ~80 GB byte-for-byte duplicate of the alignment.
+    ch_bam
+        .branch { meta, f, idx ->
+            cram: f.name.endsWith('.cram')
+            bam:  true
+        }
+        .set { ch_str_by_type }
+    CRAM_TO_BAM ( ch_str_by_type.cram, ch_reference.fasta, ch_reference.fai )
+    ch_strbam   = CRAM_TO_BAM.out.bam.mix(ch_str_by_type.bam)
     ch_versions = ch_versions.mix(CRAM_TO_BAM.out.versions.first())
 
     HIPSTR ( ch_strbam, ch_reference.fasta, ch_reference.fai, ch_reference.hipstr_codis, ch_reference.hipstr_ready )
