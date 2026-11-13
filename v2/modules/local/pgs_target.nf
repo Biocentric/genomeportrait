@@ -1,9 +1,9 @@
 process PGS_TARGET {
     tag "$meta.id"
-    label 'process_low'
+    label 'process_medium'
 
     conda "conda-forge::python=3.12 conda-forge::numpy=2.1"
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? params.report_sif : params.report_docker }"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.report_sif ?: "${params.reference_base}/containers/genomeportrait-report-${params.report_image_version}.sif") : params.report_docker }"
 
     input:
     tuple val(meta), path(gvcf), path(tbi)
@@ -22,7 +22,7 @@ process PGS_TARGET {
     // than expanding the gVCF, which keeps its <*> allele) is what lets alleles match.
     """
     python3 ${engine} target --gvcf ${gvcf} --pvar ${ref_pvar} --sample ${meta.id} \\
-        --min-gq ${params.pgs_min_gq} \\
+        --min-gq ${params.pgs_min_gq} --threads ${task.cpus} \\
         --out ${meta.id}.pgs_target.vcf.gz --stats ${meta.id}.pgs_target_stats.tsv
 
     cat <<-END_VERSIONS > versions.yml

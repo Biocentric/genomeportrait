@@ -3,7 +3,7 @@ process EXTRAS_REPORT {
     label 'process_single'
 
     conda "conda-forge::pandas=2.2.2"
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? params.report_sif : params.report_docker }"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.report_sif ?: "${params.reference_base}/containers/genomeportrait-report-${params.report_image_version}.sif") : params.report_docker }"
 
     input:
     tuple val(meta), path(telseq), path(mito)

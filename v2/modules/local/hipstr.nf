@@ -3,7 +3,7 @@ process HIPSTR {
     label 'process_medium'
 
     // HipSTR is not on bioconda — use the image built at runtime by BUILD_HIPSTR_CONTAINER.
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? params.hipstr_sif : params.hipstr_docker }"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.hipstr_sif ?: "${params.reference_base}/containers/genomeportrait-hipstr-${params.hipstr_image_version}.sif") : params.hipstr_docker }"
 
     input:
     tuple val(meta), path(bam), path(bai)

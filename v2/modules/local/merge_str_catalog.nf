@@ -2,7 +2,7 @@ process MERGE_STR_CATALOG {
     tag "str_catalog"
     label 'process_single'
 
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? params.report_sif : params.report_docker }"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.report_sif ?: "${params.reference_base}/containers/genomeportrait-report-${params.report_image_version}.sif") : params.report_docker }"
 
     input:
     path pathogenic          // Illumina ExpansionHunter catalog (repeat-expansion disease loci)

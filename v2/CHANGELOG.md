@@ -4,6 +4,9 @@
 
 ### Since the first v2 commit
 
+- `report_sif`, `hipstr_sif` and `yleaf_sif` default to null and are resolved from `reference_base`
+  when each task starts, so `reference_base` may be set in a `-c` config. The Singularity cache
+  honours `NXF_SINGULARITY_CACHEDIR`.
 - Report notes: a score that disagrees with its trait is described as having "no usable published
   validation (no R² or per-SD odds ratio)", and as evaluated only in non-European samples where
   that applies, instead of "no published validation" — most such scores do have performance records.

@@ -4,7 +4,7 @@ process YLEAF {
 
     // The published yleaf biocontainer has no data/ dir and no samtools/bcftools, so it cannot
     // run at all; use the image the pipeline builds itself (BUILD_YLEAF_CONTAINER).
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? params.yleaf_sif : params.yleaf_docker }"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.yleaf_sif ?: "${params.reference_base}/containers/genomeportrait-yleaf-${params.yleaf_image_version}.sif") : params.yleaf_docker }"
 
     input:
     tuple val(meta), path(cram), path(crai)

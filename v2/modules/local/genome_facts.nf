@@ -3,7 +3,7 @@ process GENOME_FACTS {
     label 'process_single'
 
     conda "conda-forge::python=3.12"
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? params.report_sif : params.report_docker }"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.report_sif ?: "${params.reference_base}/containers/genomeportrait-report-${params.report_image_version}.sif") : params.report_docker }"
 
     input:
     tuple val(meta), path(summary), path(dist)

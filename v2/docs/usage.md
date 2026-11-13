@@ -48,10 +48,11 @@ nextflow run /path/to/genomeportrait/v2 -profile singularity \
 `-profile production` is `singularity` plus a 19-core resource plan in which a failing
 interpretation module cannot abort the run.
 
-> **Give `--reference_base` on the command line or in a `-params-file`.** The container
-> image paths and the Singularity cache directory are derived from it when
-> `nextflow.config` is read, and a value set in a `-c` config arrives too late to change
-> them.
+> **`--reference_base` can be set anywhere**: on the command line, in a `-params-file` or in
+> a `-c` config. Container image paths are resolved from it when each task starts. The one
+> exception is the Singularity image cache, which is fixed when `nextflow.config` is read:
+> if you set `reference_base` in a `-c` config, also set `singularity.cacheDir` there, or
+> export `NXF_SINGULARITY_CACHEDIR` (which always wins).
 
 ## Main parameters
 

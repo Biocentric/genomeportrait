@@ -522,7 +522,8 @@
                 },
                 "report_sif": {
                     "type": "string",
-                    "hidden": true
+                    "hidden": true,
+                    "description": "Path to the report Singularity image. Default: <reference_base>/containers/genomeportrait-report-<version>.sif, resolved when each task starts."
                 },
                 "report_docker": {
                     "type": "string",
@@ -540,7 +541,8 @@
                 },
                 "hipstr_sif": {
                     "type": "string",
-                    "hidden": true
+                    "hidden": true,
+                    "description": "Path to the hipstr Singularity image. Default: <reference_base>/containers/genomeportrait-hipstr-<version>.sif, resolved when each task starts."
                 },
                 "hipstr_docker": {
                     "type": "string",
@@ -576,7 +578,7 @@
                 },
                 "yleaf_sif": {
                     "type": "string",
-                    "description": "Path to the locally built Yleaf SIF.",
+                    "description": "Path to the yleaf Singularity image. Default: <reference_base>/containers/genomeportrait-yleaf-<version>.sif, resolved when each task starts.",
                     "hidden": true
                 },
                 "yleaf_docker": {

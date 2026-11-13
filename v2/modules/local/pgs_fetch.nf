@@ -5,7 +5,7 @@ process PGS_FETCH {
     storeDir "${params.reference_base}/pgs/${panel_key}/fetch"
 
     conda "conda-forge::python=3.12 conda-forge::numpy=2.1"
-    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? params.report_sif : params.report_docker }"
+    container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.report_sif ?: "${params.reference_base}/containers/genomeportrait-report-${params.report_image_version}.sif") : params.report_docker }"
 
     input:
     val   panel_key
