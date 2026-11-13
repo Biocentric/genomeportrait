@@ -165,6 +165,15 @@
                     "type": "string",
                     "default": "--ipc=host --ulimit memlock=-1 --ulimit stack=67108864",
                     "description": "Runtime limits passed to `docker run` for pbrun (shared memory, locked memory, stack)."
+                },
+                "markdup": {
+                    "type": "string",
+                    "default": "samtools",
+                    "enum": [
+                        "samtools",
+                        "gatk"
+                    ],
+                    "description": "Duplicate marking for short reads aligned with bwa-mem2: samtools streams alignment, sorting and marking straight to CRAM; gatk writes a sorted BAM and runs GATK MarkDuplicates."
                 }
             }
         },

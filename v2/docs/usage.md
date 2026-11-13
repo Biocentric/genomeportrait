@@ -70,6 +70,7 @@ Genome facts (depth, sex, mtDNA copies) always run: other modules depend on the 
 |---|---|---|
 | `--aligner` | `bwa-mem2` | `minimap2` for long reads |
 | `--variant_caller` | `deepvariant` | `haplotypecaller`, `clair3` |
+| `--markdup` | `samtools` | `samtools`: bwa-mem2 → fixmate → sort → markdup → CRAM in one stream, no intermediate BAMs. `gatk`: sorted BAM, then GATK MarkDuplicates (v1). Long reads always use the second path. |
 | `--skip_bqsr` | `true` | `--skip_bqsr false` turns BQSR on. DeepVariant gains nothing from it. |
 | `--skip_trimming` | `false` | |
 | `--use_gpu` | `off` | `auto` / `on` for Parabricks; see the GPU notes in `nextflow.config` |

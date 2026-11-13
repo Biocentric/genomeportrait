@@ -21,7 +21,7 @@ the v1 files one level up. Why it exists and what is still open:
 | Polygenic scores | 4 scores, pooled percentile | **204-score panel**, ancestry-adjusted Z, direction, consensus per trait, effect size in units |
 | PGS run time for one genome | n/a (`pgsc_calc` on the same panel: 6 h 45 min) | ~20 min for the first genome on a panel, ~3 min after that |
 | Sample sex | samplesheet only; `unknown` treated as female for STRs | **inferred from depth**, used when the samplesheet does not say |
-| Alignment | sorted twice, BQSR always | sorted once, BQSR opt-in |
+| Alignment | sorted twice, BQSR always, two whole-genome BAMs on disk | aligned, sorted and duplicate-marked straight to CRAM in one stream; BQSR opt-in |
 | `results/` | also holds references, trimmed FASTQ, markdup BAM (~360 GB extra at 40x) | results only |
 | Running from a mount without exec bits | no (`bin/` on `PATH`) | yes (scripts are staged inputs) |
 | Report | dark table dump; variant overview section never rendered | light/dark, card layout, polygenic overview page |
@@ -59,8 +59,8 @@ Full parameter and output descriptions: [`docs/usage.md`](docs/usage.md),
 1. **Reference preparation** — downloads and indexes what the samplesheet needs, once,
    into `--reference_base`. No bwa-mem2 index is built for runs that start from alignments;
    no BQSR known-sites are fetched unless BQSR is switched on.
-2. **Reads to calls** (rows with FASTQ) — fastp, FastQC, bwa-mem2 or minimap2, GATK
-   MarkDuplicates, DeepVariant (or HaplotypeCaller, Clair3). Parabricks on a capable GPU.
+2. **Reads to calls** (rows with FASTQ) — fastp, FastQC, bwa-mem2 streamed through samtools
+   fixmate/sort/markdup to CRAM (or minimap2 + GATK MarkDuplicates), DeepVariant (or HaplotypeCaller, Clair3). Parabricks on a capable GPU.
 3. **Genome facts** — mosdepth; depth, breadth, sex chromosomes, mtDNA copies per cell.
 4. **Interpretation** — ancestry (PCA, ADMIXTURE, ROH, KING), mtDNA and Y haplogroups,
    CODIS STR profile and repeat expansions, **polygenic scores**, HLA (T1K),

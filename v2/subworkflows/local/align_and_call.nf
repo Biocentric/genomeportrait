@@ -14,6 +14,7 @@ include { PARABRICKS_FQ2BAM_DOCKER } from '../../modules/local/parabricks_fq2bam
 include { PARABRICKS_DEEPVARIANT   } from '../../modules/nf-core/parabricks/deepvariant/main'
 include { BCFTOOLS_NORM as BCFTOOLS_NORM_GPU } from '../../modules/local/bcftools_norm'
 
+include { BWAMEM2_MARKDUP_CRAM     } from '../../modules/local/bwamem2_markdup_cram'
 include { FASTQ_ALIGN              } from './fastq_align'
 include { BAM_MARKDUP_BQSR         } from './bam_markdup_bqsr'
 include { BAM_CALL_SMALLVARIANTS   } from './bam_call_smallvariants'
@@ -96,8 +97,18 @@ workflow ALIGN_AND_CALL {
     //
     // ---------------- CPU path (default toolchain) ----------------
     //
-    FASTQ_ALIGN ( ch_routed.cpu, ch_reference )
-    BAM_MARKDUP_BQSR ( FASTQ_ALIGN.out.bam, ch_reference, params.skip_bqsr )
+    // Short reads with bwa-mem2 go straight to a duplicate-marked CRAM in one stream
+    // (--markdup samtools, the default). Long reads, minimap2, and --markdup gatk keep the
+    // separate path: sorted BAM, then GATK MarkDuplicates.
+    ch_routed.cpu
+        .branch { meta, reads ->
+            stream: params.markdup == 'samtools' && params.aligner == 'bwa-mem2' && !(meta.platform in ['ont', 'pacbio'])
+            classic: true
+        }
+        .set { ch_cpu }
+    BWAMEM2_MARKDUP_CRAM ( ch_cpu.stream, ch_reference.bwamem2_index, ch_reference.fasta, ch_reference.fai )
+    FASTQ_ALIGN ( ch_cpu.classic, ch_reference )
+    BAM_MARKDUP_BQSR ( FASTQ_ALIGN.out.bam, ch_reference, params.skip_bqsr, BWAMEM2_MARKDUP_CRAM.out.cram )
     // A samplesheet alignment is taken as analysis-ready (sorted, duplicates marked): it is
     // called as it is. v1 pushed it through MarkDuplicates and BQSR a second time.
     BAM_CALL_SMALLVARIANTS (
@@ -105,6 +116,7 @@ workflow ALIGN_AND_CALL {
         ch_reference
     )
     ch_versions = ch_versions.mix(
+        BWAMEM2_MARKDUP_CRAM.out.versions.first(),
         FASTQ_ALIGN.out.versions,
         BAM_MARKDUP_BQSR.out.versions,
         BAM_CALL_SMALLVARIANTS.out.versions
@@ -115,15 +127,15 @@ workflow ALIGN_AND_CALL {
     //
     emit:
     bam      = BAM_MARKDUP_BQSR.out.bam.mix(ch_gpu_bam)        // [ meta, bam/cram, bai/crai ]
-    // A guaranteed-real BAM for tools that cannot read CRAM (Qualimap). The CPU path
-    // yields the MarkDuplicates BAM; the GPU path's fq2bam output already is one.
+    // A real BAM for tools that cannot read CRAM (Qualimap): the MarkDuplicates BAM on the
+    // separate path, the fq2bam BAM on the GPU path. The streamed path writes no BAM.
     md_bam   = BAM_MARKDUP_BQSR.out.md_bam.mix(ch_gpu_bam)     // [ meta, bam, bai ]
     vcf      = BAM_CALL_SMALLVARIANTS.out.vcf.mix(ch_gpu_vcf)  // [ meta, vcf.gz, tbi ]
     // gVCF (hom-ref blocks) is required by VCF_POLYGENIC. CPU path only: `pbrun
     // deepvariant` is not invoked with --gvcf, so GPU samples emit nothing here and
     // the polygenic stage simply does not run for them.
     gvcf     = BAM_CALL_SMALLVARIANTS.out.gvcf                 // [ meta, gvcf.gz, tbi ]
-    metrics  = BAM_MARKDUP_BQSR.out.metrics
+    metrics  = BAM_MARKDUP_BQSR.out.metrics.mix(BWAMEM2_MARKDUP_CRAM.out.metrics)
     stats    = BAM_CALL_SMALLVARIANTS.out.stats
     versions = ch_versions
 }

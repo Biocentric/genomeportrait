@@ -4,6 +4,9 @@
 
 ### Since the first v2 commit
 
+- Short reads go from bwa-mem2 through samtools fixmate, sort and markdup straight to a CRAM
+  (`BWAMEM2_MARKDUP_CRAM`, `--markdup samtools`, the default). No sorted BAM or duplicate-marked
+  BAM is written (~240 GB at 40x). `--markdup gatk` keeps the GATK MarkDuplicates path.
 - Publishing is off by default and every result lands in one folder per sample:
   `<outdir>/<sample>/{alignment,variants,qc,annotation,ancestry,lineage,str,polygenic,hla,
   pharmacogenomics,traits,extras}/` plus `<outdir>/<sample>/<sample>.genomeportrait.html`;
