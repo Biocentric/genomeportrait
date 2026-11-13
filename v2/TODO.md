@@ -63,7 +63,7 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 - [ ] Strict opt-in publishing with one `results/<sample>/` tree
 - [ ] CYP2D6 via Cyrius, passed to PharmCAT as an outside call
 - [ ] Blood groups (ABO, RhD, Kell, Duffy, Kidd), validated on reference-panel frequencies
-- [ ] One reference panel for ancestry and PGS
+- [x] One reference panel for ancestry and PGS (hold-out check: unadmixed populations recovered at 0.92–1.00)
 - [ ] Streamed align → sort → markdup → CRAM
 - [ ] VerifyBamID2 contamination estimate
 - [ ] Stub blocks on every process; nf-test

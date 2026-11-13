@@ -57,7 +57,7 @@ workflow BIOCENTRIC_GENOMEPORTRAIT {
         vep_cache     : PREPARE_GENOME.out.vep_cache,
         gnomad        : PREPARE_GENOME.out.gnomad,
         clinvar       : PREPARE_GENOME.out.clinvar,
-        kgp_hgdp_panel: PREPARE_GENOME.out.kgp_hgdp,
+        panel         : PREPARE_GENOME.out.panel,         // HGDP+1kGP: ancestry and PGS
         str_catalog   : PREPARE_GENOME.out.str_catalog,
         hipstr_codis  : PREPARE_GENOME.out.hipstr_codis,
         report_sif    : PREPARE_GENOME.out.report_sif,

@@ -17,7 +17,6 @@
 //   population); the interpretation is prs-selfscore's. See docs/polygenic.md.
 //
 include { PGS_FETCH           } from '../../modules/local/pgs_fetch'
-include { PGS_PANEL_DOWNLOAD  } from '../../modules/local/pgs_panel_download'
 include { PGS_SITES           } from '../../modules/local/pgs_sites'
 include { PGS_REFERENCE       } from '../../modules/local/pgs_reference'
 include { PGS_MATCH           } from '../../modules/local/pgs_match'
@@ -30,7 +29,8 @@ include { PGS_REPORT          } from '../../modules/local/pgs_report'
 workflow VCF_POLYGENIC {
 
     take:
-    ch_gvcf // channel: [ meta, gvcf, tbi ] — hom-ref blocks are required, a variant-only VCF will not do
+    ch_gvcf  // channel: [ meta, gvcf, tbi ] — hom-ref blocks are required, a variant-only VCF will not do
+    ch_panel // value: [ pgen, pvar.zst, psam, relatives ] — HGDP+1kGP from PREPARE_GENOME
 
     main:
     ch_versions = Channel.empty()
@@ -57,21 +57,6 @@ workflow VCF_POLYGENIC {
         file("${scripts}/pgs_catalog.py", checkIfExists: true)
     )
     ch_versions = ch_versions.mix(PGS_FETCH.out.versions)
-
-    // Reference panel: a local, already-extracted copy if given, else download once.
-    if (params.pgs_reference_panel) {
-        def d = params.pgs_reference_panel
-        ch_panel = Channel.value([
-            file("${d}/GRCh38_HGDP+1kGP_ALL.pgen",            checkIfExists: true),
-            file("${d}/GRCh38_HGDP+1kGP_ALL.pvar.zst",        checkIfExists: true),
-            file("${d}/GRCh38_HGDP+1kGP_ALL.psam",            checkIfExists: true),
-            file("${d}/GRCh38_HGDP+1kGP.king.cutoff.out.id",  checkIfExists: true)
-        ])
-    } else {
-        PGS_PANEL_DOWNLOAD ( params.pgs_reference_panel_url )
-        ch_panel    = PGS_PANEL_DOWNLOAD.out.panel
-        ch_versions = ch_versions.mix(PGS_PANEL_DOWNLOAD.out.versions)
-    }
 
     PGS_SITES ( panel_key, PGS_FETCH.out.scorefiles, engine )
     PGS_REFERENCE (

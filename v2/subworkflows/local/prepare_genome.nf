@@ -19,7 +19,7 @@ include { DOWNLOAD_RESOURCE as DL_MILLS   } from '../../modules/local/download_r
 include { DOWNLOAD_RESOURCE as DL_GNOMAD  } from '../../modules/local/download_resource'
 include { DOWNLOAD_RESOURCE as DL_CLINVAR } from '../../modules/local/download_resource'
 include { DOWNLOAD_VEP_CACHE             } from '../../modules/local/download_vep_cache'
-include { DOWNLOAD_KGP_HGDP             } from '../../modules/local/download_kgp_hgdp'
+include { PGS_PANEL_DOWNLOAD            } from '../../modules/local/pgs_panel_download'
 include { DOWNLOAD_RESOURCE as DL_STR    } from '../../modules/local/download_resource'
 include { DOWNLOAD_RESOURCE as DL_HIPSTR } from '../../modules/local/download_resource'
 include { SAMTOOLS_FAIDX                } from '../../modules/local/samtools_faidx'
@@ -162,16 +162,24 @@ workflow PREPARE_GENOME {
     }
 
     //
-    // Ancestry panel (only if requested — it is large)
+    // One reference panel, HGDP + 1000 Genomes (the pgsc_calc release), for both ancestry and
+    // polygenic scores: [ pgen, pvar.zst, psam, KING list of relatives to drop ].
     //
-    ch_kgp = Channel.value([])
-    if (!params.skip_ancestry) {
-        DOWNLOAD_KGP_HGDP (
-            [ refs.kgp_hgdp_panel, refs.kgp_hgdp_pvar, refs.kgp_hgdp_psam ],
-            "${params.reference_base}/${genome}/ancestry_panel"
-        )
-        ch_kgp = DOWNLOAD_KGP_HGDP.out.panel
-        ch_versions = ch_versions.mix(DOWNLOAD_KGP_HGDP.out.versions)
+    ch_panel = Channel.value([])
+    if (!params.skip_ancestry || !params.skip_prs) {
+        if (params.reference_panel) {
+            def d = params.reference_panel
+            ch_panel = Channel.value([
+                file("${d}/GRCh38_HGDP+1kGP_ALL.pgen",            checkIfExists: true),
+                file("${d}/GRCh38_HGDP+1kGP_ALL.pvar.zst",        checkIfExists: true),
+                file("${d}/GRCh38_HGDP+1kGP_ALL.psam",            checkIfExists: true),
+                file("${d}/GRCh38_HGDP+1kGP.king.cutoff.out.id",  checkIfExists: true)
+            ])
+        } else {
+            PGS_PANEL_DOWNLOAD ( params.reference_panel_url )
+            ch_panel    = PGS_PANEL_DOWNLOAD.out.panel
+            ch_versions = ch_versions.mix(PGS_PANEL_DOWNLOAD.out.versions)
+        }
     }
 
     //
@@ -197,7 +205,7 @@ workflow PREPARE_GENOME {
     vep_cache     = ch_vep_cache
     gnomad        = ch_gnomad
     clinvar       = ch_clinvar
-    kgp_hgdp      = ch_kgp
+    panel         = ch_panel
     str_catalog   = ch_str_catalog
     hipstr_codis  = ch_hipstr_codis
     report_sif    = ch_report_sif

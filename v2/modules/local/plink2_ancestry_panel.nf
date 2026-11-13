@@ -11,7 +11,7 @@ process PLINK2_ANCESTRY_PANEL {
         'biocontainers/plink2:2.00a5.10--h4ac6f70_0' }"
 
     input:
-    tuple path(ref_pgen), path(ref_pvar), path(ref_psam)
+    tuple path(ref_pgen), path(ref_pvar), path(ref_psam), path(related)
 
     output:
     tuple path("panel_anc.bed"), path("panel_anc.bim"), path("panel_anc.fam"), emit: panel
@@ -19,12 +19,14 @@ process PLINK2_ANCESTRY_PANEL {
     path "versions.yml",                                                        emit: versions
 
     script:
+    // .pvar.zst (the HGDP+1kGP release) needs the vzs modifier; relatives are dropped, as for PGS.
+    def vzs = ref_pvar.name.endsWith('.zst') ? 'vzs' : ''
     // Define the ancestry SNP set ONCE from the panel (sample-independent, cached):
     // autosomal biallelic common SNPs, allele-aware IDs (@:#:ref:alt), LD-pruned, capped.
     // Emit BED so plink 1.9 can later --bmerge it. anc_sites.tsv = chr-PREFIXED CHROM POS
     // (+ alleles) for genotyping the sample BAM.
     """
-    plink2 --pfile ${ref_pgen.baseName} --allow-extra-chr --autosome \\
+    plink2 --pfile ${ref_pgen.baseName} ${vzs} --remove ${related} --allow-extra-chr --autosome \\
         --snps-only --max-alleles 2 --min-alleles 2 \\
         --maf ${params.ancestry_min_maf} \\
         --set-all-var-ids '@:#:\$r:\$a' --new-id-max-allele-len 100 --rm-dup force-first \\
@@ -33,7 +35,7 @@ process PLINK2_ANCESTRY_PANEL {
     head -n ${params.ancestry_max_snps} prune.prune.in > keep.ids
     # SNP-only here too: otherwise long indel allele codes blow past --new-id-max-allele-len
     # before --extract can drop them.
-    plink2 --pfile ${ref_pgen.baseName} --allow-extra-chr \\
+    plink2 --pfile ${ref_pgen.baseName} ${vzs} --remove ${related} --allow-extra-chr \\
         --snps-only --max-alleles 2 --min-alleles 2 \\
         --set-all-var-ids '@:#:\$r:\$a' --new-id-max-allele-len 100 --rm-dup force-first \\
         --extract keep.ids --make-bed --out panel_anc

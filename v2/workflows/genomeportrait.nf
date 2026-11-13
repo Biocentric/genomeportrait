@@ -221,7 +221,7 @@ workflow GENOMEPORTRAIT {
     // STAGE 10: Polygenic scores — ancestry-adjusted, with direction and effect size
     //
     if (!params.skip_prs) {
-        VCF_POLYGENIC ( ch_gvcf )
+        VCF_POLYGENIC ( ch_gvcf, ch_reference.panel )
         ch_versions     = ch_versions.mix(VCF_POLYGENIC.out.versions)
         ch_report_parts = ch_report_parts.mix(VCF_POLYGENIC.out.fragment.map{ m,f -> [m,'polygenic',f] })
     }

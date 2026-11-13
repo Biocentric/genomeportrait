@@ -323,15 +323,6 @@
                     "format": "directory-path",
                     "description": "PGS Catalog metadata snapshot (scores.json, performance.json)."
                 },
-                "pgs_reference_panel": {
-                    "type": "string",
-                    "format": "directory-path",
-                    "description": "Directory with an extracted pgsc_HGDP+1kGP_v1 reference panel (GRCh38). Downloaded when not set."
-                },
-                "pgs_reference_panel_url": {
-                    "type": "string",
-                    "description": "Download URL of the pgsc_calc HGDP+1kGP reference panel archive."
-                },
                 "pgs_min_gq": {
                     "type": "integer",
                     "default": 0,
@@ -373,6 +364,15 @@
                     "type": "string",
                     "default": "SuperPop",
                     "description": "Column of the reference .psam that defines populations."
+                },
+                "reference_panel": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "Directory with an extracted pgsc_HGDP+1kGP_v1 reference panel (GRCh38), used for ancestry and polygenic scores. Downloaded when not set."
+                },
+                "reference_panel_url": {
+                    "type": "string",
+                    "description": "Download URL of the HGDP+1kGP reference panel archive (pgsc_calc release)."
                 }
             }
         },

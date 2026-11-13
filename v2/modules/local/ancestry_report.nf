@@ -7,7 +7,7 @@ process ANCESTRY_REPORT {
 
     input:
     tuple val(meta), path(eigenvec), path(admixture_q), path(roh), path(kin)
-    tuple path(ref_pgen), path(ref_pvar), path(ref_psam)
+    path  ref_psam
     path  script   // staged, not on PATH: runs without an exec bit or bin/
 
     output:

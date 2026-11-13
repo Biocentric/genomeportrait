@@ -80,7 +80,7 @@ Genome facts (depth, sex, mtDNA copies) always run: other modules depend on the 
 |---|---|---|
 | `--pgs_panel` | `assets/pgs/panel_lifestyle.tsv` | Scores to compute and what each means |
 | `--pgs_ids` | none | Extra PGS Catalog IDs, comma-separated. Reported with percentile and Z only. |
-| `--pgs_reference_panel` | none | Directory with an extracted `pgsc_HGDP+1kGP_v1` panel. Without it the 16 GB archive is downloaded once. |
+| `--reference_panel` | none | Directory with an extracted `pgsc_HGDP+1kGP_v1` panel, used for ancestry **and** polygenic scores. Without it the 16 GB archive is downloaded once. |
 | `--pgs_min_overlap` | `0.75` | A score with fewer of its variants genotyped is not reported |
 | `--pgs_min_gq` | `0` | Hom-ref calls below this genotype quality count as missing |
 | `--pgs_keep_ambiguous` | `false` | Keep A/T and C/G SNPs |

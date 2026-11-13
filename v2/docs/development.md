@@ -76,7 +76,7 @@ A portrait run on a real genome: write a samplesheet with `bam`, `gvcf` and `vcf
 small config switching off what is not needed, then
 
 ```bash
-SCRATCH=$SCRATCH REFBASE=$REFBASE bash $V2/tests/run_test.sh portrait --input samples.csv -c portrait.config --pgs_reference_panel $PANEL
+SCRATCH=$SCRATCH REFBASE=$REFBASE bash $V2/tests/run_test.sh portrait --input samples.csv -c portrait.config --reference_panel $PANEL
 ```
 
 ## Seeding a reference base by hand

@@ -19,13 +19,13 @@ workflow BAM_ANCESTRY {
     take:
     ch_bam       // channel: [ meta, cram, crai ]
     ch_vcf       // channel: [ meta, vcf, tbi ]   (for ROH)
-    ch_reference // map (must contain kgp_hgdp_panel = [pgen,pvar,psam])
+    ch_reference // map; .panel = [ pgen, pvar.zst, psam, relatives ] (HGDP+1kGP, shared with PGS)
 
     main:
     ch_versions = Channel.empty()
 
     // 1. Define the ancestry SNP set from the panel (common, LD-pruned, allele-aware; cached)
-    PLINK2_ANCESTRY_PANEL ( ch_reference.kgp_hgdp_panel )
+    PLINK2_ANCESTRY_PANEL ( ch_reference.panel )
     ch_panel = PLINK2_ANCESTRY_PANEL.out.panel
     ch_versions = ch_versions.mix(PLINK2_ANCESTRY_PANEL.out.versions)
 
@@ -44,7 +44,7 @@ workflow BAM_ANCESTRY {
     ch_versions = ch_versions.mix(PLINK2_PCA_PROJECT.out.versions.first())
 
     // 6. Supervised global ancestry proportions
-    ADMIXTURE_SUPERVISED ( ch_comb, ch_panel, ch_reference.kgp_hgdp_panel.map { it[2] } )
+    ADMIXTURE_SUPERVISED ( ch_comb, ch_panel, ch_reference.panel.map { pnl -> pnl[2] } )
     ch_versions = ch_versions.mix(ADMIXTURE_SUPERVISED.out.versions.first())
 
     // 7. Runs of homozygosity / inbreeding F (from the sample's own variants)
@@ -61,7 +61,7 @@ workflow BAM_ANCESTRY {
             .join(ADMIXTURE_SUPERVISED.out.q)
             .join(PLINK2_ROH.out.roh)
             .join(KING_KINSHIP.out.kin),
-        ch_reference.kgp_hgdp_panel,
+        ch_reference.panel.map { pnl -> pnl[2] },
         file("${projectDir}/scripts/ancestry_report.py", checkIfExists: true)
     )
     ch_versions = ch_versions.mix(ANCESTRY_REPORT.out.versions.first())

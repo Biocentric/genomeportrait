@@ -24,12 +24,11 @@ process ADMIXTURE_SUPERVISED {
     // the query is '-'. ADMIXTURE doesn't name its Q columns, so emit per-individual
     // IID + label + Q1..QK and let the report map column->population and pick the query
     // (which the report finds by IID, since plink/admixture row order != input order).
-    // psam cols: #IID PAT MAT SEX SuperPop(5) Population(6).
-    def lcol = params.ancestry_label_col == 'Population' ? 6 : 5
+    // The label column is found by name: psam layouts differ between panel releases.
     """
     # ADMIXTURE reads <bedprefix>.pop, so the .pop MUST be named to match the bed file.
-    awk 'NR==FNR{lab[\$1]=\$${lcol}; next}{print ((\$2 in lab)? lab[\$2] : "-")}' \\
-        <(tail -n +2 ${ref_psam}) ${meta.id}.combined.fam > ${meta.id}.combined.pop
+    awk -v want='${params.ancestry_label_col}' 'NR==FNR { if (FNR==1) { for (i=1;i<=NF;i++) if (\$i==want) c=i; next } lab[\$1]=\$c; next }
+         { print ((\$2 in lab) ? lab[\$2] : "-") }' ${ref_psam} ${meta.id}.combined.fam > ${meta.id}.combined.pop
     K=\$(grep -vx - ${meta.id}.combined.pop | sort -u | wc -l)
     echo "ADMIXTURE K=\$K (${params.ancestry_label_col})"
 

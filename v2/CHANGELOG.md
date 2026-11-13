@@ -4,6 +4,10 @@
 
 ### Since the first v2 commit
 
+- Ancestry uses the same HGDP+1kGP reference panel as the polygenic scores (`--reference_panel`,
+  prepared once in `PREPARE_GENOME`), with relatives removed; the separate 1000G+HGDP download
+  (`DOWNLOAD_KGP_HGDP`) is gone. `--pgs_reference_panel(_url)` became `--reference_panel(_url)`.
+  Hold-out check: `tests/validate_ancestry_holdout.sh`.
 - Missing genotypes in polygenic scoring are filled from the most similar reference
   population's allele frequencies (`PGS_POP_FREQ`, `--pgs_impute`) instead of the pooled panel's.
   Removes a systematic error of up to 0.35 SD; `tests/validate_pgs_imputation.py` measures it.
