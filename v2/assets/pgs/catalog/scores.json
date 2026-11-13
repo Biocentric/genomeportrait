@@ -1,0 +1,7059 @@
+{
+"PGS000018": {
+"name": "metaGRS_CAD",
+"trait_reported": "Coronary artery disease",
+"trait_efo": [
+{
+"id": "MONDO_0005010",
+"label": "coronary artery disorder"
+}
+],
+"variants_number": 1745179,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Inouye M",
+"date_publication": "2018-10-01",
+"journal": "J Am Coll Cardiol",
+"doi": "10.1016/j.jacc.2018.07.079",
+"PMID": 30309464
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AFR": 0.8,
+"AMR": 1.1,
+"EAS": 3,
+"EUR": 37,
+"GME": 0.6,
+"MAE": 50.9,
+"SAS": 6.7
+}
+},
+"dev": {
+"dist": {
+"MAE": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 8.3,
+"AMR": 16.7,
+"EUR": 63.9,
+"GME": 2.8,
+"MAE": 8.3
+}
+}
+}
+},
+"PGS000027": {
+"name": "GPS_BMI",
+"trait_reported": "Body mass index (BMI)",
+"trait_efo": [
+{
+"id": "EFO_0004340",
+"label": "body mass index"
+}
+],
+"variants_number": 2100302,
+"weight_type": "NR",
+"license": "Freely available to the academic community for research use. Parties interested in using the scores for commercial purposes should contact the Broad Office of Strategic Alliances and Partnering (partnering@broadinstitute.org).",
+"publication": {
+"firstauthor": "Khera AV",
+"date_publication": "2019-04-01",
+"journal": "Cell",
+"doi": "10.1016/j.cell.2019.03.028",
+"PMID": 31002795
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AFR": 0.4,
+"AMR": 0.5,
+"EUR": 99.1
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 11.1,
+"EUR": 61.1,
+"GME": 5.6,
+"MAE": 22.2
+}
+}
+}
+},
+"PGS000203": {
+"name": "GSCAN_DPW_COGA",
+"trait_reported": "Alcohol consumption (drinks per week)",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1110910,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Barr PB",
+"date_publication": "2020-06-18",
+"journal": "Transl Psychiatry",
+"doi": "10.1038/s41398-020-00865-8",
+"PMID": 32555147
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS000204": {
+"name": "GSCAN_DPW_FT12",
+"trait_reported": "Alcohol consumption (drinks per week)",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1099480,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Barr PB",
+"date_publication": "2020-06-18",
+"journal": "Transl Psychiatry",
+"doi": "10.1038/s41398-020-00865-8",
+"PMID": 32555147
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS000300": {
+"name": "GRS80_HR",
+"trait_reported": "Heart rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 80,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Xie T",
+"date_publication": "2020-06-11",
+"journal": "Circ Genom Precis Med",
+"doi": "10.1161/circgen.119.002775",
+"PMID": 32527150
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"NR": 0.6,
+"AFR": 0.7,
+"ASN": 1,
+"EUR": 97.3,
+"OTH": 0.3
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS000313": {
+"name": "GRS49_Lp(a)",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 49,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Xie T",
+"date_publication": "2020-06-11",
+"journal": "Circ Genom Precis Med",
+"doi": "10.1161/circgen.119.002775",
+"PMID": 32527150
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS000330": {
+"name": "PRS_T2D",
+"trait_reported": "Type 2 diabetes (T2D)",
+"trait_efo": [
+{
+"id": "MONDO_0005148",
+"label": "type 2 diabetes mellitus"
+}
+],
+"variants_number": 6437380,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Mars N",
+"date_publication": "2020-04-07",
+"journal": "Nat Med",
+"doi": "10.1038/s41591-020-0800-0",
+"PMID": 32273609
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 18.8,
+"AMR": 6.2,
+"ASN": 6.2,
+"EAS": 18.8,
+"EUR": 25,
+"GME": 6.2,
+"SAS": 18.8
+}
+}
+}
+},
+"PGS000336": {
+"name": "GRS313_Chron",
+"trait_reported": "Chronotype",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 313,
+"weight_type": "ln(OR)",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Maukonen M",
+"date_publication": "2020-06-24",
+"journal": "J Biol Rhythms",
+"doi": "10.1177/0748730420935328",
+"PMID": 32579418
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS000337": {
+"name": "MetaPRS_CAD",
+"trait_reported": "Coronary artery disease",
+"trait_efo": [
+{
+"id": "MONDO_0005010",
+"label": "coronary artery disorder"
+}
+],
+"variants_number": 75028,
+"weight_type": "NR",
+"license": "The use of data is limited for research purposes only. Identification of individuals is prohibited. The hum0014-v20 accession number should be cited in public publications and presentations.",
+"publication": {
+"firstauthor": "Koyama S",
+"date_publication": "2020-10-05",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-020-0705-3",
+"PMID": 33020668
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"NR": 45.5,
+"AFR": 0.5,
+"AMR": 0.6,
+"EAS": 27.5,
+"EUR": 21.6,
+"GME": 0.3,
+"SAS": 3.9
+}
+},
+"eval": {
+"dist": {
+"AMR": 30,
+"EAS": 60,
+"GME": 10
+}
+}
+}
+},
+"PGS000667": {
+"name": "LPA_GRS43",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 43,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Trinder M",
+"date_publication": "2020-10-06",
+"journal": "JAMA Cardiol",
+"doi": "10.1001/jamacardio.2020.5398",
+"PMID": 33021622
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 13.3,
+"EAS": 6.7,
+"EUR": 73.3,
+"SAS": 6.7
+}
+}
+}
+},
+"PGS000689": {
+"name": "snpnet.Lipoprotein_A",
+"trait_reported": "Lipoprotein A [nmol/L]",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 8308,
+"weight_type": "beta",
+"license": "Creative Commons Attribution 4.0 International (CC BY 4.0)",
+"publication": {
+"firstauthor": "Sinnott-Armstrong N",
+"date_publication": "2021-01-18",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-020-00757-z",
+"PMID": 33462484
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS000752": {
+"name": "PGS_Lpa",
+"trait_reported": "Lipoprotein A concentration [nmol/L]",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 11446,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Dron JS",
+"date_publication": "2021-02-01",
+"journal": "Circ Genom Precis Med",
+"doi": "10.1161/circgen.120.003182",
+"PMID": 33522245
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS000892": {
+"name": "GLGC_2021_EUR_LDL_PRS_weights_PRS-CS",
+"trait_reported": "LDL cholesterol",
+"trait_efo": [
+{
+"id": "EFO_0004611",
+"label": "low density lipoprotein cholesterol measurement"
+}
+],
+"variants_number": 1119211,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Graham SE",
+"date_publication": "2021-12-09",
+"journal": "Nature",
+"doi": "https://doi.org/10.1038/s41586-021-04064-3",
+"PMID": 34887591
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 55.6,
+"AMR": 5.6,
+"ASN": 5.6,
+"EAS": 11.1,
+"EUR": 16.7,
+"SAS": 5.6
+}
+}
+}
+},
+"PGS000908": {
+"name": "PRS_Insomnia",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 2746982,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Campos AI",
+"date_publication": "2021-11-09",
+"journal": "Commun Med (Lond)",
+"doi": "10.1038/s43856-021-00046-8",
+"PMID": 35602235
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS001055": {
+"name": "GBE_QT_FC1001180",
+"trait_reported": "Chronotype (morning/evening person)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 11428,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001071": {
+"name": "GBE_BIN_FC30001757",
+"trait_reported": "Facial aging, looking 'about your age'",
+"trait_efo": [
+{
+"id": "OBA_0005494",
+"label": "aging rate"
+}
+],
+"variants_number": 6782,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001072": {
+"name": "GBE_BIN_FC20001757",
+"trait_reported": "Facial aging, looking 'older than you are'",
+"trait_efo": [
+{
+"id": "OBA_0005494",
+"label": "aging rate"
+}
+],
+"variants_number": 39,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001073": {
+"name": "GBE_INI874",
+"trait_reported": "Duration of walks",
+"trait_efo": [
+{
+"id": "EFO_0008002",
+"label": "physical activity measurement"
+}
+],
+"variants_number": 1323,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001074": {
+"name": "GBE_BIN_FC30006164",
+"trait_reported": "Types of physical activity in last 4 weeks (other exercises)",
+"trait_efo": [
+{
+"id": "EFO_0008002",
+"label": "physical activity measurement"
+}
+],
+"variants_number": 3846,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001075": {
+"name": "GBE_INI924",
+"trait_reported": "Usual walking pace",
+"trait_efo": [
+{
+"id": "EFO_0008002",
+"label": "physical activity measurement"
+}
+],
+"variants_number": 7535,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001085": {
+"name": "GBE_BIN_FC10001628",
+"trait_reported": "Increased alcohol consumption, versus 10 years ago",
+"trait_efo": [
+{
+"id": "EFO_0007645",
+"label": "longitudinal alcohol consumption measurement"
+},
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 214,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001086": {
+"name": "GBE_BIN100580",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1028,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001087": {
+"name": "GBE_QT_FC1001558",
+"trait_reported": "Alcohol intake frequency",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 8353,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001088": {
+"name": "GBE_INI1588",
+"trait_reported": "Average weekly alcohol consumption (beer and cider)",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 2842,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001108": {
+"name": "GBE_INI23105",
+"trait_reported": "Basal metabolic rate",
+"trait_efo": [
+{
+"id": "EFO_0007777",
+"label": "base metabolic rate measurement"
+}
+],
+"variants_number": 32154,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001119": {
+"name": "GBE_INI46",
+"trait_reported": "Left hand grip strength",
+"trait_efo": [
+{
+"id": "EFO_0006941",
+"label": "grip strength measurement"
+}
+],
+"variants_number": 13767,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001120": {
+"name": "GBE_INI47",
+"trait_reported": "Right hand grip strength",
+"trait_efo": [
+{
+"id": "EFO_0006941",
+"label": "grip strength measurement"
+}
+],
+"variants_number": 12644,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001123": {
+"name": "GBE_BIN100240",
+"trait_reported": "Coffee consumption",
+"trait_efo": [
+{
+"id": "EFO_0006781",
+"label": "coffee consumption measurement"
+}
+],
+"variants_number": 48,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001124": {
+"name": "GBE_BIN_FC30001508",
+"trait_reported": "Coffee consumption (ground coffee)",
+"trait_efo": [
+{
+"id": "EFO_0006781",
+"label": "coffee consumption measurement"
+}
+],
+"variants_number": 9694,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001125": {
+"name": "GBE_BIN_FC20001508",
+"trait_reported": "Coffee consumption (instant coffee)",
+"trait_efo": [
+{
+"id": "EFO_0006781",
+"label": "coffee consumption measurement"
+}
+],
+"variants_number": 432,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001126": {
+"name": "GBE_INI1498",
+"trait_reported": "Coffee intake",
+"trait_efo": [
+{
+"id": "EFO_0006781",
+"label": "coffee consumption measurement"
+}
+],
+"variants_number": 3154,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001150": {
+"name": "GBE_INI1160",
+"trait_reported": "Sleep duration",
+"trait_efo": [
+{
+"id": "OBA_2040171",
+"label": "sleep duration trait"
+}
+],
+"variants_number": 4106,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001165": {
+"name": "GBE_INI23125",
+"trait_reported": "Arm fat free mass (L)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 30360,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001166": {
+"name": "GBE_INI23117",
+"trait_reported": "Leg fat-free mass (L)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 30340,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001167": {
+"name": "GBE_INI23113",
+"trait_reported": "Leg fat-free mass (R)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 32046,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001168": {
+"name": "GBE_INI23129",
+"trait_reported": "Trunk fat free mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 34749,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001169": {
+"name": "GBE_INI23101",
+"trait_reported": "Whole body fat free mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 34486,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001232": {
+"name": "GBE_INI20016",
+"trait_reported": "Fluid intelligence score",
+"trait_efo": [
+{
+"id": "EFO_0004337",
+"label": "intelligence"
+}
+],
+"variants_number": 10055,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001233": {
+"name": "GBE_INI102",
+"trait_reported": "Heart rate (AR)",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 14455,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001375": {
+"name": "GBE_INI22426",
+"trait_reported": "Average heart rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 243,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001394": {
+"name": "GBE_INI20414",
+"trait_reported": "Freq. of drinking alcohol",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 860,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001397": {
+"name": "GBE_INI971",
+"trait_reported": "Frequency of walking for pleasure in last 4 weeks",
+"trait_efo": [
+{
+"id": "EFO_0008002",
+"label": "physical activity measurement"
+}
+],
+"variants_number": 1276,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001523": {
+"name": "GBE_INI4194",
+"trait_reported": "Pulse rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 4117,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001524": {
+"name": "GBE_INI95",
+"trait_reported": "Pulse rate (during blood-pressure measurement)",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 765,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2022-03-24",
+"journal": "PLoS Genet",
+"doi": "10.1371/journal.pgen.1010105",
+"PMID": 35324888
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS001901": {
+"name": "portability-PLR_drink_alcohol",
+"trait_reported": "Alcohol drinker status",
+"trait_efo": [
+{
+"id": "EFO_0004329",
+"label": "alcohol drinking"
+}
+],
+"variants_number": 1065,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS001919": {
+"name": "portability-PLR_fluid_intelligence",
+"trait_reported": "Fluid intelligence score",
+"trait_efo": [
+{
+"id": "EFO_0004337",
+"label": "intelligence"
+}
+],
+"variants_number": 26145,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS001927": {
+"name": "portability-PLR_hand_grip_strength",
+"trait_reported": "Hand grip strength (mean of both)",
+"trait_efo": [
+{
+"id": "EFO_0006941",
+"label": "grip strength measurement"
+}
+],
+"variants_number": 73846,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS001932": {
+"name": "portability-PLR_insomnia",
+"trait_reported": "Sleeplessness / insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 37712,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS001934": {
+"name": "portability-PLR_less_alcohol",
+"trait_reported": "Alcohol intake frequency",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 50955,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS001950": {
+"name": "portability-PLR_log_fat_free_mass",
+"trait_reported": "Whole body fat-free mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 128827,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS001963": {
+"name": "portability-PLR_log_lipoA",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 7887,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS001975": {
+"name": "portability-PLR_log_pulse_rate",
+"trait_reported": "Pulse rate, automated reading",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 62254,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS001978": {
+"name": "portability-PLR_log_sleep",
+"trait_reported": "Sleep duration",
+"trait_efo": [
+{
+"id": "OBA_2040171",
+"label": "sleep duration trait"
+}
+],
+"variants_number": 40037,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS001992": {
+"name": "portability-PLR_more_evening",
+"trait_reported": "Morning/evening person (chronotype)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 61542,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002012": {
+"name": "portability-PLR_years_of_edu",
+"trait_reported": "Qualifications (years of education)",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 50413,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002115": {
+"name": "portability-ldpred2_drink_alcohol",
+"trait_reported": "Alcohol drinker status",
+"trait_efo": [
+{
+"id": "EFO_0004329",
+"label": "alcohol drinking"
+}
+],
+"variants_number": 766714,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002135": {
+"name": "portability-ldpred2_fluid_intelligence",
+"trait_reported": "Fluid intelligence score",
+"trait_efo": [
+{
+"id": "EFO_0004337",
+"label": "intelligence"
+}
+],
+"variants_number": 903259,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002143": {
+"name": "portability-ldpred2_hand_grip_strength",
+"trait_reported": "Hand grip strength (mean of both)",
+"trait_efo": [
+{
+"id": "EFO_0006941",
+"label": "grip strength measurement"
+}
+],
+"variants_number": 966283,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002149": {
+"name": "portability-ldpred2_insomnia",
+"trait_reported": "Sleeplessness / insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 926585,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002152": {
+"name": "portability-ldpred2_less_alcohol",
+"trait_reported": "Alcohol intake frequency",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 946965,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002168": {
+"name": "portability-ldpred2_log_fat_free_mass",
+"trait_reported": "Whole body fat-free mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 966825,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002181": {
+"name": "portability-ldpred2_log_lipoA",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 31355,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002193": {
+"name": "portability-ldpred2_log_pulse_rate",
+"trait_reported": "Pulse rate, automated reading",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 858487,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 22.2,
+"EAS": 11.1,
+"EUR": 44.4,
+"GME": 11.1,
+"SAS": 11.1
+}
+}
+}
+},
+"PGS002196": {
+"name": "portability-ldpred2_log_sleep",
+"trait_reported": "Sleep duration",
+"trait_efo": [
+{
+"id": "OBA_2040171",
+"label": "sleep duration trait"
+}
+],
+"variants_number": 927619,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002209": {
+"name": "portability-ldpred2_more_evening",
+"trait_reported": "Morning/evening person (chronotype)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 955439,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002231": {
+"name": "portability-ldpred2_years_of_edu",
+"trait_reported": "Qualifications (years of education)",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 950845,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Privé F",
+"date_publication": "2022-01-06",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2021.11.008",
+"PMID": 34995502
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 12.5,
+"EUR": 37.5,
+"GME": 12.5,
+"SAS": 12.5
+}
+}
+}
+},
+"PGS002254": {
+"name": "PRS_reported",
+"trait_reported": "Physical activity (self-reported)",
+"trait_efo": [
+{
+"id": "EFO_0008002",
+"label": "physical activity measurement"
+},
+{
+"id": "EFO_0009799",
+"label": "self-reported trait"
+}
+],
+"variants_number": 1142416,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Kujala UM",
+"date_publication": "2020-07-01",
+"journal": "Med Sci Sports Exerc",
+"doi": "10.1249/mss.0000000000002290",
+"PMID": 32049886
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002255": {
+"name": "PRS_measured",
+"trait_reported": "Physical activity (measured)",
+"trait_efo": [
+{
+"id": "EFO_0008002",
+"label": "physical activity measurement"
+}
+],
+"variants_number": 1140182,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Kujala UM",
+"date_publication": "2020-07-01",
+"journal": "Med Sci Sports Exerc",
+"doi": "10.1249/mss.0000000000002290",
+"PMID": 32049886
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002297": {
+"name": "GRS48_lpa",
+"trait_reported": "Lipoprotein A levels",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 48,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Coassin S",
+"date_publication": "2022-02-08",
+"journal": "Circ Genom Precis Med",
+"doi": "10.1161/circgen.121.003489",
+"PMID": 35133173
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"NR": 100
+}
+}
+}
+},
+"PGS002313": {
+"name": "body_BMIz.BOLT-LMM",
+"trait_reported": "Body mass index (BMI)",
+"trait_efo": [
+{
+"id": "EFO_0004340",
+"label": "body mass index"
+}
+],
+"variants_number": 1109311,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002318": {
+"name": "other_MORNINGPERSON.BOLT-LMM",
+"trait_reported": "Chronotype (morning person)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 1109311,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002319": {
+"name": "cov_EDU_COLLEGE.BOLT-LMM",
+"trait_reported": "College education",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 1109311,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002390": {
+"name": "other_MORNINGPERSON.P+T.0.0001",
+"trait_reported": "Chronotype (morning person)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 3625,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002391": {
+"name": "cov_EDU_COLLEGE.P+T.0.0001",
+"trait_reported": "College education",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 6535,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS002439": {
+"name": "other_MORNINGPERSON.P+T.0.001",
+"trait_reported": "Chronotype (morning person)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 16590,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS002440": {
+"name": "cov_EDU_COLLEGE.P+T.0.001",
+"trait_reported": "College education",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 24405,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS002488": {
+"name": "other_MORNINGPERSON.P+T.0.01",
+"trait_reported": "Chronotype (morning person)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 103314,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS002489": {
+"name": "cov_EDU_COLLEGE.P+T.0.01",
+"trait_reported": "College education",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 126911,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EAS": 20,
+"EUR": 40,
+"SAS": 20
+}
+}
+}
+},
+"PGS002537": {
+"name": "other_MORNINGPERSON.P+T.1e-06",
+"trait_reported": "Chronotype (morning person)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 562,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002538": {
+"name": "cov_EDU_COLLEGE.P+T.1e-06",
+"trait_reported": "College education",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 1136,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002586": {
+"name": "other_MORNINGPERSON.P+T.5e-08",
+"trait_reported": "Chronotype (morning person)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 255,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002587": {
+"name": "cov_EDU_COLLEGE.P+T.5e-08",
+"trait_reported": "College education",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 514,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002635": {
+"name": "other_MORNINGPERSON.PolyFun-pred",
+"trait_reported": "Chronotype (morning person)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 404978,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002636": {
+"name": "cov_EDU_COLLEGE.PolyFun-pred",
+"trait_reported": "College education",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 577448,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002684": {
+"name": "other_MORNINGPERSON.SBayesR",
+"trait_reported": "Chronotype (morning person)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 977159,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002685": {
+"name": "cov_EDU_COLLEGE.SBayesR",
+"trait_reported": "College education",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 980529,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Weissbrod O",
+"date_publication": "2022-04-07",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-022-01036-9",
+"PMID": 35393596
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 25,
+"EAS": 25,
+"EUR": 25,
+"SAS": 25
+}
+}
+}
+},
+"PGS002752": {
+"name": "Drinks_per_week_prscs",
+"trait_reported": "Alcohol consumption (drinks per week)",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1089551,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Mars N",
+"date_publication": "2022-11-07",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.10.009",
+"PMID": 36347255
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002804": {
+"name": "GIANT_HEIGHT_YENGO_2022_PGS_WEIGHTS_EUR",
+"trait_reported": "Height",
+"trait_efo": [
+{
+"id": "OBA_VT0001253",
+"label": "body height"
+}
+],
+"variants_number": 1099005,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Yengo L",
+"date_publication": "2022-10-12",
+"journal": "Nature",
+"doi": "10.1038/s41586-022-05275-y",
+"PMID": 36224396
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002825": {
+"name": "ExPRSweb_Alcohol_20403_LASSOSUM_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 375749,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002826": {
+"name": "ExPRSweb_Alcohol_20403_PT_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 19,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002827": {
+"name": "ExPRSweb_Alcohol_20403_PLINK_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 25,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002828": {
+"name": "ExPRSweb_Alcohol_20403_DBSLMM_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 5498032,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002829": {
+"name": "ExPRSweb_Alcohol_20403_PRSCS_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1113829,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002830": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_LASSOSUM_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 524093,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002831": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_PT_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 12650,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002832": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_PLINK_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 27085,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002833": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_DBSLMM_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 232,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002834": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_PRSCS_MGI_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1116497,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002835": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_LASSOSUM_UKB_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 524875,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002836": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_PT_UKB_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 10706,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002837": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_PLINK_UKB_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 22675,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002838": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_DBSLMM_UKB_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 137,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002839": {
+"name": "ExPRSweb_Alcohol_DrinksPerWeek_PRSCS_UKB_20211120",
+"trait_reported": "Alcohol consumption",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1117376,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002909": {
+"name": "ExPRSweb_Drinking_20117-2_LASSOSUM_MGI_20211120",
+"trait_reported": "Drinking status",
+"trait_efo": [
+{
+"id": "EFO_0004329",
+"label": "alcohol drinking"
+}
+],
+"variants_number": 396976,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002910": {
+"name": "ExPRSweb_Drinking_20117-2_PT_MGI_20211120",
+"trait_reported": "Drinking status",
+"trait_efo": [
+{
+"id": "EFO_0004329",
+"label": "alcohol drinking"
+}
+],
+"variants_number": 10123,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002911": {
+"name": "ExPRSweb_Drinking_20117-2_PLINK_MGI_20211120",
+"trait_reported": "Drinking status",
+"trait_efo": [
+{
+"id": "EFO_0004329",
+"label": "alcohol drinking"
+}
+],
+"variants_number": 20050,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002912": {
+"name": "ExPRSweb_Drinking_20117-2_DBSLMM_MGI_20211120",
+"trait_reported": "Drinking status",
+"trait_efo": [
+{
+"id": "EFO_0004329",
+"label": "alcohol drinking"
+}
+],
+"variants_number": 8598752,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS002913": {
+"name": "ExPRSweb_Drinking_20117-2_PRSCS_MGI_20211120",
+"trait_reported": "Drinking status",
+"trait_efo": [
+{
+"id": "EFO_0004329",
+"label": "alcohol drinking"
+}
+],
+"variants_number": 1113832,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003319": {
+"name": "ExPRSweb_Insomnia_1160_LASSOSUM_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 578551,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003320": {
+"name": "ExPRSweb_Insomnia_1160_PT_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 147,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003321": {
+"name": "ExPRSweb_Insomnia_1160_PLINK_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 148,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003322": {
+"name": "ExPRSweb_Insomnia_1160_DBSLMM_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 8590163,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003323": {
+"name": "ExPRSweb_Insomnia_1160_PRSCS_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 1113832,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003324": {
+"name": "ExPRSweb_Insomnia_1200_LASSOSUM_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 464576,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003325": {
+"name": "ExPRSweb_Insomnia_1200_PT_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 28289,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003326": {
+"name": "ExPRSweb_Insomnia_1200_PLINK_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 27462,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003327": {
+"name": "ExPRSweb_Insomnia_1200_DBSLMM_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 6214923,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003328": {
+"name": "ExPRSweb_Insomnia_1200_PRSCS_MGI_20211120",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 1065129,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ma Y",
+"date_publication": "2022-09-23",
+"journal": "Am J Hum Genet",
+"doi": "10.1016/j.ajhg.2022.09.001",
+"PMID": 36152628
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003373": {
+"name": "GSCAN_DrnkWk_2022_PRS_WEIGHTS_AFR",
+"trait_reported": "Drinks per week",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1177071,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Saunders GRB",
+"date_publication": "2022-12-07",
+"journal": "Nature",
+"doi": "10.1038/s41586-022-05477-4",
+"PMID": 36477530
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AFR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 100
+}
+}
+}
+},
+"PGS003374": {
+"name": "GSCAN_DrnkWk_2022_PRS_WEIGHTS_AMR",
+"trait_reported": "Drinks per week",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1109568,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Saunders GRB",
+"date_publication": "2022-12-07",
+"journal": "Nature",
+"doi": "10.1038/s41586-022-05477-4",
+"PMID": 36477530
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AMR": 100
+}
+},
+"eval": {
+"dist": {
+"AMR": 100
+}
+}
+}
+},
+"PGS003375": {
+"name": "GSCAN_DrnkWk_2022_PRS_WEIGHTS_EAS",
+"trait_reported": "Drinks per week",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 856333,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Saunders GRB",
+"date_publication": "2022-12-07",
+"journal": "Nature",
+"doi": "10.1038/s41586-022-05477-4",
+"PMID": 36477530
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS003376": {
+"name": "GSCAN_DrnkWk_2022_PRS_WEIGHTS_EUR",
+"trait_reported": "Drinks per week",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 1055988,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Saunders GRB",
+"date_publication": "2022-12-07",
+"journal": "Nature",
+"doi": "10.1038/s41586-022-05477-4",
+"PMID": 36477530
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003472": {
+"name": "LDPred2_HrRt",
+"trait_reported": "Heart rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 776860,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Zhang Y",
+"date_publication": "2022-09-26",
+"journal": "EBioMedicine",
+"doi": "10.1016/j.ebiom.2022.104288",
+"PMID": 36174398
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 92.9,
+"SAS": 7.1
+}
+},
+"eval": {
+"dist": {
+"AMR": 100
+}
+}
+}
+},
+"PGS003480": {
+"name": "LDPred2_SleepDuration",
+"trait_reported": "Sleep duration",
+"trait_efo": [
+{
+"id": "OBA_2040171",
+"label": "sleep duration trait"
+}
+],
+"variants_number": 850154,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Zhang Y",
+"date_publication": "2022-09-26",
+"journal": "EBioMedicine",
+"doi": "10.1016/j.ebiom.2022.104288",
+"PMID": 36174398
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AMR": 100
+}
+}
+}
+},
+"PGS003510": {
+"name": "cont-decay-fluid_intelligence",
+"trait_reported": "Fluid intelligence score",
+"trait_efo": [
+{
+"id": "EFO_0004337",
+"label": "intelligence"
+}
+],
+"variants_number": 979739,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ding Y",
+"date_publication": "2023-05-17",
+"journal": "Nature",
+"doi": "10.1038/s41586-023-06079-4",
+"PMID": 37198491
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 22.2,
+"EAS": 11.1,
+"EUR": 44.4,
+"GME": 11.1,
+"SAS": 11.1
+}
+}
+}
+},
+"PGS003513": {
+"name": "cont-decay-hand_grip_strength",
+"trait_reported": "Hand grip strength (mean of both)",
+"trait_efo": [
+{
+"id": "EFO_0006941",
+"label": "grip strength measurement"
+}
+],
+"variants_number": 979739,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ding Y",
+"date_publication": "2023-05-17",
+"journal": "Nature",
+"doi": "10.1038/s41586-023-06079-4",
+"PMID": 37198491
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 22.2,
+"EAS": 11.1,
+"EUR": 44.4,
+"GME": 11.1,
+"SAS": 11.1
+}
+}
+}
+},
+"PGS003531": {
+"name": "cont-decay-log_fat_free_mass",
+"trait_reported": "Whole body fat-free mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 979739,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ding Y",
+"date_publication": "2023-05-17",
+"journal": "Nature",
+"doi": "10.1038/s41586-023-06079-4",
+"PMID": 37198491
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 22.2,
+"EAS": 11.1,
+"EUR": 44.4,
+"GME": 11.1,
+"SAS": 11.1
+}
+}
+}
+},
+"PGS003542": {
+"name": "cont-decay-log_lipoA",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 979739,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ding Y",
+"date_publication": "2023-05-17",
+"journal": "Nature",
+"doi": "10.1038/s41586-023-06079-4",
+"PMID": 37198491
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 22.2,
+"EAS": 11.1,
+"EUR": 44.4,
+"GME": 11.1,
+"SAS": 11.1
+}
+}
+}
+},
+"PGS003550": {
+"name": "cont-decay-log_pulse_rate",
+"trait_reported": "Pulse rate, automated reading",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 979739,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ding Y",
+"date_publication": "2023-05-17",
+"journal": "Nature",
+"doi": "10.1038/s41586-023-06079-4",
+"PMID": 37198491
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 22.2,
+"EAS": 11.1,
+"EUR": 44.4,
+"GME": 11.1,
+"SAS": 11.1
+}
+}
+}
+},
+"PGS003563": {
+"name": "cont-decay-more_evening",
+"trait_reported": "Morning/evening person (chronotype)",
+"trait_efo": [
+{
+"id": "EFO_0008328",
+"label": "chronotype measurement"
+}
+],
+"variants_number": 979739,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ding Y",
+"date_publication": "2023-05-17",
+"journal": "Nature",
+"doi": "10.1038/s41586-023-06079-4",
+"PMID": 37198491
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 22.2,
+"EAS": 11.1,
+"EUR": 44.4,
+"GME": 11.1,
+"SAS": 11.1
+}
+}
+}
+},
+"PGS003573": {
+"name": "cont-decay-years_of_edu",
+"trait_reported": "Qualifications (years of education)",
+"trait_efo": [
+{
+"id": "EFO_0011015",
+"label": "educational attainment"
+}
+],
+"variants_number": 979739,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Ding Y",
+"date_publication": "2023-05-17",
+"journal": "Nature",
+"doi": "10.1038/s41586-023-06079-4",
+"PMID": 37198491
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 22.2,
+"EAS": 11.1,
+"EUR": 44.4,
+"GME": 11.1,
+"SAS": 11.1
+}
+}
+}
+},
+"PGS003724": {
+"name": "IQ",
+"trait_reported": "Intelligence quotient",
+"trait_efo": [
+{
+"id": "EFO_0004337",
+"label": "intelligence"
+}
+],
+"variants_number": 6683248,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Hatoum AS",
+"date_publication": "2022-07-14",
+"journal": "Biol Psychiatry",
+"doi": "10.1016/j.biopsych.2022.06.034",
+"PMID": 36150907
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003764": {
+"name": "PRS78_sleep duration",
+"trait_reported": "Sleep duration",
+"trait_efo": [
+{
+"id": "OBA_2040171",
+"label": "sleep duration trait"
+}
+],
+"variants_number": 78,
+"weight_type": "NR",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Scammell BH",
+"date_publication": "2023-06-29",
+"journal": "Hum Mol Genet",
+"doi": "10.1093/hmg/ddad101",
+"PMID": 37384397
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 33.3,
+"EAS": 33.3,
+"SAS": 33.3
+}
+}
+}
+},
+"PGS003768": {
+"name": "HDL_EUR_LDpred2",
+"trait_reported": "HDL cholesterol",
+"trait_efo": [
+{
+"id": "EFO_0004612",
+"label": "high density lipoprotein cholesterol measurement"
+}
+],
+"variants_number": 1489018,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Zhang H",
+"date_publication": "2023-09-25",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-023-01501-z",
+"PMID": 37749244
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003785": {
+"name": "LDL_EUR_LDpred2",
+"trait_reported": "LDL cholesterol",
+"trait_efo": [
+{
+"id": "EFO_0004611",
+"label": "low density lipoprotein cholesterol measurement"
+}
+],
+"variants_number": 1490736,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Zhang H",
+"date_publication": "2023-09-25",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-023-01501-z",
+"PMID": 37749244
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003802": {
+"name": "logTG_EUR_LDpred2",
+"trait_reported": "Log triglycerides",
+"trait_efo": [
+{
+"id": "EFO_0004530",
+"label": "triglyceride measurement"
+}
+],
+"variants_number": 1492288,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Zhang H",
+"date_publication": "2023-09-25",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-023-01501-z",
+"PMID": 37749244
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003819": {
+"name": "TC_EUR_LDpred2",
+"trait_reported": "Total cholesterol",
+"trait_efo": [
+{
+"id": "EFO_0004574",
+"label": "total cholesterol measurement"
+}
+],
+"variants_number": 1490151,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Zhang H",
+"date_publication": "2023-09-25",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-023-01501-z",
+"PMID": 37749244
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS003901": {
+"name": "INI23101",
+"trait_reported": "Whole body fat-free mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 42786,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2023-09-19",
+"journal": "AJHG",
+"doi": "10.1016/j.ajhg.2023.09.013",
+"PMID": 37890495
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"MAE": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EUR": 40,
+"MAO": 20,
+"SAS": 20
+}
+}
+}
+},
+"PGS003903": {
+"name": "INI23105",
+"trait_reported": "Basal metabolic rate",
+"trait_efo": [
+{
+"id": "EFO_0007777",
+"label": "base metabolic rate measurement"
+}
+],
+"variants_number": 46752,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2023-09-19",
+"journal": "AJHG",
+"doi": "10.1016/j.ajhg.2023.09.013",
+"PMID": 37890495
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"MAE": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EUR": 40,
+"MAO": 20,
+"SAS": 20
+}
+}
+}
+},
+"PGS003911": {
+"name": "INI23113",
+"trait_reported": "Leg fat-free mass (R)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 38493,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2023-09-19",
+"journal": "AJHG",
+"doi": "10.1016/j.ajhg.2023.09.013",
+"PMID": 37890495
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"MAE": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EUR": 40,
+"MAO": 20,
+"SAS": 20
+}
+}
+}
+},
+"PGS003914": {
+"name": "INI23117",
+"trait_reported": "Leg fat-free mass (L)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 38764,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2023-09-19",
+"journal": "AJHG",
+"doi": "10.1016/j.ajhg.2023.09.013",
+"PMID": 37890495
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"MAE": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EUR": 40,
+"MAO": 20,
+"SAS": 20
+}
+}
+}
+},
+"PGS003917": {
+"name": "INI23121",
+"trait_reported": "Arm fat-free mass (R)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 38650,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2023-09-19",
+"journal": "AJHG",
+"doi": "10.1016/j.ajhg.2023.09.013",
+"PMID": 37890495
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"MAE": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EUR": 40,
+"MAO": 20,
+"SAS": 20
+}
+}
+}
+},
+"PGS003920": {
+"name": "INI23125",
+"trait_reported": "Arm fat-free mass (L)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 39276,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2023-09-19",
+"journal": "AJHG",
+"doi": "10.1016/j.ajhg.2023.09.013",
+"PMID": 37890495
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"MAE": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EUR": 40,
+"MAO": 20,
+"SAS": 20
+}
+}
+}
+},
+"PGS003923": {
+"name": "INI23129",
+"trait_reported": "Trunk fat-free mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 42468,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Tanigawa Y",
+"date_publication": "2023-09-19",
+"journal": "AJHG",
+"doi": "10.1016/j.ajhg.2023.09.013",
+"PMID": 37890495
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"MAE": 100
+}
+},
+"eval": {
+"dist": {
+"AFR": 20,
+"EUR": 40,
+"MAO": 20,
+"SAS": 20
+}
+}
+}
+},
+"PGS004201": {
+"name": "lpa_1",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 8725,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Raben TG",
+"date_publication": "2023-07-19",
+"journal": "Sci Rep",
+"doi": "10.1038/s41598-023-37580-5",
+"PMID": 37468507
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004202": {
+"name": "lpa_2",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 8714,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Raben TG",
+"date_publication": "2023-07-19",
+"journal": "Sci Rep",
+"doi": "10.1038/s41598-023-37580-5",
+"PMID": 37468507
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004203": {
+"name": "lpa_3",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 6935,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Raben TG",
+"date_publication": "2023-07-19",
+"journal": "Sci Rep",
+"doi": "10.1038/s41598-023-37580-5",
+"PMID": 37468507
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004204": {
+"name": "lpa_4",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 6927,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Raben TG",
+"date_publication": "2023-07-19",
+"journal": "Sci Rep",
+"doi": "10.1038/s41598-023-37580-5",
+"PMID": 37468507
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004205": {
+"name": "lpa_5",
+"trait_reported": "Lipoprotein A",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 8737,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Raben TG",
+"date_publication": "2023-07-19",
+"journal": "Sci Rep",
+"doi": "10.1038/s41598-023-37580-5",
+"PMID": 37468507
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004327": {
+"name": "X4194.score",
+"trait_reported": "Pulse rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004370": {
+"name": "X102.score",
+"trait_reported": "Pulse rate, automated reading",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004376": {
+"name": "X23101.score",
+"trait_reported": "Whole body fat-free mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004387": {
+"name": "X23113.score",
+"trait_reported": "Leg fat-free mass (right)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004391": {
+"name": "X23117.score",
+"trait_reported": "Leg fat-free mass (left)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004395": {
+"name": "X23121.score",
+"trait_reported": "Arm fat-free mass (right)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004399": {
+"name": "X23125.score",
+"trait_reported": "Arm fat-free mass (left)",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004403": {
+"name": "X23129.score",
+"trait_reported": "Trunk fat-free mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004427": {
+"name": "X20016.score",
+"trait_reported": "Fluid intelligence score",
+"trait_efo": [
+{
+"id": "EFO_0004337",
+"label": "intelligence"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004428": {
+"name": "X46.score",
+"trait_reported": "Hand grip strength (left)",
+"trait_efo": [
+{
+"id": "EFO_0006941",
+"label": "grip strength measurement"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004429": {
+"name": "X47.score",
+"trait_reported": "Hand grip strength (right)",
+"trait_efo": [
+{
+"id": "EFO_0006941",
+"label": "grip strength measurement"
+}
+],
+"variants_number": 1059939,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Jung H",
+"date_publication": "2024-02-13",
+"journal": "Commun Biol",
+"doi": "10.1038/s42003-024-05874-7",
+"PMID": 38351177
+},
+"ancestry_distribution": {
+"dev": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS004928": {
+"name": "MetS_gSEM",
+"trait_reported": "Metabolic syndrome",
+"trait_efo": [
+{
+"id": "EFO_0000195",
+"label": "metabolic syndrome"
+}
+],
+"variants_number": 916017,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Park S",
+"date_publication": "2024-09-30",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-024-01933-1",
+"PMID": 39349817
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 50,
+"EUR": 50
+}
+}
+}
+},
+"PGS005216": {
+"name": "drinks_per_week",
+"trait_reported": "Drinks per week",
+"trait_efo": [
+{
+"id": "OBA_1000840",
+"label": "alcohol consumption quality"
+}
+],
+"variants_number": 221689,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Deng WQ",
+"date_publication": "2024-01-01",
+"journal": "Alcohol Alcohol",
+"doi": "10.1093/alcalc/agad093",
+"PMID": 38261344
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AFR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005221": {
+"name": "General_Frailty",
+"trait_reported": "General factor of frailty",
+"trait_efo": [
+{
+"id": "EFO_0009885",
+"label": "frailty measurement"
+}
+],
+"variants_number": 943126,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Foote IF",
+"date_publication": "2025-08-04",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-025-02269-0",
+"PMID": 40759756
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005222": {
+"name": "F1_Frailty",
+"trait_reported": "Factor 1 (social isolation) of frailty",
+"trait_efo": [
+{
+"id": "EFO_0009885",
+"label": "frailty measurement"
+}
+],
+"variants_number": 1727299,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Foote IF",
+"date_publication": "2025-08-04",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-025-02269-0",
+"PMID": 40759756
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005223": {
+"name": "F2_Frailty",
+"trait_reported": "Factor 2 (unhealthy lifestyle) of frailty",
+"trait_efo": [
+{
+"id": "EFO_0009885",
+"label": "frailty measurement"
+}
+],
+"variants_number": 1719220,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Foote IF",
+"date_publication": "2025-08-04",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-025-02269-0",
+"PMID": 40759756
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005224": {
+"name": "F3_Frailty",
+"trait_reported": "Factor 3 (multimorbidity) of frailty",
+"trait_efo": [
+{
+"id": "EFO_0009885",
+"label": "frailty measurement"
+}
+],
+"variants_number": 1588232,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Foote IF",
+"date_publication": "2025-08-04",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-025-02269-0",
+"PMID": 40759756
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005225": {
+"name": "F4_Frailty",
+"trait_reported": "Factor 4 (metabolic/respiratory problems) of frailty",
+"trait_efo": [
+{
+"id": "EFO_0009885",
+"label": "frailty measurement"
+}
+],
+"variants_number": 710413,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Foote IF",
+"date_publication": "2025-08-04",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-025-02269-0",
+"PMID": 40759756
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005226": {
+"name": "F5_Frailty",
+"trait_reported": "Factor 5 (poorer cognition) of frailty",
+"trait_efo": [
+{
+"id": "EFO_0009885",
+"label": "frailty measurement"
+}
+],
+"variants_number": 1715891,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Foote IF",
+"date_publication": "2025-08-04",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-025-02269-0",
+"PMID": 40759756
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005227": {
+"name": "F6_Frailty",
+"trait_reported": "Factor 6 (disability) of frailty",
+"trait_efo": [
+{
+"id": "EFO_0009885",
+"label": "frailty measurement"
+}
+],
+"variants_number": 1726064,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Foote IF",
+"date_publication": "2025-08-04",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-025-02269-0",
+"PMID": 40759756
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005228": {
+"name": "FI_Frailty",
+"trait_reported": "Frailty Index",
+"trait_efo": [
+{
+"id": "EFO_0009885",
+"label": "frailty measurement"
+}
+],
+"variants_number": 2379429,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Foote IF",
+"date_publication": "2025-08-04",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-025-02269-0",
+"PMID": 40759756
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005229": {
+"name": "FFS_Frailty",
+"trait_reported": "Fried Frailty Score",
+"trait_efo": [
+{
+"id": "EFO_0009885",
+"label": "frailty measurement"
+}
+],
+"variants_number": 2761868,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Foote IF",
+"date_publication": "2025-08-04",
+"journal": "Nat Genet",
+"doi": "10.1038/s41588-025-02269-0",
+"PMID": 40759756
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005315": {
+"name": "ALM_PRS",
+"trait_reported": "Appendicular lean mass",
+"trait_efo": [
+{
+"id": "EFO_0004995",
+"label": "lean body mass"
+}
+],
+"variants_number": 630,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Türkmen D",
+"date_publication": "2024-04-17",
+"journal": "Pharmacogenomics J",
+"doi": "10.1038/s41397-024-00333-2",
+"PMID": 38632276
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS005320": {
+"name": "LPA_PRS",
+"trait_reported": "Lipoprotein (a)",
+"trait_efo": [
+{
+"id": "EFO_0006925",
+"label": "lipoprotein A measurement"
+}
+],
+"variants_number": 36,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Türkmen D",
+"date_publication": "2024-04-17",
+"journal": "Pharmacogenomics J",
+"doi": "10.1038/s41397-024-00333-2",
+"PMID": 38632276
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+},
+"PGS018976": {
+"name": "TPMI_327.41_Lassosum2",
+"trait_reported": "Organic or persistent insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 246776,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS018977": {
+"name": "TPMI_327.41_LDpred2",
+"trait_reported": "Organic or persistent insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 939879,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS018978": {
+"name": "TPMI_327.41_MegaPRS",
+"trait_reported": "Organic or persistent insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 23384,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS018979": {
+"name": "TPMI_327.41_PRS-CS",
+"trait_reported": "Organic or persistent insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 983818,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS018980": {
+"name": "TPMI_327.41_SBayesR",
+"trait_reported": "Organic or persistent insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 967358,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS019800": {
+"name": "TPMI_HR_Lassosum2",
+"trait_reported": "Heart rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 12582,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS019824": {
+"name": "TPMI_HR_LDPred2",
+"trait_reported": "Heart rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 939772,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS019848": {
+"name": "TPMI_HR_PRS-CS",
+"trait_reported": "Heart rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 983733,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS019872": {
+"name": "TPMI_HR_SBayesR",
+"trait_reported": "Heart rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 242342,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS019896": {
+"name": "TPMI_HR_MegaPRS",
+"trait_reported": "Heart rate",
+"trait_efo": [
+{
+"id": "OBA_1001087",
+"label": "heart rate"
+}
+],
+"variants_number": 91181,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Chen HH",
+"date_publication": "2025-10-15",
+"journal": "Nature",
+"doi": "10.1038/s41586-025-09350-y",
+"PMID": 41094136
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+},
+"dev": {
+"dist": {
+"EAS": 100
+}
+},
+"eval": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS019920": {
+"name": "Long Sleep UKB",
+"trait_reported": "Long Sleep",
+"trait_efo": [
+{
+"id": "OBA_2040171",
+"label": "sleep duration trait"
+}
+],
+"variants_number": 1116211,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019921": {
+"name": "Long Sleep MVP EUR",
+"trait_reported": "Long Sleep",
+"trait_efo": [
+{
+"id": "OBA_2040171",
+"label": "sleep duration trait"
+}
+],
+"variants_number": 769142,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019922": {
+"name": "Long Sleep MVP AFR",
+"trait_reported": "Long Sleep",
+"trait_efo": [
+{
+"id": "OBA_2040171",
+"label": "sleep duration trait"
+}
+],
+"variants_number": 831373,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AFR": 100
+}
+}
+}
+},
+"PGS019923": {
+"name": "Long Sleep UKB+MVP EUR (meta-analyzed)",
+"trait_reported": "Long Sleep",
+"trait_efo": [
+{
+"id": "OBA_2040171",
+"label": "sleep duration trait"
+}
+],
+"variants_number": 1116622,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019924": {
+"name": "Short Sleep UKB",
+"trait_reported": "Short Sleep",
+"trait_efo": [
+{
+"id": "EFO_0004807",
+"label": "short sleep"
+}
+],
+"variants_number": 1116211,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019925": {
+"name": "Short Sleep MVP EUR",
+"trait_reported": "Short Sleep",
+"trait_efo": [
+{
+"id": "EFO_0004807",
+"label": "short sleep"
+}
+],
+"variants_number": 761060,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019926": {
+"name": "Short Sleep MVP AFR",
+"trait_reported": "Short Sleep",
+"trait_efo": [
+{
+"id": "EFO_0004807",
+"label": "short sleep"
+}
+],
+"variants_number": 790064,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AFR": 100
+}
+}
+}
+},
+"PGS019927": {
+"name": "Short Sleep UKB+MVP EUR (meta-analyzed)",
+"trait_reported": "Short Sleep",
+"trait_efo": [
+{
+"id": "EFO_0004807",
+"label": "short sleep"
+}
+],
+"variants_number": 1116612,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019928": {
+"name": "Insomnia UKB",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 1069748,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019929": {
+"name": "Insomnia MVP EUR",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 1085967,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019930": {
+"name": "Insomnia MVP AFR",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 1211512,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AFR": 100
+}
+}
+}
+},
+"PGS019931": {
+"name": "Insomnia MVP AMR",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 1166626,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AMR": 100
+}
+}
+}
+},
+"PGS019932": {
+"name": "Insomnia MVP EAS",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 1021391,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS019933": {
+"name": "Insomnia UKB+MVP EUR (meta-analyzed)",
+"trait_reported": "Insomnia",
+"trait_efo": [
+{
+"id": "MONDO_0013600",
+"label": "insomnia"
+}
+],
+"variants_number": 1116570,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019934": {
+"name": "Excessive Daytime Sleepiness UKB",
+"trait_reported": "Excessive Daytime Sleepiness",
+"trait_efo": [
+{
+"id": "EFO_0007875",
+"label": "excessive daytime sleepiness measurement"
+}
+],
+"variants_number": 1116191,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019935": {
+"name": "Excessive Daytime Sleepiness MVP EUR",
+"trait_reported": "Excessive Daytime Sleepiness",
+"trait_efo": [
+{
+"id": "EFO_0007875",
+"label": "excessive daytime sleepiness measurement"
+}
+],
+"variants_number": 1089038,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019936": {
+"name": "Excessive Daytime Sleepiness MVP AFR",
+"trait_reported": "Excessive Daytime Sleepiness",
+"trait_efo": [
+{
+"id": "EFO_0007875",
+"label": "excessive daytime sleepiness measurement"
+}
+],
+"variants_number": 1218411,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AFR": 100
+}
+}
+}
+},
+"PGS019937": {
+"name": "Excessive Daytime Sleepiness MVP AMR",
+"trait_reported": "Excessive Daytime Sleepiness",
+"trait_efo": [
+{
+"id": "EFO_0007875",
+"label": "excessive daytime sleepiness measurement"
+}
+],
+"variants_number": 1170607,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"AMR": 100
+}
+}
+}
+},
+"PGS019938": {
+"name": "Excessive Daytime Sleepiness MVP EAS",
+"trait_reported": "Excessive Daytime Sleepiness",
+"trait_efo": [
+{
+"id": "EFO_0007875",
+"label": "excessive daytime sleepiness measurement"
+}
+],
+"variants_number": 1022672,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EAS": 100
+}
+}
+}
+},
+"PGS019939": {
+"name": "Excessive Daytime Sleepiness UKB+MVP EUR (meta-analyzed)",
+"trait_reported": "Excessive Daytime Sleepiness",
+"trait_efo": [
+{
+"id": "EFO_0007875",
+"label": "excessive daytime sleepiness measurement"
+}
+],
+"variants_number": 1116797,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Wyss AB",
+"date_publication": "2026-07-21",
+"journal": "Sleep",
+"doi": "10.1093/sleep/zsag200",
+"PMID": 42479672
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"MAE": 100
+}
+}
+}
+},
+"PGS019953": {
+"name": "PRS10_AD",
+"trait_reported": "Alcohol metabolism",
+"trait_efo": [
+{
+"id": "EFO_0004329",
+"label": "alcohol drinking"
+}
+],
+"variants_number": 10,
+"weight_type": "beta",
+"license": "PGS obtained from the Catalog should be cited appropriately, and used in accordance with any licensing restrictions set by the authors. See EBI Terms of Use (https://www.ebi.ac.uk/about/terms-of-use/) for additional details.",
+"publication": {
+"firstauthor": "Park CS",
+"date_publication": "2024-05-01",
+"journal": "Heart Rhythm",
+"doi": "10.1016/j.hrthm.2024.04.097",
+"PMID": 38697272
+},
+"ancestry_distribution": {
+"gwas": {
+"dist": {
+"EUR": 100
+}
+},
+"eval": {
+"dist": {
+"EUR": 100
+}
+}
+}
+}
+}

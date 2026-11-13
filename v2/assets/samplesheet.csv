@@ -1,0 +1,4 @@
+sample,fastq_1,fastq_2,bam,gvcf,vcf,sex,platform
+JOHN_DOE,/data/john_R1.fastq.gz,/data/john_R2.fastq.gz,,,,XY,illumina
+JANE_DOE,,,/data/jane.cram,,,XX,illumina
+PORTRAIT_ONLY,,,/data/done.cram,/data/done.g.vcf.gz,/data/done.norm.vcf.gz,unknown,illumina

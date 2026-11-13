@@ -1,0 +1,94 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/Biocentric/genomeportrait/master/assets/schema_input.json",
+    "title": "Biocentric/genomeportrait samplesheet schema",
+    "description": "Schema for the file provided with params.input",
+    "type": "array",
+    "items": {
+        "type": "object",
+        "properties": {
+            "sample": {
+                "type": "string",
+                "pattern": "^\\S+$",
+                "errorMessage": "Sample name must be provided and cannot contain spaces",
+                "meta": [
+                    "id"
+                ]
+            },
+            "fastq_1": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
+                "errorMessage": "FASTQ file for reads 1 must be gzipped and have extension '.fastq.gz' or '.fq.gz'"
+            },
+            "fastq_2": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.f(ast)?q\\.gz$",
+                "errorMessage": "FASTQ file for reads 2 must be gzipped and have extension '.fastq.gz' or '.fq.gz'"
+            },
+            "bam": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.(bam|cram)$",
+                "errorMessage": "Alignment must be a '.bam' or '.cram' that is coordinate-sorted, duplicate-marked and indexed"
+            },
+            "gvcf": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.g\\.vcf\\.gz$",
+                "errorMessage": "gVCF must be bgzipped, indexed and end in '.g.vcf.gz'"
+            },
+            "vcf": {
+                "type": "string",
+                "format": "file-path",
+                "exists": true,
+                "pattern": "^\\S+\\.vcf\\.gz$",
+                "errorMessage": "VCF must be bgzipped, indexed and end in '.vcf.gz'"
+            },
+            "sex": {
+                "type": "string",
+                "enum": [
+                    "XX",
+                    "XY",
+                    "unknown"
+                ],
+                "meta": [
+                    "sex"
+                ],
+                "default": "unknown",
+                "errorMessage": "Sex must be one of XX, XY, unknown"
+            },
+            "platform": {
+                "type": "string",
+                "enum": [
+                    "illumina",
+                    "ont",
+                    "pacbio"
+                ],
+                "meta": [
+                    "platform"
+                ],
+                "default": "illumina"
+            }
+        },
+        "anyOf": [
+            {
+                "required": [
+                    "sample",
+                    "fastq_1"
+                ]
+            },
+            {
+                "required": [
+                    "sample",
+                    "bam"
+                ]
+            }
+        ]
+    }
+}

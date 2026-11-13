@@ -1,0 +1,10 @@
+name: base
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - pandas=2.2.2
+  - numpy=1.26.4
+  - matplotlib-base=3.9.2
+  - procps-ng=4.0.4   # provides `ps`, required by Nextflow for task metrics

@@ -1,0 +1,209 @@
+# genomeportrait polygenic-score panel 'lifestyle' - the 204 scores of the 2026-08 pgsc_calc self-scoring run
+# (20 EFO terms plus 11 hand-picked scores, frozen here as an explicit list).
+# reversed: 1 = a higher score means LESS of the concept as named; the score is flipped before reporting.
+# direction_verified: 1 = direction confirmed by correlating SNP weights against an anchor score.
+pgs_id	concept	reversed	direction_verified	trait_reported
+PGS000018	cad	0	0	Coronary artery disease
+PGS000027	bmi	0	0	Body mass index (BMI)
+PGS000203	alcamount	0	0	Alcohol consumption (drinks per week)
+PGS000204	alcamount	0	0	Alcohol consumption (drinks per week)
+PGS000300	hr	0	0	Heart rate
+PGS000313	lpa	0	0	Lipoprotein A
+PGS000330	t2d	0	0	Type 2 diabetes (T2D)
+PGS000336	morning	1	1	Chronotype
+PGS000337	cad	0	0	Coronary artery disease
+PGS000667	lpa	0	0	Lipoprotein A
+PGS000689	lpa	0	0	Lipoprotein A [nmol/L]
+PGS000752	lpa	0	0	Lipoprotein A concentration [nmol/L]
+PGS000892	ldl	0	0	LDL cholesterol
+PGS000908	insomnia	0	0	Insomnia
+PGS001055	morning	1	1	Chronotype (morning/evening person)
+PGS001071	facial	0	0	Facial aging, looking 'about your age'
+PGS001072	facial_older	0	0	Facial aging, looking 'older than you are'
+PGS001073	walkdur	0	0	Duration of walks
+PGS001074	pa_other	0	0	Types of physical activity in last 4 weeks (other exercises)
+PGS001075	walkpace	0	0	Usual walking pace
+PGS001085	alcmore	0	0	Increased alcohol consumption, versus 10 years ago
+PGS001086	alcamount	0	0	Alcohol consumption
+PGS001087	alcfreq	0	1	Alcohol intake frequency
+PGS001088	beer	0	0	Average weekly alcohol consumption (beer and cider)
+PGS001108	bmr	0	0	Basal metabolic rate
+PGS001119	grip	0	0	Left hand grip strength
+PGS001120	grip	0	0	Right hand grip strength
+PGS001123	coffee	0	0	Coffee consumption
+PGS001124	coffee	0	0	Coffee consumption (ground coffee)
+PGS001125	coffee	0	0	Coffee consumption (instant coffee)
+PGS001126	coffee	0	0	Coffee intake
+PGS001150	sleepdur	0	0	Sleep duration
+PGS001165	lean	0	0	Arm fat free mass (L)
+PGS001166	lean	0	0	Leg fat-free mass (L)
+PGS001167	lean	0	0	Leg fat-free mass (R)
+PGS001168	lean	0	0	Trunk fat free mass
+PGS001169	lean	0	0	Whole body fat free mass
+PGS001232	iq	0	0	Fluid intelligence score
+PGS001233	hr	0	0	Heart rate (AR)
+PGS001375	hr	0	0	Average heart rate
+PGS001394	alcfreq	0	1	Freq. of drinking alcohol
+PGS001397	walkfreq	0	0	Frequency of walking for pleasure in last 4 weeks
+PGS001523	hr	0	0	Pulse rate
+PGS001524	hr	0	0	Pulse rate (during blood-pressure measurement)
+PGS001901	drinker	0	0	Alcohol drinker status
+PGS001919	iq	0	0	Fluid intelligence score
+PGS001927	grip	0	0	Hand grip strength (mean of both)
+PGS001932	insomnia	0	1	Sleeplessness / insomnia
+PGS001934	alcfreq	1	1	Alcohol intake frequency
+PGS001950	lean	0	0	Whole body fat-free mass
+PGS001963	lpa	0	0	Lipoprotein A
+PGS001975	hr	0	0	Pulse rate, automated reading
+PGS001978	sleepdur	0	0	Sleep duration
+PGS001992	morning	1	1	Morning/evening person (chronotype)
+PGS002012	edu	0	0	Qualifications (years of education)
+PGS002115	drinker	0	0	Alcohol drinker status
+PGS002135	iq	0	0	Fluid intelligence score
+PGS002143	grip	0	0	Hand grip strength (mean of both)
+PGS002149	insomnia	0	1	Sleeplessness / insomnia
+PGS002152	alcfreq	1	1	Alcohol intake frequency
+PGS002168	lean	0	0	Whole body fat-free mass
+PGS002181	lpa	0	0	Lipoprotein A
+PGS002193	hr	0	0	Pulse rate, automated reading
+PGS002196	sleepdur	0	0	Sleep duration
+PGS002209	morning	1	1	Morning/evening person (chronotype)
+PGS002231	edu	0	0	Qualifications (years of education)
+PGS002254	pa	0	0	Physical activity (self-reported)
+PGS002255	pa	0	0	Physical activity (measured)
+PGS002297	lpa	0	0	Lipoprotein A levels
+PGS002313	bmi	0	0	Body mass index (BMI)
+PGS002318	morning	0	0	Chronotype (morning person)
+PGS002319	edu	0	0	College education
+PGS002390	morning	0	0	Chronotype (morning person)
+PGS002391	edu	0	0	College education
+PGS002439	morning	0	0	Chronotype (morning person)
+PGS002440	edu	0	0	College education
+PGS002488	morning	0	0	Chronotype (morning person)
+PGS002489	edu	0	0	College education
+PGS002537	morning	0	0	Chronotype (morning person)
+PGS002538	edu	0	0	College education
+PGS002586	morning	0	0	Chronotype (morning person)
+PGS002587	edu	0	0	College education
+PGS002635	morning	0	0	Chronotype (morning person)
+PGS002636	edu	0	0	College education
+PGS002684	morning	0	0	Chronotype (morning person)
+PGS002685	edu	0	0	College education
+PGS002752	alcamount	0	0	Alcohol consumption (drinks per week)
+PGS002804	height	0	0	Height
+PGS002825	alcamount	0	0	Alcohol consumption
+PGS002826	alcamount	0	0	Alcohol consumption
+PGS002827	alcamount	0	0	Alcohol consumption
+PGS002828	alcamount	0	0	Alcohol consumption
+PGS002829	alcamount	0	0	Alcohol consumption
+PGS002830	alcamount	0	0	Alcohol consumption
+PGS002831	alcamount	0	0	Alcohol consumption
+PGS002832	alcamount	0	0	Alcohol consumption
+PGS002833	alcamount	0	0	Alcohol consumption
+PGS002834	alcamount	0	0	Alcohol consumption
+PGS002835	alcamount	0	0	Alcohol consumption
+PGS002836	alcamount	0	0	Alcohol consumption
+PGS002837	alcamount	0	0	Alcohol consumption
+PGS002838	alcamount	0	0	Alcohol consumption
+PGS002839	alcamount	0	0	Alcohol consumption
+PGS002909	drinker	0	0	Drinking status
+PGS002910	drinker	0	0	Drinking status
+PGS002911	drinker	0	0	Drinking status
+PGS002912	drinker	0	0	Drinking status
+PGS002913	drinker	0	0	Drinking status
+PGS003319	insomnia	0	0	Insomnia
+PGS003320	insomnia	0	0	Insomnia
+PGS003321	insomnia	0	0	Insomnia
+PGS003322	insomnia	0	0	Insomnia
+PGS003323	insomnia	0	0	Insomnia
+PGS003324	insomnia	0	0	Insomnia
+PGS003325	insomnia	0	0	Insomnia
+PGS003326	insomnia	0	0	Insomnia
+PGS003327	insomnia	0	0	Insomnia
+PGS003328	insomnia	0	0	Insomnia
+PGS003373	alcamount	0	0	Drinks per week
+PGS003374	alcamount	0	0	Drinks per week
+PGS003375	alcamount	0	0	Drinks per week
+PGS003376	alcamount	0	0	Drinks per week
+PGS003472	hr	0	0	Heart rate
+PGS003480	sleepdur	0	0	Sleep duration
+PGS003510	iq	0	0	Fluid intelligence score
+PGS003513	grip	0	0	Hand grip strength (mean of both)
+PGS003531	lean	0	0	Whole body fat-free mass
+PGS003542	lpa	0	0	Lipoprotein A
+PGS003550	hr	0	0	Pulse rate, automated reading
+PGS003563	morning	1	1	Morning/evening person (chronotype)
+PGS003573	edu	0	0	Qualifications (years of education)
+PGS003724	iq	0	0	Intelligence quotient
+PGS003764	sleepdur	0	0	Sleep duration
+PGS003768	hdl	0	0	HDL cholesterol
+PGS003785	ldl	0	0	LDL cholesterol
+PGS003802	tg	0	0	Log triglycerides
+PGS003819	tc	0	0	Total cholesterol
+PGS003901	lean	0	0	Whole body fat-free mass
+PGS003903	bmr	0	0	Basal metabolic rate
+PGS003911	lean	0	0	Leg fat-free mass (R)
+PGS003914	lean	0	0	Leg fat-free mass (L)
+PGS003917	lean	0	0	Arm fat-free mass (R)
+PGS003920	lean	0	0	Arm fat-free mass (L)
+PGS003923	lean	0	0	Trunk fat-free mass
+PGS004201	lpa	0	0	Lipoprotein A
+PGS004202	lpa	0	0	Lipoprotein A
+PGS004203	lpa	0	0	Lipoprotein A
+PGS004204	lpa	0	0	Lipoprotein A
+PGS004205	lpa	0	0	Lipoprotein A
+PGS004327	hr	0	0	Pulse rate
+PGS004370	hr	0	0	Pulse rate, automated reading
+PGS004376	lean	0	0	Whole body fat-free mass
+PGS004387	lean	0	0	Leg fat-free mass (right)
+PGS004391	lean	0	0	Leg fat-free mass (left)
+PGS004395	lean	0	0	Arm fat-free mass (right)
+PGS004399	lean	0	0	Arm fat-free mass (left)
+PGS004403	lean	0	0	Trunk fat-free mass
+PGS004427	iq	0	0	Fluid intelligence score
+PGS004428	grip	0	0	Hand grip strength (left)
+PGS004429	grip	0	0	Hand grip strength (right)
+PGS004928	mets	0	0	Metabolic syndrome
+PGS005216	alcamount	0	0	Drinks per week
+PGS005221	frail_g	0	0	General factor of frailty
+PGS005222	frail_1	0	0	Factor 1 (social isolation) of frailty
+PGS005223	frail_2	0	0	Factor 2 (unhealthy lifestyle) of frailty
+PGS005224	frail_3	0	0	Factor 3 (multimorbidity) of frailty
+PGS005225	frail_4	0	0	Factor 4 (metabolic/respiratory problems) of frailty
+PGS005226	frail_5	0	0	Factor 5 (poorer cognition) of frailty
+PGS005227	frail_6	0	0	Factor 6 (disability) of frailty
+PGS005228	frail_g	0	0	Frailty Index
+PGS005229	frail_g	0	0	Fried Frailty Score
+PGS005315	lean	0	0	Appendicular lean mass
+PGS005320	lpa	0	0	Lipoprotein (a)
+PGS018976	insomnia	0	0	Organic or persistent insomnia
+PGS018977	insomnia	0	0	Organic or persistent insomnia
+PGS018978	insomnia	0	0	Organic or persistent insomnia
+PGS018979	insomnia	0	0	Organic or persistent insomnia
+PGS018980	insomnia	0	0	Organic or persistent insomnia
+PGS019800	hr	0	0	Heart rate
+PGS019824	hr	0	0	Heart rate
+PGS019848	hr	0	0	Heart rate
+PGS019872	hr	0	0	Heart rate
+PGS019896	hr	0	0	Heart rate
+PGS019920	longsleep	0	0	Long Sleep
+PGS019921	longsleep	0	0	Long Sleep
+PGS019922	longsleep	0	0	Long Sleep
+PGS019923	longsleep	0	0	Long Sleep
+PGS019924	shortsleep	0	0	Short Sleep
+PGS019925	shortsleep	0	0	Short Sleep
+PGS019926	shortsleep	0	0	Short Sleep
+PGS019927	shortsleep	0	0	Short Sleep
+PGS019928	insomnia	0	0	Insomnia
+PGS019929	insomnia	0	0	Insomnia
+PGS019930	insomnia	0	0	Insomnia
+PGS019931	insomnia	0	0	Insomnia
+PGS019932	insomnia	0	0	Insomnia
+PGS019933	insomnia	0	0	Insomnia
+PGS019934	eds	0	0	Excessive Daytime Sleepiness
+PGS019935	eds	0	0	Excessive Daytime Sleepiness
+PGS019936	eds	0	0	Excessive Daytime Sleepiness
+PGS019937	eds	0	0	Excessive Daytime Sleepiness
+PGS019938	eds	0	0	Excessive Daytime Sleepiness
+PGS019939	eds	0	0	Excessive Daytime Sleepiness
+PGS019953	alcamount	0	0	Alcohol metabolism

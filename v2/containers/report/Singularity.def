@@ -1,0 +1,28 @@
+Bootstrap: docker
+From: mambaorg/micromamba:1.5.8
+
+# genomeportrait report container — built locally by the pipeline (no registry hosting needed).
+# Provides the python stack used by the bin/*.py report scripts: pandas + matplotlib.
+#
+# Built automatically by modules/local/build_report_container.nf via:
+#   apptainer build --fakeroot genomeportrait-report-<ver>.sif containers/report/Singularity.def
+# (falls back to `singularity build`). Build it by hand the same way if you prefer.
+
+%files
+    environment.yml /opt/environment.yml
+
+%post
+    micromamba install -y -n base -f /opt/environment.yml
+    micromamba clean --all --yes
+
+%environment
+    export PATH=/opt/conda/bin:$PATH
+    export PYTHONNOUSERSITE=1
+
+%labels
+    org.opencontainers.image.title genomeportrait-report
+    org.opencontainers.image.version 1.0.0
+    org.opencontainers.image.description pandas + matplotlib for genomeportrait reporting
+
+%runscript
+    exec python "$@"

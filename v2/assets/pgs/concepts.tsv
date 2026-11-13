@@ -1,0 +1,48 @@
+# Trait concepts for polygenic-score interpretation. One row per concept; several scores can share one.
+# good: +1 higher is healthier, -1 higher is less healthy, 0 no health direction.
+# kind: q quantitative (effect = sqrt(R2) x Z), b binary (effect = OR^Z).
+# unit / population_sd: converts an SD shift into units ('log' = trait analysed on the log scale).
+# r2_max: published R2 above this is treated as inflated and not used for sizing.
+concept	domain	title	higher_means	lower_means	good	kind	unit	population_sd	r2_max	note
+ldl	Heart & metabolism	LDL cholesterol	higher LDL ('bad') cholesterol	lower LDL ('bad') cholesterol	-1	q	mmol/L	0.87	0.25	
+hdl	Heart & metabolism	HDL cholesterol	higher HDL ('good') cholesterol	lower HDL cholesterol	1	q	mmol/L	0.38	0.3	Genetically higher HDL has not been shown to protect the heart causally; treat 'favourable' loosely.
+tc	Heart & metabolism	Total cholesterol	higher total cholesterol	lower total cholesterol	-1	q	mmol/L	1.14	0.25	
+tg	Heart & metabolism	Triglycerides	higher triglycerides	lower triglycerides	-1	q	log	0.52	0.25	
+lpa	Heart & metabolism	Lipoprotein(a)	higher Lp(a)	lower Lp(a)	-1	q			0.85	Lp(a) is ~90% genetic and very skewed; expressed in population SDs only.
+cad	Heart & metabolism	Coronary artery disease	higher risk	lower risk	-1	b				
+t2d	Heart & metabolism	Type 2 diabetes	higher risk	lower risk	-1	b				
+mets	Heart & metabolism	Metabolic syndrome	higher risk	lower risk	-1	b				
+bmi	Heart & metabolism	Body mass index	higher BMI	lower BMI	-1	q	kg/m²	4.8	0.25	
+hr	Heart & metabolism	Resting heart rate	faster resting heart rate	slower resting heart rate	-1	q	bpm	11.5	0.15	
+bmr	Heart & metabolism	Basal metabolic rate	higher resting energy use	lower resting energy use	0	q			0.3	Mostly tracks body size; not a health direction in itself.
+height	Body & fitness	Height	taller	shorter	0	q	cm	6.5	0.55	Within-sex SD used.
+lean	Body & fitness	Lean (fat-free) mass	more lean / muscle mass	less lean mass	1	q			0.35	Many compartment scores (arm, leg, trunk, whole body) from overlapping studies - one finding, not several.
+grip	Body & fitness	Grip strength	stronger grip	weaker grip	1	q			0.15	Population SD differs by sex (~6 kg women, ~9 kg men); expressed in SDs.
+pa	Body & fitness	Physical activity	more physically active	less physically active	1	q			0.1	
+pa_other	Body & fitness	Does 'other exercise'	more likely to do other exercise	less likely to do other exercise	1	b				Tiny score (~3.8k variants) for a questionnaire checkbox.
+walkpace	Body & fitness	Usual walking pace	brisker walking pace	slower walking pace	1	q			0.1	Direction from UK Biobank raw coding (1 slow ... 3 brisk); not independently anchored.
+walkdur	Body & fitness	Duration of walks	longer walks	shorter walks	1	q			0.1	Direction from raw coding (minutes); not independently anchored.
+walkfreq	Body & fitness	Walking for pleasure	walks for pleasure more often	walks for pleasure less often	1	q			0.1	Direction from raw coding; not independently anchored.
+sleepdur	Sleep	Sleep duration	longer sleep	shorter sleep	0	q	h	1.1	0.1	
+longsleep	Sleep	Long sleep (≥9 h)	more likely a long sleeper	less likely a long sleeper	0	b				
+shortsleep	Sleep	Short sleep (≤6 h)	more likely a short sleeper	less likely a short sleeper	-1	b				
+insomnia	Sleep	Insomnia	more insomnia	less insomnia	-1	b				
+eds	Sleep	Daytime sleepiness	sleepier during the day	less daytime sleepiness	-1	q			0.1	
+morning	Sleep	Chronotype	more of a morning person	more of an evening person	0	q			0.15	Five scores were coded towards eveningness and have been flipped (verified by weight correlation).
+alcamount	Alcohol & coffee	Alcohol amount	drinks more (per week / per occasion)	drinks less	-1	q			0.1	
+alcfreq	Alcohol & coffee	Drinking frequency	drinks more often	drinks less often	-1	q			0.1	Two Privé 2022 scores are coded 1 = daily ... 6 = never and have been flipped (verified by weight correlation).
+drinker	Alcohol & coffee	Current drinker (vs never/former)	more likely to drink at all	less likely to drink at all	0	b				
+alcmore	Alcohol & coffee	Drinks more than 10 years ago	more likely to have increased drinking	less likely to have increased drinking	0	b				
+beer	Alcohol & coffee	Beer & cider per week	more beer/cider	less beer/cider	-1	q			0.1	
+coffee	Alcohol & coffee	Coffee intake	more coffee	less coffee	0	q			0.1	
+edu	Cognition & education	Educational attainment	more years of education	fewer years of education	0	q			0.2	Population-level association; heavily confounded by family environment and assortative mating.
+iq	Cognition & education	Fluid intelligence	higher fluid-intelligence test score	lower fluid-intelligence score	0	q	points	2.15	0.12	UK Biobank 13-item test.
+frail_g	Ageing & frailty	Frailty (overall)	more frail	less frail	-1	q			0.12	
+frail_1	Ageing & frailty	Frailty: social isolation	more socially isolated	less socially isolated	-1	q			0.12	
+frail_2	Ageing & frailty	Frailty: unhealthy lifestyle	less healthy lifestyle	healthier lifestyle	-1	q			0.12	
+frail_3	Ageing & frailty	Frailty: multimorbidity	more co-occurring illness	fewer co-occurring illnesses	-1	q			0.12	
+frail_4	Ageing & frailty	Frailty: metabolic/respiratory	more metabolic/respiratory problems	fewer metabolic/respiratory problems	-1	q			0.12	
+frail_5	Ageing & frailty	Frailty: poorer cognition	poorer cognition with age	better-preserved cognition	-1	q			0.12	
+frail_6	Ageing & frailty	Frailty: disability	more disability	less disability	-1	q			0.12	
+facial	Ageing & frailty	Looks 'about my age'	more likely to look one's age	less likely to look one's age	0	b			0.05	
+facial_older	Ageing & frailty	Looks older than one's age	more likely to look older than one's age	less likely to look older than one's age	0	b			0.05	Tiny score (39 variants) for a questionnaire answer.

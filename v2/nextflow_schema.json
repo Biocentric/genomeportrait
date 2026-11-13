@@ -1,0 +1,674 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://raw.githubusercontent.com/Biocentric/genomeportrait/master/nextflow_schema.json",
+    "title": "Biocentric/genomeportrait pipeline parameters",
+    "description": "State-of-the-art personal whole-genome sequencing analysis for recreational, ancestry and educational genomics.",
+    "type": "object",
+    "$defs": {
+        "input_output_options": {
+            "title": "Input/output options",
+            "type": "object",
+            "fa_icon": "fas fa-terminal",
+            "description": "Define where the pipeline should find input data and save output data.",
+            "required": [
+                "input",
+                "outdir"
+            ],
+            "properties": {
+                "input": {
+                    "type": "string",
+                    "format": "file-path",
+                    "exists": true,
+                    "schema": "assets/schema_input.json",
+                    "mimetype": "text/csv",
+                    "pattern": "^\\S+\\.csv$",
+                    "description": "Path to comma-separated file containing information about the sample(s).",
+                    "fa_icon": "fas fa-file-csv"
+                },
+                "outdir": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "The output directory where the results will be saved.",
+                    "fa_icon": "fas fa-folder-open"
+                },
+                "reference_base": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "Directory where downloaded references/databases are cached between runs.",
+                    "fa_icon": "fas fa-database"
+                },
+                "email": {
+                    "type": "string",
+                    "description": "Email address for completion summary.",
+                    "fa_icon": "fas fa-envelope"
+                }
+            }
+        },
+        "reference_genome_options": {
+            "title": "Reference genome options",
+            "type": "object",
+            "fa_icon": "fas fa-dna",
+            "properties": {
+                "genome": {
+                    "type": "string",
+                    "default": "GRCh38",
+                    "description": "Reference genome build. 'hg38'/'grch38' are accepted aliases of GRCh38.",
+                    "enum": [
+                        "GRCh38",
+                        "hg38",
+                        "grch38",
+                        "GRCh38_chr21"
+                    ]
+                },
+                "download_references": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Download and index all references on first run. Set false if reference_base is already populated."
+                },
+                "igenomes_ignore": {
+                    "type": "boolean",
+                    "default": true,
+                    "hidden": true
+                }
+            }
+        },
+        "sequencing_and_alignment": {
+            "title": "Sequencing & alignment",
+            "type": "object",
+            "fa_icon": "fas fa-align-center",
+            "properties": {
+                "seq_platform": {
+                    "type": "string",
+                    "default": "illumina",
+                    "enum": [
+                        "illumina",
+                        "ont",
+                        "pacbio"
+                    ],
+                    "description": "Sequencing platform. Selects aligner/caller defaults for long reads."
+                },
+                "aligner": {
+                    "type": "string",
+                    "default": "bwa-mem2",
+                    "enum": [
+                        "bwa-mem2",
+                        "minimap2"
+                    ]
+                },
+                "skip_trimming": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_bqsr": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Skip base quality score recalibration (default in v2; DeepVariant does not benefit from it)."
+                },
+                "use_gpu": {
+                    "type": "string",
+                    "default": "off",
+                    "enum": [
+                        "off",
+                        "auto",
+                        "on"
+                    ],
+                    "description": "NVIDIA Parabricks GPU acceleration. 'auto' uses fq2bam + GPU DeepVariant when a capable GPU is detected; 'on' requires one; 'off' is CPU-only."
+                },
+                "gpu_count": {
+                    "type": "integer",
+                    "default": 1,
+                    "description": "GPUs to request per Parabricks task."
+                },
+                "gpu_min_memory_mb": {
+                    "type": "integer",
+                    "default": 16000,
+                    "description": "Minimum GPU VRAM (MiB) to consider a device Parabricks-capable.",
+                    "hidden": true
+                },
+                "gpu_min_compute_cap": {
+                    "type": "number",
+                    "default": 7.0,
+                    "description": "Minimum CUDA compute capability for Parabricks (Volta+ = 7.0).",
+                    "hidden": true
+                },
+                "parabricks_container": {
+                    "type": "string",
+                    "default": "nvcr.io/nvidia/clara/clara-parabricks:4.6.0-1",
+                    "description": "Parabricks container image (or a local .sif path).",
+                    "help_text": "Pin 4.0.0-1 for Pascal GPUs (P40/P100); 4.6.x requires Volta or newer."
+                },
+                "gpu_variant_calling": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Run pbrun deepvariant on the GPU. Set false on Pascal: fq2bam stays on the GPU and the CPU caller takes over."
+                },
+                "parabricks_launcher": {
+                    "type": "string",
+                    "default": "container",
+                    "enum": [
+                        "container",
+                        "docker"
+                    ],
+                    "description": "How to launch pbrun. 'docker' shells out to `docker run --gpus device=N` so a specific GPU can be pinned."
+                },
+                "parabricks_gpu_device": {
+                    "type": "integer",
+                    "default": 0,
+                    "description": "GPU index passed to `docker run --gpus device=N` when parabricks_launcher is 'docker'."
+                },
+                "parabricks_docker_binds": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Extra `docker run` bind flags used when parabricks_launcher is 'docker'."
+                },
+                "parabricks_docker_opts": {
+                    "type": "string",
+                    "default": "--ipc=host --ulimit memlock=-1 --ulimit stack=67108864",
+                    "description": "Runtime limits passed to `docker run` for pbrun (shared memory, locked memory, stack)."
+                }
+            }
+        },
+        "variant_calling": {
+            "title": "Variant calling",
+            "type": "object",
+            "fa_icon": "fas fa-disease",
+            "properties": {
+                "variant_caller": {
+                    "type": "string",
+                    "default": "deepvariant",
+                    "enum": [
+                        "deepvariant",
+                        "haplotypecaller",
+                        "clair3"
+                    ]
+                },
+                "dv_model_type": {
+                    "type": "string",
+                    "default": "WGS",
+                    "enum": [
+                        "WGS",
+                        "WES",
+                        "PACBIO",
+                        "ONT_R104"
+                    ]
+                },
+                "call_sv": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "call_cnv": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "dv_intermediate_dir": {
+                    "type": "string",
+                    "description": "Directory for DeepVariant make_examples TFRecords. Use a local kernel filesystem when the work dir is on FUSE/NFS."
+                }
+            }
+        },
+        "module_toggles": {
+            "title": "Module toggles",
+            "type": "object",
+            "fa_icon": "fas fa-toggle-on",
+            "properties": {
+                "skip_qc": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_annotation": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_ancestry": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "PCA + supervised ADMIXTURE against the 1000G+HGDP panel (downloads ~6 GB on first run)."
+                },
+                "skip_haplogroups": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_str": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_prs": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_hla": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_pharmcat": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_traits": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_telomere": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_mito_heteroplasmy": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "skip_multiqc": {
+                    "type": "boolean",
+                    "default": false
+                }
+            }
+        },
+        "trait_and_scoring": {
+            "title": "Traits & polygenic scoring",
+            "type": "object",
+            "fa_icon": "fas fa-chart-bar",
+            "properties": {
+                "pgs_ids": {
+                    "type": "string",
+                    "description": "Extra PGS Catalog IDs (comma-separated) scored on top of the panel.",
+                    "pattern": "^PGS\\d+(,\\s*PGS\\d+)*$"
+                },
+                "pgs_min_overlap": {
+                    "type": "number",
+                    "default": 0.75,
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Minimum fraction of a score's variants that must be genotyped for the score to be reported."
+                },
+                "trait_panel": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "TSV of curated non-clinical trait SNPs."
+                },
+                "ancestry_label_col": {
+                    "type": "string",
+                    "default": "SuperPop",
+                    "enum": [
+                        "SuperPop",
+                        "Population"
+                    ],
+                    "description": "Ancestry label resolution: SuperPop (~5 continental groups) or Population (~80 1000G+HGDP populations; finer but slower and weaker within-continent)."
+                },
+                "ancestry_min_maf": {
+                    "type": "number",
+                    "default": 0.05,
+                    "description": "Minimum panel MAF for ancestry SNPs. Rare variants let single-sample false positives dominate the PCA."
+                },
+                "ancestry_max_snps": {
+                    "type": "integer",
+                    "default": 50000,
+                    "description": "Cap on the LD-pruned ancestry SNP set."
+                },
+                "pgs_panel": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "TSV listing the scores to compute and the trait concept of each."
+                },
+                "pgs_concepts": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "TSV of trait concepts: direction, unit, population SD, R2 ceiling."
+                },
+                "pgs_r2_exclusions": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "TSV of publications whose reported R2 is not used for effect sizes."
+                },
+                "pgs_catalog": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "PGS Catalog metadata snapshot (scores.json, performance.json)."
+                },
+                "pgs_reference_panel": {
+                    "type": "string",
+                    "format": "directory-path",
+                    "description": "Directory with an extracted pgsc_HGDP+1kGP_v1 reference panel (GRCh38). Downloaded when not set."
+                },
+                "pgs_reference_panel_url": {
+                    "type": "string",
+                    "description": "Download URL of the pgsc_calc HGDP+1kGP reference panel archive."
+                },
+                "pgs_min_gq": {
+                    "type": "integer",
+                    "default": 0,
+                    "minimum": 0,
+                    "description": "Homozygous-reference calls below this genotype quality are treated as missing."
+                },
+                "pgs_keep_ambiguous": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Keep strand-ambiguous (A/T, C/G) SNPs when matching scores to the reference."
+                },
+                "pgs_n_pcs": {
+                    "type": "integer",
+                    "default": 10,
+                    "minimum": 5,
+                    "description": "Principal components computed on the reference panel."
+                },
+                "pgs_percentile": {
+                    "type": "string",
+                    "default": "auto",
+                    "enum": [
+                        "auto",
+                        "population",
+                        "adjusted"
+                    ],
+                    "description": "Percentile basis: rank within the most similar population, from the ancestry-adjusted Z, or chosen automatically."
+                }
+            }
+        },
+        "max_job_request_options": {
+            "title": "Max job request options",
+            "type": "object",
+            "fa_icon": "fab fa-acquisitions-incorporated",
+            "properties": {
+                "max_cpus": {
+                    "type": "integer",
+                    "default": 16,
+                    "hidden": true
+                },
+                "max_memory": {
+                    "type": "string",
+                    "default": "128.GB",
+                    "hidden": true
+                },
+                "max_time": {
+                    "type": "string",
+                    "default": "240.h",
+                    "hidden": true
+                }
+            }
+        },
+        "generic_options": {
+            "title": "Generic options",
+            "type": "object",
+            "fa_icon": "fas fa-file-import",
+            "properties": {
+                "multiqc_config": {
+                    "type": "string",
+                    "format": "file-path",
+                    "hidden": true
+                },
+                "multiqc_title": {
+                    "type": "string"
+                },
+                "multiqc_logo": {
+                    "type": "string",
+                    "hidden": true
+                },
+                "multiqc_methods_description": {
+                    "type": "string",
+                    "hidden": true
+                },
+                "max_multiqc_email_size": {
+                    "type": "string",
+                    "default": "25.MB",
+                    "hidden": true
+                },
+                "publish_dir_mode": {
+                    "type": "string",
+                    "default": "copy",
+                    "hidden": true,
+                    "enum": [
+                        "symlink",
+                        "rellink",
+                        "link",
+                        "copy",
+                        "copyNoFollow",
+                        "move"
+                    ]
+                },
+                "validate_params": {
+                    "type": "boolean",
+                    "default": true,
+                    "hidden": true
+                },
+                "version": {
+                    "type": "boolean",
+                    "hidden": true
+                },
+                "help_full": {
+                    "type": "boolean",
+                    "hidden": true
+                },
+                "show_hidden": {
+                    "type": "boolean",
+                    "hidden": true
+                },
+                "monochrome_logs": {
+                    "type": "boolean",
+                    "hidden": true
+                },
+                "email_on_fail": {
+                    "type": "string",
+                    "description": "Email address for completion summary, only when the pipeline fails.",
+                    "hidden": true
+                },
+                "plaintext_email": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Send plain-text email instead of HTML.",
+                    "hidden": true
+                },
+                "hook_url": {
+                    "type": "string",
+                    "description": "Incoming hook URL for messaging service (Slack/MS Teams).",
+                    "hidden": true
+                },
+                "help": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Display help text.",
+                    "hidden": true
+                }
+            }
+        },
+        "advanced_options": {
+            "title": "Advanced options",
+            "type": "object",
+            "fa_icon": "fas fa-cogs",
+            "description": "Annotation, reference-download and in-pipeline container build options.",
+            "properties": {
+                "download_references": {
+                    "type": "boolean",
+                    "default": true,
+                    "hidden": true
+                },
+                "vep_cache_version": {
+                    "type": "integer",
+                    "default": 113,
+                    "hidden": true
+                },
+                "vep_species": {
+                    "type": "string",
+                    "default": "homo_sapiens",
+                    "hidden": true
+                },
+                "use_snpsift_gnomad": {
+                    "type": "boolean",
+                    "hidden": true,
+                    "description": "Also annotate gnomAD AF from a SnpSift VCF (default: AF from VEP cache)."
+                },
+                "str_panel": {
+                    "type": "string",
+                    "default": "curated",
+                    "enum": [
+                        "curated",
+                        "codis",
+                        "all"
+                    ],
+                    "hidden": true,
+                    "description": "HipSTR loci: curated named markers (CODIS+Y-STR+Marshfield), CODIS core, or genome-wide."
+                },
+                "hipstr_min_reads": {
+                    "type": "integer",
+                    "default": 10,
+                    "hidden": true,
+                    "description": "HipSTR minimum reads per locus (lower for low-coverage data)."
+                },
+                "build_report_container": {
+                    "type": "boolean",
+                    "default": true,
+                    "hidden": true
+                },
+                "report_image_version": {
+                    "type": "string",
+                    "default": "1.0.1",
+                    "hidden": true
+                },
+                "report_sif": {
+                    "type": "string",
+                    "hidden": true
+                },
+                "report_docker": {
+                    "type": "string",
+                    "hidden": true
+                },
+                "build_hipstr_container": {
+                    "type": "boolean",
+                    "default": true,
+                    "hidden": true
+                },
+                "hipstr_image_version": {
+                    "type": "string",
+                    "default": "0.7",
+                    "hidden": true
+                },
+                "hipstr_sif": {
+                    "type": "string",
+                    "hidden": true
+                },
+                "hipstr_docker": {
+                    "type": "string",
+                    "hidden": true
+                },
+                "references": {
+                    "type": "object",
+                    "description": "Per-genome reference resource URLs (set in conf/references.config, not on the command line).",
+                    "hidden": true
+                },
+                "pgs_catalog_api": {
+                    "type": "string",
+                    "default": "https://www.pgscatalog.org/rest",
+                    "description": "PGS Catalog REST endpoint.",
+                    "hidden": true
+                },
+                "yleaf_data_url": {
+                    "type": "string",
+                    "default": "https://github.com/genid/Yleaf/archive/refs/heads/master.tar.gz",
+                    "description": "Source of Yleaf's Y-SNP data directory (absent from the biocontainer).",
+                    "hidden": true
+                },
+                "build_yleaf_container": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Build a usable Yleaf image at runtime (the biocontainer lacks data/, samtools and bcftools).",
+                    "hidden": true
+                },
+                "yleaf_image_version": {
+                    "type": "string",
+                    "default": "1.0",
+                    "hidden": true
+                },
+                "yleaf_sif": {
+                    "type": "string",
+                    "description": "Path to the locally built Yleaf SIF.",
+                    "hidden": true
+                },
+                "yleaf_docker": {
+                    "type": "string",
+                    "default": "genomeportrait-yleaf:1.0",
+                    "hidden": true
+                },
+                "codis_long_catalog": {
+                    "type": "string",
+                    "format": "file-path",
+                    "description": "ExpansionHunter catalog for CODIS loci too long for HipSTR to span (>71 bp).",
+                    "hidden": true
+                },
+                "codis_long_max_bp": {
+                    "type": "integer",
+                    "default": 71,
+                    "description": "Reference tract length above which a CODIS locus is handed to ExpansionHunter rather than HipSTR.",
+                    "hidden": true
+                }
+            }
+        },
+        "institutional_config_options": {
+            "title": "Institutional config options",
+            "type": "object",
+            "fa_icon": "fas fa-university",
+            "description": "Parameters used to describe centralised config profiles. These should not be edited.",
+            "properties": {
+                "custom_config_version": {
+                    "type": "string",
+                    "default": "master",
+                    "description": "Git commit id for Institutional configs.",
+                    "hidden": true
+                },
+                "custom_config_base": {
+                    "type": "string",
+                    "default": "https://raw.githubusercontent.com/nf-core/configs/master",
+                    "description": "Base directory for Institutional configs.",
+                    "hidden": true
+                },
+                "config_profile_name": {
+                    "type": "string",
+                    "description": "Institutional config name.",
+                    "hidden": true
+                },
+                "config_profile_description": {
+                    "type": "string",
+                    "description": "Institutional config description.",
+                    "hidden": true
+                },
+                "config_profile_contact": {
+                    "type": "string",
+                    "description": "Institutional config contact information.",
+                    "hidden": true
+                },
+                "config_profile_url": {
+                    "type": "string",
+                    "description": "Institutional config URL link.",
+                    "hidden": true
+                }
+            }
+        }
+    },
+    "allOf": [
+        {
+            "$ref": "#/$defs/input_output_options"
+        },
+        {
+            "$ref": "#/$defs/reference_genome_options"
+        },
+        {
+            "$ref": "#/$defs/sequencing_and_alignment"
+        },
+        {
+            "$ref": "#/$defs/variant_calling"
+        },
+        {
+            "$ref": "#/$defs/module_toggles"
+        },
+        {
+            "$ref": "#/$defs/trait_and_scoring"
+        },
+        {
+            "$ref": "#/$defs/max_job_request_options"
+        },
+        {
+            "$ref": "#/$defs/generic_options"
+        },
+        {
+            "$ref": "#/$defs/advanced_options"
+        },
+        {
+            "$ref": "#/$defs/institutional_config_options"
+        }
+    ]
+}

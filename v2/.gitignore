@@ -1,0 +1,18 @@
+.nextflow*
+work/
+results/
+testing/
+testing*
+*.pyc
+references/
+*.sif
+.DS_Store
+
+# v2
+__pycache__/
+.nextflow*
+work/
+results*/
+*.genomeportrait.html
+*.pgs_overview.html
+/local/
