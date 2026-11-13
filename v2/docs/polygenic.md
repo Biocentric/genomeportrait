@@ -97,7 +97,7 @@ Rules (unchanged from `prs-selfscore`):
 - **Verdict.** Neutral when |Z| < 0.5 or the concept has no health direction.
 
 The overview page adds notes it derives from the data: scores that were flipped, scores
-that disagree with their trait's consensus and have no published validation, scores from
+that disagree with their trait's consensus by 1.5 SD or more and have no usable published validation (no R² or per-SD odds ratio), scores from
 other ancestries, and scores that could not be reported.
 
 ## Validation against pgsc_calc

@@ -2,6 +2,12 @@
 
 ## v2.0.0dev — 2026-11-12
 
+### Since the first v2 commit
+
+- Report notes: a score that disagrees with its trait is described as having "no usable published
+  validation (no R² or per-SD odds ratio)", and as evaluated only in non-European samples where
+  that applies, instead of "no published validation" — most such scores do have performance records.
+
 Next version of the pipeline, forked from v1 branch `feat/parabricks-pascal` @ `f4eb0ae`
 and kept in its own folder (`v2/`). See [`PLAN.md`](PLAN.md) for the reasoning and
 [`TODO.md`](TODO.md) for what is open.

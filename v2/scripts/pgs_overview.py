@@ -188,10 +188,19 @@ def notes(data, by_key):
         # an unvalidated score far from the consensus is the usual source of a scary percentile
         for x in used:
             if abs(x["z"] - s["zc"]) >= 1.5 and x["r2"] is None and x["or"] is None and len(used) >= 3:
+                # "No validation" would overstate it: most such scores have performance
+                # records, just none that yields a usable R2 or per-SD odds ratio.
+                if x.get("n_eval", 0) == 0:
+                    why = "has no published evaluation"
+                elif x.get("anc") == "non-EUR":
+                    why = ("has no usable published validation (no R² or per-SD odds ratio), and was only "
+                           "evaluated in non-European samples")
+                else:
+                    why = "has no usable published validation (no R² or per-SD odds ratio)"
                 out.append(
                     f'<li><b>{e(s["title"])}: {ordinal(x["pct"])} percentile on <span class="mono">{e(x["acc"])}</span></b> '
                     f'({e(x["pub"])}) disagrees with the other {len(used) - 1} scores (consensus Z {s["zc"]:+.2f}) '
-                    f'and has no published validation. Read the consensus, not this score.</li>')
+                    f'and {why}. Read the consensus, not this score.</li>')
         flipped = [x for x in xs if x["sign"] == -1]
         if flipped:
             ids = ", ".join(x["acc"] for x in flipped)
