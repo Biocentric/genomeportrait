@@ -40,7 +40,8 @@ removing relatives with the KING cutoff list shipped with it.
 
 **Per sample:**
 
-6. `PGS_TARGET` — one pass over the gVCF. For each reference variant:
+6. `PGS_TARGET` — one pass over the gVCF, one chromosome per CPU when a `.tbi` index is
+   present. For each reference variant:
 
    | gVCF at that position | Genotype emitted |
    |---|---|

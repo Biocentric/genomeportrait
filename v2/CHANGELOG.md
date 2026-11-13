@@ -4,6 +4,8 @@
 
 ### Since the first v2 commit
 
+- gVCF conversion runs one chromosome per CPU, reading the gVCF's tabix index directly (no
+  external tool): 1 min 18 s instead of 5 min 49 s on a 21x genome, identical output.
 - `report_sif`, `hipstr_sif` and `yleaf_sif` default to null and are resolved from `reference_base`
   when each task starts, so `reference_base` may be set in a `-c` config. The Singularity cache
   honours `NXF_SINGULARITY_CACHEDIR`.

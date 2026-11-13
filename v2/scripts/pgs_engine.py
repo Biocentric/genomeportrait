@@ -307,85 +307,86 @@ def trim(ref, alt):
     return ref, alt
 
 
-def cmd_target(a):
-    """Emit, for every reference variant, the genotype the gVCF implies.
+def read_tbi(path):
+    """Tabix index -> {sequence name: first virtual offset of its records}.
 
-      reference block covers the position, GT 0/0 -> 0/0
-      variant record carries the panel ALT         -> its allele count
-      variant record carries other alleles only    -> 0/0 (zero copies of the panel ALT)
-      no record, no depth, or GQ below --min-gq     -> ./.  (mean-imputed downstream)
-
-    A hom-ref call is only as good as the reads behind it. A block with GQ 1 and depth 0
-    says nothing, and counting it as hom-ref pulls every score towards the reference
-    allele; such sites are better left missing.
+    Only the start of each sequence is needed, so this reads the chunk lists and keeps the
+    smallest begin offset per sequence (the pseudo-bin 37450 holds statistics, not data).
     """
-    # reference sites per chromosome, in file order (plink2 writes them position-sorted)
-    sites = {}
-    with open(a.pvar, encoding="utf-8") as fh:
-        for line in fh:
-            if line[0] == "#":
-                continue
-            f = line.split("\t", 5)
-            c = chrom_key(f[0])
-            if c is None:
-                continue
-            s = sites.setdefault(c, ([], [], [], []))
-            s[0].append(int(f[1])); s[1].append(f[2]); s[2].append(f[3].upper())
-            s[3].append(f[4].rstrip("\n").upper())
-    n_sites = sum(len(s[0]) for s in sites.values())
-    log(f"target: {n_sites:,} reference variants to genotype")
+    import struct
+    d = gzip.decompress(open(path, "rb").read())
+    if d[:4] != b"TBI\x01":
+        raise ValueError(f"{path}: not a tabix index")
+    n_ref, _fmt, _cs, _cb, _ce, _meta, _skip, l_nm = struct.unpack_from("<8i", d, 4)
+    names = d[36:36 + l_nm].rstrip(b"\0").split(b"\0")
+    o, starts = 36 + l_nm, {}
+    for r in range(n_ref):
+        (n_bin,) = struct.unpack_from("<i", d, o); o += 4
+        best = None
+        for _ in range(n_bin):
+            bin_id, n_chunk = struct.unpack_from("<Ii", d, o); o += 8
+            for _ in range(n_chunk):
+                beg, _end = struct.unpack_from("<QQ", d, o); o += 16
+                if bin_id != 37450 and (best is None or beg < best):
+                    best = beg
+        (n_intv,) = struct.unpack_from("<i", d, o); o += 4 + 8 * n_intv
+        if best is not None:
+            starts[names[r].decode()] = best
+    return starts
 
-    min_gq = a.min_gq
+
+def bgzf_lines(path, voffset):
+    """Lines of a BGZF file from a virtual offset, without an external tool."""
+    import struct
+    import zlib
+    with open(path, "rb") as fh:
+        fh.seek(voffset >> 16)
+        skip, tail = voffset & 0xFFFF, b""
+        while True:
+            head = fh.read(18)
+            if len(head) < 18:
+                break
+            if head[:4] != b"\x1f\x8b\x08\x04":
+                raise ValueError(f"{path}: not BGZF at byte {fh.tell() - 18}")
+            (bsize,) = struct.unpack_from("<H", head, 16)
+            block = head + fh.read(bsize + 1 - 18)
+            data = zlib.decompress(block, 31)
+            if skip:
+                data, skip = data[skip:], 0
+            if not data:
+                continue
+            lines = (tail + data).split(b"\n")
+            tail = lines.pop()
+            for line in lines:
+                yield line + b"\n"
+        if tail:
+            yield tail
+
+
+TGT = {}      # sites per chromosome and options, shared copy-on-write with forked workers
+
+
+def _target_chrom(c, records, out):
+    """Genotype every reference site of chromosome `c` from that chromosome's gVCF records."""
+    pos_list, ids, refs, alts_ref = TGT["sites"][c]
+    min_gq, trust_all = TGT["min_gq"], TGT["trust_all"]
     cnt = dict(homref=0, variant=0, other_alt=0, missing_nocov=0, missing_lowgq=0, missing_other=0)
-    out = gzip.open(a.out, "wt", compresslevel=1)
-    out.write("##fileformat=VCFv4.2\n##FORMAT=<ID=GT,Number=1,Type=String,Description=\"Genotype\">\n")
-    for c in sorted(sites, key=int):
-        out.write(f"##contig=<ID={c}>\n")
-    out.write(f"#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t{a.sample}\n")
+    gq_hist = [0] * 11      # hom-ref sites from reference blocks, by GQ in steps of 5 (last bin: 50+)
+    nsite, i, n_lines = len(pos_list), 0, 0
 
-    gq_hist = [0] * 11          # hom-ref sites from reference blocks, by GQ in steps of 5 (last bin: 50+)
-    state = {"chrom": None, "i": 0, "done": set()}
+    def emit(i, gt):
+        out.write(f"{c}\t{pos_list[i]}\t{ids[i]}\t{refs[i]}\t{alts_ref[i]}\t.\t.\t.\tGT\t{gt}\n")
 
-    def emit(c, i, gt):
-        s = sites[c]
-        out.write(f"{c}\t{s[0][i]}\t{s[1][i]}\t{s[2][i]}\t{s[3][i]}\t.\t.\t.\tGT\t{gt}\n")
-
-    def flush_chrom():
-        """Everything not reached on the current chromosome was never covered."""
-        c = state["chrom"]
-        if c is None:
-            return
-        s = sites[c]
-        for i in range(state["i"], len(s[0])):
-            emit(c, i, "./.")
-            cnt["missing_nocov"] += 1
-        state["done"].add(c)
-
-    proc = subprocess.Popen(["gzip", "-dc", a.gvcf], stdout=subprocess.PIPE, bufsize=1 << 22)
-    n_lines = 0
-    for raw in proc.stdout:
-        if raw[0] == 35:            # '#'
-            continue
+    for raw in records:
         n_lines += 1
-        f = raw.split(b"\t", 9)
-        c = chrom_key(f[0].decode())
-        if c is None or c not in sites:
-            continue
-        if c != state["chrom"]:
-            if c in state["done"]:
-                raise SystemExit(f"target: gVCF is not sorted (chromosome {c} appears twice)")
-            flush_chrom()
-            state["chrom"], state["i"] = c, 0
-        pos_list, _ids, refs, alts_ref = sites[c]
-        i, nsite = state["i"], len(pos_list)
         if i >= nsite:
             continue
+        f = raw.split(b"\t", 9)
         pos = int(f[1])
         # sites before this record were not covered by anything
         while i < nsite and pos_list[i] < pos:
-            emit(c, i, "./."); cnt["missing_nocov"] += 1; i += 1
+            emit(i, "./."); cnt["missing_nocov"] += 1; i += 1
         if i >= nsite:
-            state["i"] = i
             continue
         ref = f[3].decode().upper()
         info = f[7]
@@ -395,7 +396,6 @@ def cmd_target(a):
             j = info.find(b";", k)
             end = int(info[k + 4:j if j != -1 else len(info)])
         if pos_list[i] > end:
-            state["i"] = i
             continue
 
         fmt = f[8].split(b":")
@@ -417,7 +417,7 @@ def cmd_target(a):
 
         if not alts:
             # reference block: every site inside it is hom-ref, if the block is trustworthy
-            if not called or (dp == 0 and not a.trust_all_blocks):
+            if not called or (dp == 0 and not trust_all):
                 tag, g = "missing_nocov", "./."
             elif any(alleles):
                 tag, g = "missing_other", "./."
@@ -427,7 +427,7 @@ def cmd_target(a):
                 tag, g = "homref", "0/0"
             n0 = i
             while i < nsite and pos_list[i] <= end:
-                emit(c, i, g); cnt[tag] += 1; i += 1
+                emit(i, g); cnt[tag] += 1; i += 1
             if tag == "homref" and gq is not None:
                 gq_hist[min(gq // 5, 10)] += i - n0
         else:
@@ -438,7 +438,7 @@ def cmd_target(a):
             norm = [trim(ref, x) for x in alts]
             while i < nsite and pos_list[i] == pos:
                 if not called or len(alleles) != 2 or max(alleles) > len(alts):
-                    emit(c, i, "./."); cnt["missing_other"] += 1; i += 1
+                    emit(i, "./."); cnt["missing_other"] += 1; i += 1
                     continue
                 sref, salt = refs[i], alts_ref[i]
                 d = 0
@@ -464,30 +464,136 @@ def cmd_target(a):
                     want = trim(sref, salt)
                     d = sum(1 for x in alleles if x and norm[x - 1] == want)
                 if d is None:
-                    emit(c, i, "./."); cnt["missing_other"] += 1
+                    emit(i, "./."); cnt["missing_other"] += 1
                 elif d == 0 and not any(alleles) and gq is not None and gq < min_gq:
-                    emit(c, i, "./."); cnt["missing_lowgq"] += 1
+                    emit(i, "./."); cnt["missing_lowgq"] += 1
                 else:
-                    emit(c, i, ("0/0", "0/1", "1/1")[d])
+                    emit(i, ("0/0", "0/1", "1/1")[d])
                     cnt["variant" if d else ("other_alt" if any(alleles) else "homref")] += 1
                 i += 1
-        state["i"] = i
-    proc.wait()
-    if proc.returncode != 0:
-        raise SystemExit(f"target: gzip exited {proc.returncode} reading {a.gvcf}")
-    flush_chrom()
-    for c in sorted(set(sites) - state["done"], key=int):     # chromosomes absent from the gVCF
-        for i in range(len(sites[c][0])):
-            emit(c, i, "./."); cnt["missing_nocov"] += 1
-    out.close()
+    # everything not reached was never covered (also: a chromosome absent from the gVCF)
+    while i < nsite:
+        emit(i, "./."); cnt["missing_nocov"] += 1; i += 1
+    return cnt, gq_hist, n_lines
 
+
+def _target_worker(job):
+    """One chromosome, read straight from its offset in the BGZF gVCF, into its own part file."""
+    c, name, voffset, gvcf, part = job
+    def records():
+        for line in bgzf_lines(gvcf, voffset):
+            if line.split(b"\t", 1)[0].decode() != name:
+                return
+            yield line
+    with gzip.open(part, "wt", compresslevel=1) as out:
+        recs = records() if voffset is not None else iter(())
+        return (c,) + _target_chrom(c, recs, out)
+
+
+def cmd_target(a):
+    """Emit, for every reference variant, the genotype the gVCF implies.
+
+      reference block covers the position, GT 0/0 -> 0/0
+      variant record carries the panel ALT         -> its allele count
+      variant record carries other alleles only    -> 0/0 (zero copies of the panel ALT)
+      no record, no depth, or GQ below --min-gq     -> ./.  (mean-imputed downstream)
+
+    A hom-ref call is only as good as the reads behind it. A block with GQ 1 and depth 0
+    says nothing, and counting it as hom-ref pulls every score towards the reference
+    allele; such sites are better left missing.
+
+    With a tabix index beside the gVCF, chromosomes are processed in parallel straight
+    from their offsets; without one, the file is read once from start to end.
+    Output order is chromosome 1-22, then position, as in the reference .pvar.
+    """
+    sites = {}
+    with open(a.pvar, encoding="utf-8") as fh:
+        for line in fh:
+            if line[0] == "#":
+                continue
+            f = line.split("\t", 5)
+            c = chrom_key(f[0])
+            if c is None:
+                continue
+            s = sites.setdefault(c, ([], [], [], []))
+            s[0].append(int(f[1])); s[1].append(f[2]); s[2].append(f[3].upper())
+            s[3].append(f[4].rstrip("\n").upper())
+    n_sites = sum(len(s[0]) for s in sites.values())
+    log(f"target: {n_sites:,} reference variants to genotype")
+    TGT.update(sites=sites, min_gq=a.min_gq, trust_all=a.trust_all_blocks)
+    order = sorted(sites, key=int)
+    parts = {c: f"{a.out}.part{c}" for c in order}
+    results = {}
+
+    tbi = a.gvcf + ".tbi"
+    starts = None
+    if os.path.exists(tbi) and a.threads > 1:
+        try:
+            starts = read_tbi(tbi)
+        except Exception as e:  # unreadable index: fall back to a sequential read
+            log(f"target: cannot use {tbi} ({e}); reading sequentially")
+    if starts is not None:
+        name_of = {chrom_key(n): n for n in starts if chrom_key(n)}
+        jobs = [(c, name_of.get(c), starts.get(name_of.get(c)), a.gvcf, parts[c]) for c in order]
+        jobs.sort(key=lambda j: -len(sites[j[0]][0]))          # longest first
+        with mp.Pool(min(a.threads, len(jobs))) as pool:
+            for c, cnt, hist, n in pool.imap_unordered(_target_worker, jobs):
+                results[c] = (cnt, hist, n)
+        log(f"target: {len(jobs)} chromosomes in parallel from the tabix index")
+    else:
+        import itertools
+        proc = subprocess.Popen(["gzip", "-dc", a.gvcf], stdout=subprocess.PIPE, bufsize=1 << 22)
+        body = (l for l in proc.stdout if l[:1] != b"#")
+        seen = set()
+        for name, group in itertools.groupby(body, key=lambda l: l.split(b"\t", 1)[0]):
+            c = chrom_key(name.decode())
+            if c is None or c not in sites:
+                for _ in group:
+                    pass
+                continue
+            if c in seen:
+                raise SystemExit(f"target: gVCF is not sorted (chromosome {c} appears twice)")
+            seen.add(c)
+            with gzip.open(parts[c], "wt", compresslevel=1) as out:
+                results[c] = _target_chrom(c, group, out)
+        proc.wait()
+        if proc.returncode != 0:
+            raise SystemExit(f"target: gzip exited {proc.returncode} reading {a.gvcf}")
+        for c in order:
+            if c not in results:                          # chromosome absent from the gVCF
+                with gzip.open(parts[c], "wt", compresslevel=1) as out:
+                    results[c] = _target_chrom(c, iter(()), out)
+
+    # header as one gzip member, then the chromosome parts in order (a valid multi-member gzip)
+    with open(a.out, "wb") as dst:
+        head = ["##fileformat=VCFv4.2", '##FORMAT=<ID=GT,Number=1,Type=String,Description="Genotype">']
+        head += [f"##contig=<ID={c}>" for c in order]
+        head.append(f"#CHROM\tPOS\tID\tREF\tALT\tQUAL\tFILTER\tINFO\tFORMAT\t{a.sample}")
+        dst.write(gzip.compress(("\n".join(head) + "\n").encode(), compresslevel=1))
+        for c in order:
+            with open(parts[c], "rb") as src:
+                while True:
+                    buf = src.read(1 << 22)
+                    if not buf:
+                        break
+                    dst.write(buf)
+            os.remove(parts[c])
+
+    cnt = dict.fromkeys(results[order[0]][0], 0)
+    gq_hist, n_lines = [0] * 11, 0
+    for c in order:
+        cc, hh, nn = results[c]
+        for k, v in cc.items():
+            cnt[k] += v
+        gq_hist = [x + y for x, y in zip(gq_hist, hh)]
+        n_lines += nn
     genotyped = cnt["homref"] + cnt["variant"] + cnt["other_alt"]
     with open(a.stats, "w") as fh:
         fh.write("metric\tvalue\n")
         fh.write(f"reference_variants\t{n_sites}\n")
         fh.write(f"genotyped\t{genotyped}\n")
         fh.write(f"pct_genotyped\t{100.0 * genotyped / n_sites:.3f}\n")
-        fh.write(f"min_gq\t{min_gq}\n")
+        fh.write(f"min_gq\t{a.min_gq}\n")
         for k, v in cnt.items():
             fh.write(f"{k}\t{v}\n")
         for b, v in enumerate(gq_hist):
@@ -695,6 +801,8 @@ def main():
     p.add_argument("--trust-all-blocks", action="store_true",
                    help="comparison only: count every 0/0 block as hom-ref even at zero depth, "
                         "as the 2026-08 pgsc_calc target was built")
+    p.add_argument("--threads", type=int, default=1,
+                   help="chromosomes processed in parallel; needs a .tbi beside the gVCF")
     p.add_argument("--out", required=True)
     p.add_argument("--stats", required=True)
     p.set_defaults(fn=cmd_target)

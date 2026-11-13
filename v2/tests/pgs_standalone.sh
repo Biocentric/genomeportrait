@@ -86,7 +86,7 @@ if [ ! -s target/target.pgen ]; then
         *target.vcf.gz) stamp "6. reusing panel-space VCF $INPUT"; TVCF=$INPUT; bind="$bind -B $(dirname "$INPUT")" ;;
         *)  stamp "6. rebuild the sample in the reference's allele space (min GQ $MIN_GQ)"
             TVCF=target/$SAMPLE.target.vcf.gz
-            $ENGINE target --gvcf "$INPUT" --pvar ref/ref.pvar --sample "$SAMPLE" --min-gq "$MIN_GQ" ${TARGET_OPTS:-} \
+            $ENGINE target --gvcf "$INPUT" --pvar ref/ref.pvar --sample "$SAMPLE" --min-gq "$MIN_GQ" --threads "$THREADS" ${TARGET_OPTS:-} \
                     --out "$TVCF" --stats target/target_stats.tsv ;;
     esac
     plink2 --vcf "$TVCF" --autosome --extract ref/ref.pvar --make-pgen --out target/target
