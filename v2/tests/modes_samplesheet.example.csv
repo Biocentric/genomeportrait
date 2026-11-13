@@ -1,3 +1,3 @@
 sample,fastq_1,fastq_2,bam,gvcf,vcf,sex,platform
-ALIGNED,,,RESULTS/alignment/test_chr21/test_chr21.md.cram,,,unknown,illumina
-PORTRAIT,,,RESULTS/alignment/test_chr21/test_chr21.md.cram,RESULTS/variants/deepvariant/test_chr21/test_chr21.g.vcf.gz,RESULTS/variants/deepvariant/test_chr21/test_chr21.norm.vcf.gz,XX,illumina
+ALIGNED,,,RESULTS/test_chr21/alignment/test_chr21.md.cram,,,unknown,illumina
+PORTRAIT,,,RESULTS/test_chr21/alignment/test_chr21.md.cram,RESULTS/test_chr21/variants/test_chr21.g.vcf.gz,RESULTS/test_chr21/variants/test_chr21.norm.vcf.gz,XX,illumina

@@ -65,7 +65,7 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 - [ ] Validate the PGS engine on a non-European or admixed genome
 - [x] gVCF conversion per chromosome in parallel (5 min 49 s → 1 min 18 s)
 - [x] `report_sif`, `hipstr_sif`, `yleaf_sif` follow `reference_base` wherever it is set; cache honours `NXF_SINGULARITY_CACHEDIR`
-- [ ] Strict opt-in publishing with one `results/<sample>/` tree
+- [x] Strict opt-in publishing with one `results/<sample>/` tree
 - [ ] CYP2D6 via Cyrius, passed to PharmCAT as an outside call
 - [ ] Blood groups (ABO, RhD, Kell, Duffy, Kidd), validated on reference-panel frequencies
 - [x] One reference panel for ancestry and PGS (hold-out check: unadmixed populations recovered at 0.92–1.00)

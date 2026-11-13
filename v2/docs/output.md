@@ -5,28 +5,23 @@ they live in `--reference_base`.
 
 ```
 results/
-├── report/<sample>.genomeportrait.html     the unified portrait, self-contained
-├── polygenic/<sample>/
-│   ├── <sample>.pgs_overview.html          the polygenic section as its own page
-│   ├── <sample>.pgs_interpreted.tsv        every number on that page, one row per score
-│   ├── <sample>.pgs_interpreted.json       the same, structured (consensus per trait)
-│   ├── <sample>.pgs_scores.tsv             raw sums, Z and percentiles before interpretation
-│   ├── <sample>.pgs_population.tsv         similarity to each reference population; projected PCs
-│   ├── <sample>.pgs_imputation.tsv         which allele frequencies filled missing genotypes
-│   └── <sample>.pgs_target_stats.tsv       how many scored positions the gVCF genotyped, and why not
-├── qc/
-│   ├── genome_facts/<sample>/              depth, breadth, sex chromosomes, mtDNA copies
-│   ├── mosdepth/<sample>/  fastp/<sample>/  fastqc/<sample>/  qualimap/<sample>/
-├── alignment/<sample>/                     CRAM + index, MarkDuplicates metrics
-├── variants/deepvariant|manta|cnvpytor/<sample>/
-├── annotation/<sample>/                    VEP-annotated VCF and table
-├── ancestry/<sample>/                      PCA, admixture, ROH, kinship
-├── lineage/<sample>/                       mtDNA and Y haplogroups
-├── forensic_str/<sample>/                  CODIS profile, repeat expansions
-├── hla/<sample>/  pharmacogenomics/<sample>/  traits/<sample>/  extras/
+├── <sample>/
+│   ├── <sample>.genomeportrait.html      the unified portrait, self-contained
+│   ├── alignment/        CRAM + index, MarkDuplicates metrics
+│   ├── variants/         DeepVariant VCF and gVCF, the normalised VCF, bcftools stats
+│   │   └── sv_cnv/       Manta, CNVpytor, summary
+│   ├── qc/               genome facts, samtools stats; fastp/, fastqc/, mosdepth/, qualimap/
+│   ├── annotation/       VEP-annotated VCF and table
+│   ├── ancestry/         PCA, admixture, kinship, report bundle
+│   ├── lineage/          mtDNA and Y haplogroups
+│   ├── str/              CODIS profile, repeat expansions
+│   ├── polygenic/        overview page, interpreted table, scores, population, imputation, target stats
+│   ├── hla/  pharmacogenomics/  traits/  extras/
 ├── multiqc/multiqc_report.html
-└── pipeline_info/                          timeline, trace, DAG, software versions
+└── pipeline_info/        timeline, trace, DAG, software versions
 ```
+
+Every sample gets one folder, so a sample can be handed over or deleted as a unit.
 
 Not published, unlike v1: trimmed FASTQ, the duplicate-marked BAM, reference downloads and
 indices, and intermediates such as the panel-space VCF used for scoring.

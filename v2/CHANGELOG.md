@@ -4,6 +4,10 @@
 
 ### Since the first v2 commit
 
+- Publishing is off by default and every result lands in one folder per sample:
+  `<outdir>/<sample>/{alignment,variants,qc,annotation,ancestry,lineage,str,polygenic,hla,
+  pharmacogenomics,traits,extras}/` plus `<outdir>/<sample>/<sample>.genomeportrait.html`;
+  `multiqc/` and `pipeline_info/` stay at the top. `tests/check_results_tree.py` checks it.
 - Ancestry inputs fixed (both v1 bugs): hom-ref sites were called with ALT `.` and dropped at the
   merge (only 19,663 of 50,000 SNPs used, mostly variant sites), and the 50,000 SNPs were the first
   lines of the pruned list (chromosomes 1-3 only). Sites are now spread genome-wide and genotyped for

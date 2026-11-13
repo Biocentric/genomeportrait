@@ -34,9 +34,9 @@ What runs depends on which columns are filled:
   reference blocks, annotation needs the variant VCF, and STR, HLA, lineage and
   pharmacogenomics read the alignment.
 
-To re-portray a genome that v1 or v2 already processed, point the three columns at
-`alignment/<sample>/*.cram`, `variants/deepvariant/<sample>/*.g.vcf.gz` and the normalised
-VCF in its results folder.
+To re-portray a genome that v2 already processed, point the three columns at
+`<sample>/alignment/*.cram`, `<sample>/variants/*.g.vcf.gz` and `<sample>/variants/*.norm.vcf.gz`
+in its results folder (v1 used `alignment/<sample>/`, `variants/deepvariant/<sample>/`).
 
 ## Running
 
