@@ -84,6 +84,7 @@ Genome facts (depth, sex, mtDNA copies) always run: other modules depend on the 
 | `--pgs_min_overlap` | `0.75` | A score with fewer of its variants genotyped is not reported |
 | `--pgs_min_gq` | `0` | Hom-ref calls below this genotype quality count as missing |
 | `--pgs_keep_ambiguous` | `false` | Keep A/T and C/G SNPs |
+| `--pgs_impute` | `auto` | Frequencies that fill missing genotypes: `auto` (most similar population when ≥ 90%), `population`, `pooled` |
 | `--pgs_percentile` | `auto` | `population`, `adjusted`, or chosen by how cleanly the sample matches one population |
 
 Method, validation and how to extend the panel: [`polygenic.md`](polygenic.md).

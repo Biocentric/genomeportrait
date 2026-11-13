@@ -11,6 +11,7 @@ process PGS_REPORT {
     path  ref_pcs
     tuple path(ref_pgen), path(ref_pvar), path(ref_psam)
     path  ref_afreq
+    path  pop_afreq
     path  scores
     path  match_stats
     path  panel
@@ -24,6 +25,7 @@ process PGS_REPORT {
     output:
     tuple val(meta), path("${meta.id}.pgs_scores.tsv"),       emit: scores
     tuple val(meta), path("${meta.id}.pgs_population.tsv"),   emit: population
+    tuple val(meta), path("${meta.id}.pgs_imputation.tsv"),   emit: imputation
     tuple val(meta), path("${meta.id}.pgs_interpreted.tsv"),  emit: tsv
     tuple val(meta), path("${meta.id}.pgs_interpreted.json"), emit: json
     tuple val(meta), path("${meta.id}.pgs_overview.html"),    emit: html
@@ -32,9 +34,15 @@ process PGS_REPORT {
 
     script:
     """
+    # Most similar reference population: its allele frequencies fill missing genotypes.
+    python3 ${engine} population --ref-pcs ${ref_pcs} --target-pcs ${target_pcs} --psam ${ref_psam} \\
+        --pop-col ${params.pgs_population_col} --out population_for_imputation.tsv
+
     # One pass over the sample's genotypes; every score is a dot product over its .npz rows.
     python3 ${engine} score --target ${target_vcf} --pvar ${ref_pvar} --scores ${scores} \\
-        --impute-afreq ${ref_afreq} --outdir target_scores
+        --impute-afreq ${ref_afreq} --pop-afreq-dir ${pop_afreq} \\
+        --population population_for_imputation.tsv --impute ${params.pgs_impute} \\
+        --imputation-out ${meta.id}.pgs_imputation.tsv --outdir target_scores
 
     python3 ${engine} normalise \\
         --ref-scores ${ref_scores} --target-scores target_scores \\
@@ -45,6 +53,7 @@ process PGS_REPORT {
 
     python3 ${interpret} --scores ${meta.id}.pgs_scores.tsv --panel ${panel} --concepts ${concepts} \\
         --catalog ${catalog} --r2-exclusions ${r2_exclusions} --sample ${meta.id} \\
+        --imputation ${meta.id}.pgs_imputation.tsv \\
         --percentile ${params.pgs_percentile} \\
         --out-tsv ${meta.id}.pgs_interpreted.tsv --out-json ${meta.id}.pgs_interpreted.json
 

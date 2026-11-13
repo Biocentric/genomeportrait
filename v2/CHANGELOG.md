@@ -4,6 +4,9 @@
 
 ### Since the first v2 commit
 
+- Missing genotypes in polygenic scoring are filled from the most similar reference
+  population's allele frequencies (`PGS_POP_FREQ`, `--pgs_impute`) instead of the pooled panel's.
+  Removes a systematic error of up to 0.35 SD; `tests/validate_pgs_imputation.py` measures it.
 - The sample is scored in one pass in Python (`pgs_engine.py score`) instead of one plink2 run per
   score: 40 s instead of 4 min 50 s for 204 scores. `PGS_MATCH` also saves each score as row
   numbers and weights (`<pgs>.npz`, cache directory `match_v2`); `PGS_SCORE` became

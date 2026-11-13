@@ -12,7 +12,8 @@
 #   gvcf           DeepVariant gVCF; or, to reuse an existing panel-space VCF, a file ending in target.vcf.gz
 #
 # Environment: PLINK2_SIF (plink2 Singularity image), THREADS (default 16), MIN_GQ (default 0),
-#              BINDS (extra -B paths, comma separated), TARGET_OPTS (extra options for `target`).
+#              BINDS (extra -B paths, comma separated), TARGET_OPTS (extra options for `target`),
+#              IMPUTE (auto | population | pooled; default auto).
 set -euo pipefail
 
 WORK=$1; SF=$2; PANEL=$3; INPUT=$4; SAMPLE=$5
@@ -98,9 +99,22 @@ plink2 --pfile target/target --read-freq ref/pca.acount \
        --score ref/pca.eigenvec.allele 2 "$A1" header-read no-mean-imputation variance-standardize \
        --score-col-nums "$P1-$P2" --out target/target_pcs
 
-stamp "8. score the sample in one pass (missing genotypes take the reference mean)"
+if [ ! -e ref/pop_afreq/.done ]; then
+    stamp "8a. allele frequencies per reference super-population"
+    mkdir -p ref/pop_afreq
+    for pop in $(tail -n +2 ref/ref.psam | cut -f3 | sort -u); do
+        awk -F'\t' -v p="$pop" 'NR > 1 && $3 == p { print $1 }' ref/ref.psam > "ref/pop_afreq/$pop.ids"
+        plink2 --pfile ref/ref --keep "ref/pop_afreq/$pop.ids" --freq --out "ref/pop_afreq/$pop" > /dev/null
+    done
+    touch ref/pop_afreq/.done
+fi
+
+stamp "8b. score the sample in one pass (missing genotypes: ${IMPUTE:-auto} frequencies)"
 TVCF_USED=${TVCF:-target/$SAMPLE.target.vcf.gz}
-$ENGINE score --target "$TVCF_USED" --pvar ref/ref.pvar --scores scores --impute-afreq ref/ref.afreq --outdir target_scores
+$ENGINE population --ref-pcs ref/ref_pcs.sscore --target-pcs target/target_pcs.sscore --psam ref/ref.psam --out target/population.tsv
+$ENGINE score --target "$TVCF_USED" --pvar ref/ref.pvar --scores scores --impute-afreq ref/ref.afreq \
+    --pop-afreq-dir ref/pop_afreq --population target/population.tsv --impute "${IMPUTE:-auto}" \
+    --imputation-out "$SAMPLE.pgs_imputation.tsv" --outdir target_scores
 
 stamp "9. ancestry-adjusted Z and percentiles"
 $ENGINE normalise --ref-scores ref_scores --target-scores target_scores \

@@ -55,14 +55,11 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 
 ## v2.1
 
-- [ ] **Score the sample in one Python pass** instead of 204 `plink2` runs (9 min → ~1 min),
-      which also allows the next item
-- [ ] **Impute missing genotypes from the most similar population's frequencies** rather
-      than the pooled panel's (measured effect on this genome: 0.04 SD on average, up to 0.29)
+- [x] **Score the sample in one Python pass** (4 min 50 s → 40 s)
+- [x] **Fill missing genotypes from the most similar population's frequencies** (bias up to 0.35 SD removed)
 - [ ] Validate the PGS engine on a non-European or admixed genome
-- [ ] gVCF conversion per chromosome in parallel (6 min single-threaded at 21x)
-- [ ] Make `report_sif`, `hipstr_sif`, `yleaf_sif` and the Singularity cache follow
-      `reference_base` wherever it is set, not only on the command line
+- [x] gVCF conversion per chromosome in parallel (5 min 49 s → 1 min 18 s)
+- [x] `report_sif`, `hipstr_sif`, `yleaf_sif` follow `reference_base` wherever it is set; cache honours `NXF_SINGULARITY_CACHEDIR`
 - [ ] Strict opt-in publishing with one `results/<sample>/` tree
 - [ ] CYP2D6 via Cyrius, passed to PharmCAT as an outside call
 - [ ] Blood groups (ABO, RhD, Kell, Duffy, Kidd), validated on reference-panel frequencies

@@ -358,6 +358,21 @@
                         "adjusted"
                     ],
                     "description": "Percentile basis: rank within the most similar population, from the ancestry-adjusted Z, or chosen automatically."
+                },
+                "pgs_impute": {
+                    "type": "string",
+                    "default": "auto",
+                    "enum": [
+                        "auto",
+                        "population",
+                        "pooled"
+                    ],
+                    "description": "Which allele frequencies fill missing genotypes: the most similar reference population's (auto: when its probability is at least 0.9), always that population's, or the pooled panel's."
+                },
+                "pgs_population_col": {
+                    "type": "string",
+                    "default": "SuperPop",
+                    "description": "Column of the reference .psam that defines populations."
                 }
             }
         },

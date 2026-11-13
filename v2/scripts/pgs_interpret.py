@@ -138,6 +138,7 @@ def main():
                     help="population: rank within the most similar reference population; "
                          "adjusted: from the ancestry-adjusted Z; auto: population when the "
                          "similarity is >= 0.9, adjusted otherwise")
+    ap.add_argument("--imputation", help="which allele frequencies filled missing genotypes (from `score`)")
     ap.add_argument("--out-tsv", required=True)
     ap.add_argument("--out-json", required=True)
     a = ap.parse_args()
@@ -161,6 +162,11 @@ def main():
             sys.exit(f"panel: {pid} refers to unknown concept '{r['concept']}'")
 
     meta = header_meta(a.scores)
+    imputation = "pooled"
+    if a.imputation and os.path.exists(a.imputation):
+        rows = read_tsv(a.imputation)
+        if rows:
+            imputation = rows[0]["frequencies"]
     conf = float(meta.get("confidence", 0) or 0)
     basis = a.percentile if a.percentile != "auto" else ("population" if conf >= 0.9 else "adjusted")
 
@@ -259,6 +265,7 @@ def main():
     out = dict(
         meta=dict(sample=a.sample, population=meta.get("most_similar_population", "?"), confidence=conf,
                   n_reference=int(meta.get("n_reference", 0) or 0), percentile_basis=basis,
+                  imputation=imputation,
                   n_scores=len(recs), n_traits=len(summary), n_excluded=len(excluded),
                   generated=datetime.date.today().isoformat(), domains=dom_order),
         summary=summary, scores=recs, excluded=excluded,

@@ -12,6 +12,7 @@ results/
 │   ├── <sample>.pgs_interpreted.json       the same, structured (consensus per trait)
 │   ├── <sample>.pgs_scores.tsv             raw sums, Z and percentiles before interpretation
 │   ├── <sample>.pgs_population.tsv         similarity to each reference population; projected PCs
+│   ├── <sample>.pgs_imputation.tsv         which allele frequencies filled missing genotypes
 │   └── <sample>.pgs_target_stats.tsv       how many scored positions the gVCF genotyped, and why not
 ├── qc/
 │   ├── genome_facts/<sample>/              depth, breadth, sex chromosomes, mtDNA copies

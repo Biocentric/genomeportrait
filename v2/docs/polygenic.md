@@ -58,10 +58,11 @@ removing relatives with the KING cutoff list shipped with it.
    same command that projected the reference genomes.
 8. `PGS_REPORT` —
    - *Scoring*: the target is read once into a dosage vector; each score is a dot product
-     over the row numbers and ALT-allele weights saved by `PGS_MATCH`. A missing genotype
-     takes the reference mean dosage (2 × ALT frequency), exactly what `plink2 --score
-     --read-freq` does, so it contributes what that variant contributes on average to the
-     distribution the sample is compared against. 204 scores take about 40 s.
+     over the row numbers and ALT-allele weights saved by `PGS_MATCH`. 204 scores take
+     about 40 s.
+   - *Missing genotypes* take 2 × the ALT frequency of the sample's most similar reference
+     population (`PGS_POP_FREQ`; `--pgs_impute auto` uses it when that population's
+     probability is at least 0.9, else the pooled panel). See "Filling missing genotypes".
    - *Most similar population*: Gaussian classifier on the first 5 PCs, one mean and
      covariance per reference super-population.
    - *`Z_norm1`*: ordinary least squares of `SUM` on the first 4 PCs in the reference;
@@ -159,6 +160,31 @@ reference allele is worth. At trait level, 13 of 41 consensus values moved by 0.
 more against the earlier run; none reversed direction. **Percentiles from a target built
 the old way carry this bias.**
 
+## Filling missing genotypes
+
+A genotype the gVCF cannot supply is replaced by its expected dosage. The pooled panel's
+frequency is the expectation for a genome of unknown ancestry; for a genome that clearly
+belongs to one reference population, that population's frequency is the better one. Tested
+with `tests/validate_pgs_imputation.py`: the 304,223 sites missing in the test genome were
+hidden in each of the 3,330 reference genomes, and the true contribution of those sites was
+compared with each way of filling them in. Errors in SDs of the score within the
+population, median over 197 scores:
+
+| Population | n | bias, pooled | bias, own population | RMSE, pooled | RMSE, own population | own better |
+|---|---|---|---|---|---|---|
+| AFR | 684 | 0.050 | 0.0005 | 0.137 | 0.124 | 99% |
+| AMR | 409 | 0.025 | 0.0002 | 0.124 | 0.120 | 99% |
+| CSA | 678 | 0.016 | 0.0002 | 0.123 | 0.120 | 97% |
+| EAS | 735 | 0.036 | 0.0006 | 0.135 | 0.120 | 98% |
+| EUR | 667 | 0.026 | 0.0003 | 0.133 | 0.127 | 99% |
+| MID | 157 | 0.025 | 0.0004 | 0.126 | 0.121 | 99% |
+
+Pooled frequencies add a systematic error of up to 0.35 SD for some scores (worst case:
+EAS 0.35, AFR 0.33); the population's own frequencies remove it (worst case 0.06). The
+remaining ~0.12 SD is the price of the missing genotypes themselves and does not depend on
+how they are filled. On the test genome (EUR at 100%) the switch moved `Z_norm2` by 0.034
+on average, maximum 0.26.
+
 ## Low-depth genomes and `--pgs_min_gq`
 
 Zero-depth blocks are always left missing. `--pgs_min_gq` goes further and also drops
@@ -209,10 +235,8 @@ Editing a concept, a note or a `reversed` flag does not invalidate anything.
 
 ## Limits
 
-- **Missing genotypes take the pooled reference mean**, not the mean of the sample's own
-  population. For this European genome, imputing the ~2.6% missing sites from European
-  frequencies instead would shift `Z_norm2` by 0.04 on average (95th percentile 0.09,
-  maximum 0.29). Population-specific imputation is on the v2.1 list.
+- A genome that matches no reference population at 90% or more has its missing genotypes
+  filled from the pooled panel, which carries the bias shown above.
 - Percentiles are relative to the reference panel's closest super-population, which for
   most people of European ancestry means ~670 genomes from several European populations.
 - A sample that is not a clean match to one super-population gets its percentiles from the

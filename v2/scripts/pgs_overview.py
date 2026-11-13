@@ -257,6 +257,8 @@ def build(data):
         if items:
             sections.append(f'<section><h2>{e(d)}</h2>{"".join(items)}</section>')
 
+    fill = ("the most similar reference population (" + e(m["imputation"]) + ")"
+            if m.get("imputation", "pooled") != "pooled" else "the whole reference panel")
     basis = ("rank among the reference genomes of the most similar population"
              if m["percentile_basis"] == "population" else "the ancestry-adjusted Z")
     note_items = notes(data, by_key)
@@ -285,7 +287,7 @@ def build(data):
 
 <div class="limits">
 <p><b>Limits.</b> A polygenic score estimates an inherited <i>tendency</i> relative to people of similar ancestry; it is not a measurement and not a diagnosis. An actual LDL, HbA1c or resting heart rate beats any score, and for most traits here the score explains under 10% of the variation between people. Most scores were built and validated in UK Biobank, so they inherit its self-reported phenotypes and its healthy-volunteer bias. *Percentile and Z are aligned to the trait as named on each card; "Flipped" (&#8645;) marks scores whose raw coding ran the other way.</p>
-<p><b>Method.</b> Scores are computed from the gVCF against the HGDP+1kGP reference panel: matched by position and alleles, strand-ambiguous variants dropped, missing genotypes set to the reference mean. Z is adjusted for ancestry by regressing the score's mean and variance on the leading principal components of the reference; percentiles are from {basis}. Effect sizes come from PGS Catalog performance records, European evaluations preferred. R² values above the trait's heritability ceiling, or from a score's own training cohort, are not used for sizing. ORs are used only for binary traits and only when plausibly per-SD (1/3&ndash;3). Every number on this page is in <span class="mono">{e(m["sample"])}.pgs_interpreted.tsv</span>.</p>
+<p><b>Method.</b> Scores are computed from the gVCF against the HGDP+1kGP reference panel: matched by position and alleles, strand-ambiguous variants dropped, missing genotypes filled with the mean dosage of {fill}. Z is adjusted for ancestry by regressing the score's mean and variance on the leading principal components of the reference; percentiles are from {basis}. Effect sizes come from PGS Catalog performance records, European evaluations preferred. R² values above the trait's heritability ceiling, or from a score's own training cohort, are not used for sizing. ORs are used only for binary traits and only when plausibly per-SD (1/3&ndash;3). Every number on this page is in <span class="mono">{e(m["sample"])}.pgs_interpreted.tsv</span>.</p>
 </div>"""
     return body
 

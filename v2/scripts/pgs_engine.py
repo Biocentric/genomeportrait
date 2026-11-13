@@ -670,10 +670,27 @@ def cmd_score(a):
     if proc.returncode != 0:
         raise SystemExit(f"score: gzip exited {proc.returncode} reading {a.target}")
     called = dos >= 0
-    freq = read_alt_freqs(a.impute_afreq, n)
+    source, freq_path = "pooled", a.impute_afreq
+    if a.impute != "pooled" and a.population and a.pop_afreq_dir:
+        with open(a.population) as fh:
+            next(fh)
+            top, prob = fh.readline().rstrip("\n").split("\t")[:2]
+        cand = os.path.join(a.pop_afreq_dir, f"{top}.afreq")
+        if not os.path.exists(cand):
+            log(f"score: no frequencies for {top} in {a.pop_afreq_dir}; using the pooled panel")
+        elif a.impute == "population" or float(prob) >= a.min_confidence:
+            source, freq_path = top, cand
+        else:
+            log(f"score: most similar population {top} at {100 * float(prob):.0f}% is below "
+                f"{100 * a.min_confidence:.0f}%; using the pooled panel")
+    freq = read_alt_freqs(freq_path, n)
     d = np.where(called, dos, 2.0 * freq).astype(np.float64)
-    log(f"score: {int(called.sum()):,} of {n:,} reference variants called; missing ones imputed from "
-        f"{os.path.basename(a.impute_afreq)}")
+    log(f"score: {int(called.sum()):,} of {n:,} reference variants called; missing ones filled from "
+        f"the {source} allele frequencies ({os.path.basename(freq_path)})")
+    if a.imputation_out:
+        with open(a.imputation_out, "w") as fh:
+            fh.write("frequencies\tfile\tcalled\treference_variants\n")
+            fh.write(f"{source}\t{os.path.basename(freq_path)}\t{int(called.sum())}\t{n}\n")
 
     os.makedirs(a.outdir, exist_ok=True)
     files = sorted(glob.glob(os.path.join(a.scores, "*.npz")))
@@ -752,35 +769,33 @@ def fit_mean_variance(A, y, iters=200, tol=1e-9):
     return beta, gamma
 
 
-def cmd_normalise(a):
-    import numpy as np
+def classify_population(ref_pcs, target_pcs, psam, pop_col="SuperPop", k=5):
+    """Gaussian classifier on the leading PCs, one mean and covariance per reference population.
 
-    # --- population labels ---------------------------------------------------------
+    Returns (best, {population: posterior probability}, labels, ref_ids, Rz, Tz) where Rz/Tz
+    are the reference and target PCs standardised to the reference.
+    """
+    import numpy as np
     pop = {}
-    with open(a.psam) as fh:
+    with open(psam) as fh:
         hdr = fh.readline().rstrip("\n").lstrip("#").split("\t")
-        ii, ip = hdr.index("IID"), hdr.index(a.pop_col)
+        ii, ip = hdr.index("IID"), hdr.index(pop_col)
         for l in fh:
             r = l.rstrip("\n").split("\t")
             pop[r[ii]] = r[ip]
-
-    # --- principal components ------------------------------------------------------
-    h, ref_pc = read_sscore(a.ref_pcs)
+    h, ref_pc = read_sscore(ref_pcs)
     pc_cols = [i for i, c in enumerate(h) if c.startswith("PC") and c.endswith("_AVG")]
-    if len(pc_cols) < a.n_pcs_pop:
-        raise SystemExit(f"normalise: only {len(pc_cols)} PCs in {a.ref_pcs}")
+    if len(pc_cols) < k:
+        raise SystemExit(f"only {len(pc_cols)} PCs in {ref_pcs}")
     ref_ids = sorted(i for i in ref_pc if i in pop)
     R = np.array([[float(ref_pc[i][c]) for c in pc_cols] for i in ref_ids])
-    h2, tgt_pc = read_sscore(a.target_pcs)
+    h2, tgt_pc = read_sscore(target_pcs)
     pc_cols2 = [i for i, c in enumerate(h2) if c.startswith("PC") and c.endswith("_AVG")]
     tgt_id = next(iter(tgt_pc))
     T = np.array([float(tgt_pc[tgt_id][c]) for c in pc_cols2])
     mu, sd = R.mean(0), R.std(0)
     Rz, Tz = (R - mu) / sd, (T - mu) / sd
     labels = np.array([pop[i] for i in ref_ids])
-
-    # --- most similar population: Gaussian classifier on the leading PCs -------------
-    k = a.n_pcs_pop
     logp = {}
     for g in sorted(set(labels)):
         X = Rz[labels == g, :k]
@@ -793,6 +808,30 @@ def cmd_normalise(a):
     mx = max(logp.values())
     tot = sum(math.exp(v - mx) for v in logp.values())
     conf = {g: math.exp(v - mx) / tot for g, v in logp.items()}
+    return best, conf, labels, ref_ids, Rz, Tz, tgt_id
+
+
+def write_population(path, conf, labels, Tz):
+    with open(path, "w") as fh:
+        fh.write("population\tprobability\tn_reference\n")
+        for g in sorted(conf, key=conf.get, reverse=True):
+            fh.write(f"{g}\t{conf[g]:.6f}\t{int((labels == g).sum())}\n")
+        fh.write("# target PCs (standardised to the reference): " + " ".join(f"{v:.3f}" for v in Tz) + "\n")
+
+
+def cmd_population(a):
+    best, conf, labels, _ids, _R, Tz, _t = classify_population(a.ref_pcs, a.target_pcs, a.psam,
+                                                               a.pop_col, a.n_pcs_pop)
+    write_population(a.out, conf, labels, Tz)
+    log(f"population: most similar {best} ({100 * conf[best]:.1f}%)")
+
+
+def cmd_normalise(a):
+    import numpy as np
+
+    best, conf, labels, ref_ids, Rz, Tz, tgt_id = classify_population(
+        a.ref_pcs, a.target_pcs, a.psam, a.pop_col, a.n_pcs_pop)
+    k = a.n_pcs_pop
     in_pop = labels == best
     log(f"normalise: most similar population {best} ({100 * conf[best]:.1f}%), "
         f"{int(in_pop.sum())} reference samples")
@@ -859,11 +898,7 @@ def cmd_normalise(a):
             fh.write("\t".join(
                 "" if r.get(c) is None else (f"{r[c]:.6g}" if isinstance(r[c], float) else str(r[c]))
                 for c in cols) + "\n")
-    with open(a.pop_out, "w") as fh:
-        fh.write("population\tprobability\tn_reference\n")
-        for g in sorted(conf, key=conf.get, reverse=True):
-            fh.write(f"{g}\t{conf[g]:.6f}\t{int((labels == g).sum())}\n")
-        fh.write("# target PCs (standardised to the reference): " + " ".join(f"{v:.3f}" for v in Tz) + "\n")
+    write_population(a.pop_out, conf, labels, Tz)
     ok = sum(r["status"] == "ok" for r in rows)
     log(f"normalise: {ok} of {len(rows)} scores passed (min overlap {a.min_overlap})")
 
@@ -908,9 +943,26 @@ def main():
     p.add_argument("--target", required=True, help="VCF from `target`")
     p.add_argument("--pvar", required=True, help="the reference .pvar the target was made from")
     p.add_argument("--scores", required=True, help="directory of <pgs>.npz from `match`")
-    p.add_argument("--impute-afreq", required=True, help="plink2 .afreq whose ALT frequencies fill missing calls")
+    p.add_argument("--impute-afreq", required=True,
+                   help="pooled reference .afreq; fills missing calls unless a population is chosen")
+    p.add_argument("--pop-afreq-dir", help="directory of <POPULATION>.afreq for the reference populations")
+    p.add_argument("--population", help="output of `population` for this sample")
+    p.add_argument("--impute", choices=["auto", "population", "pooled"], default="auto",
+                   help="auto: the most similar population's frequencies when its probability is at "
+                        "least --min-confidence, else pooled")
+    p.add_argument("--min-confidence", type=float, default=0.9)
+    p.add_argument("--imputation-out", help="write which frequencies were used")
     p.add_argument("--outdir", required=True)
     p.set_defaults(fn=cmd_score)
+
+    p = sub.add_parser("population")
+    p.add_argument("--ref-pcs", required=True)
+    p.add_argument("--target-pcs", required=True)
+    p.add_argument("--psam", required=True)
+    p.add_argument("--pop-col", default="SuperPop")
+    p.add_argument("--n-pcs-pop", type=int, default=5)
+    p.add_argument("--out", required=True)
+    p.set_defaults(fn=cmd_population)
 
     p = sub.add_parser("normalise")
     p.add_argument("--ref-scores", required=True)

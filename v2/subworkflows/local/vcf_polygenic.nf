@@ -7,6 +7,7 @@
 //     PGS_REFERENCE        HGDP+1kGP subset to those positions, unrelated only; PCA
 //     PGS_MATCH            every score matched to the reference by chr:pos:ref:alt
 //     PGS_SCORE_REFERENCE  the reference distribution of every score
+//     PGS_POP_FREQ         allele frequencies per reference super-population
 //   Per sample (minutes):
 //     PGS_TARGET           gVCF -> the sample in the reference's allele space
 //     PGS_PROJECT          projection onto the reference PCs (plink2)
@@ -20,6 +21,7 @@ include { PGS_PANEL_DOWNLOAD  } from '../../modules/local/pgs_panel_download'
 include { PGS_SITES           } from '../../modules/local/pgs_sites'
 include { PGS_REFERENCE       } from '../../modules/local/pgs_reference'
 include { PGS_MATCH           } from '../../modules/local/pgs_match'
+include { PGS_POP_FREQ        } from '../../modules/local/pgs_pop_freq'
 include { PGS_SCORE_REFERENCE } from '../../modules/local/pgs_score_reference'
 include { PGS_TARGET          } from '../../modules/local/pgs_target'
 include { PGS_PROJECT         } from '../../modules/local/pgs_project'
@@ -78,9 +80,10 @@ workflow VCF_POLYGENIC {
     )
     PGS_MATCH ( panel_key, PGS_FETCH.out.scorefiles, PGS_REFERENCE.out.pfile, PGS_REFERENCE.out.afreq, engine )
     PGS_SCORE_REFERENCE ( panel_key, PGS_REFERENCE.out.pfile, PGS_MATCH.out.scores )
+    PGS_POP_FREQ ( panel_key, PGS_REFERENCE.out.pfile )
     ch_versions = ch_versions.mix(
         PGS_SITES.out.versions, PGS_REFERENCE.out.versions,
-        PGS_MATCH.out.versions, PGS_SCORE_REFERENCE.out.versions
+        PGS_MATCH.out.versions, PGS_SCORE_REFERENCE.out.versions, PGS_POP_FREQ.out.versions
     )
 
     PGS_TARGET ( ch_gvcf, PGS_REFERENCE.out.pfile, engine )
@@ -91,6 +94,7 @@ workflow VCF_POLYGENIC {
         PGS_REFERENCE.out.ref_pcs,
         PGS_REFERENCE.out.pfile,
         PGS_REFERENCE.out.afreq,
+        PGS_POP_FREQ.out.afreq,
         PGS_MATCH.out.scores,
         PGS_MATCH.out.stats,
         panel,
