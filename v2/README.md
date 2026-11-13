@@ -19,7 +19,7 @@ the v1 files one level up. Why it exists and what is still open:
 |---|---|---|
 | Re-running interpretation on a finished genome | from BAM, repeating MarkDuplicates, BQSR and DeepVariant | **portrait mode**: give CRAM + gVCF + VCF, interpretation only |
 | Polygenic scores | 4 scores, pooled percentile | **204-score panel**, ancestry-adjusted Z, direction, consensus per trait, effect size in units |
-| PGS run time for one genome | n/a (`pgsc_calc` on the same panel: 6 h 45 min) | ~30 min for the first genome on a panel, ~12 min after that |
+| PGS run time for one genome | n/a (`pgsc_calc` on the same panel: 6 h 45 min) | ~20 min for the first genome on a panel, ~3 min after that |
 | Sample sex | samplesheet only; `unknown` treated as female for STRs | **inferred from depth**, used when the samplesheet does not say |
 | Alignment | sorted twice, BQSR always | sorted once, BQSR opt-in |
 | `results/` | also holds references, trimmed FASTQ, markdup BAM (~360 GB extra at 40x) | results only |

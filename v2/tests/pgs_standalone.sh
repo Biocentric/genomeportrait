@@ -98,15 +98,9 @@ plink2 --pfile target/target --read-freq ref/pca.acount \
        --score ref/pca.eigenvec.allele 2 "$A1" header-read no-mean-imputation variance-standardize \
        --score-col-nums "$P1-$P2" --out target/target_pcs
 
-stamp "8. score the sample (missing genotypes take the reference mean)"
-for f in scores/*.score; do
-    id=$(basename "$f" .score)
-    ( singularity exec $bind "$PLINK2_SIF" plink2 --threads 2 --pfile target/target --read-freq ref/ref.afreq \
-          --score "$f" 1 2 3 header cols=+scoresums --out "target_scores/$id" > "target_scores/$id.out" 2>&1 \
-      || echo "sample scoring failed: $id" >&2 ) &
-    while [ "$(jobs -r | wc -l)" -ge $((THREADS / 2)) ]; do wait -n; done
-done
-wait
+stamp "8. score the sample in one pass (missing genotypes take the reference mean)"
+TVCF_USED=${TVCF:-target/$SAMPLE.target.vcf.gz}
+$ENGINE score --target "$TVCF_USED" --pvar ref/ref.pvar --scores scores --impute-afreq ref/ref.afreq --outdir target_scores
 
 stamp "9. ancestry-adjusted Z and percentiles"
 $ENGINE normalise --ref-scores ref_scores --target-scores target_scores \

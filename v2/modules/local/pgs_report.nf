@@ -1,15 +1,17 @@
 process PGS_REPORT {
     tag "$meta.id"
-    label 'process_single'
+    label 'process_low'
 
     conda "conda-forge::python=3.12 conda-forge::numpy=2.1"
     container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.report_sif ?: "${params.reference_base}/containers/genomeportrait-report-${params.report_image_version}.sif") : params.report_docker }"
 
     input:
-    tuple val(meta), path(target_scores), path(target_pcs)
+    tuple val(meta), path(target_vcf), path(target_pcs)
     path  ref_scores
     path  ref_pcs
     tuple path(ref_pgen), path(ref_pvar), path(ref_psam)
+    path  ref_afreq
+    path  scores
     path  match_stats
     path  panel
     path  concepts
@@ -30,8 +32,12 @@ process PGS_REPORT {
 
     script:
     """
+    # One pass over the sample's genotypes; every score is a dot product over its .npz rows.
+    python3 ${engine} score --target ${target_vcf} --pvar ${ref_pvar} --scores ${scores} \\
+        --impute-afreq ${ref_afreq} --outdir target_scores
+
     python3 ${engine} normalise \\
-        --ref-scores ${ref_scores} --target-scores ${target_scores} \\
+        --ref-scores ${ref_scores} --target-scores target_scores \\
         --ref-pcs ${ref_pcs} --target-pcs ${target_pcs} \\
         --psam ${ref_psam} --match-stats ${match_stats} \\
         --min-overlap ${params.pgs_min_overlap} \\

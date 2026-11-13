@@ -176,7 +176,7 @@ def load_pvar(path, afreq=None):
             c = chrom_key(f[0])
             if c is None:
                 continue
-            REF.setdefault((c, int(f[1])), []).append((f[2], f[3].upper(), f[4].rstrip("\n").upper(), af))
+            REF.setdefault((c, int(f[1])), []).append((f[2], f[3].upper(), f[4].rstrip("\n").upper(), af, n))
             n += 1
     if freqs:
         freqs.close()
@@ -194,29 +194,29 @@ def match_row(c, pos, ea, oa, keep_ambiguous):
         return None, 0, "unmatched"
     ea_f, oa_f = revcomp(ea), (revcomp(oa) if oa else "")
     best = None
-    for vid, ref, alt, af in cands:
+    for vid, ref, alt, af, row in cands:
         amb = is_ambiguous(ref, alt)
         if oa:
             if ea == alt and oa == ref:
-                hit = (vid, +1, "matched")
+                hit = ((vid, row), +1, "matched")
             elif ea == ref and oa == alt:
-                hit = (vid, -1, "matched")
+                hit = ((vid, row), -1, "matched")
             elif not amb and ea_f == alt and oa_f == ref:
-                hit = (vid, +1, "flipped")
+                hit = ((vid, row), +1, "flipped")
             elif not amb and ea_f == ref and oa_f == alt:
-                hit = (vid, -1, "flipped")
+                hit = ((vid, row), -1, "flipped")
             else:
                 continue
         else:
             # No other allele published: the effect allele alone has to identify the variant.
             if ea == alt:
-                hit = (vid, +1, "matched")
+                hit = ((vid, row), +1, "matched")
             elif ea == ref:
-                hit = (vid, -1, "matched")
+                hit = ((vid, row), -1, "matched")
             elif not amb and ea_f == alt:
-                hit = (vid, +1, "flipped")
+                hit = ((vid, row), +1, "flipped")
             elif not amb and ea_f == ref:
-                hit = (vid, -1, "flipped")
+                hit = ((vid, row), -1, "flipped")
             else:
                 continue
         if amb and not keep_ambiguous:
@@ -234,7 +234,7 @@ def match_row(c, pos, ea, oa, keep_ambiguous):
 def _match_one(args):
     path, outdir, keep_ambiguous = args
     pid = score_id(path)
-    weights, offset = {}, 0.0
+    weights, rows, offset = {}, {}, 0.0
     cnt = dict(rows=0, matched=0, flipped=0, ambiguous=0, unmatched=0, unsupported=0, merged=0)
     for c, pos, ea, oa, w, ok in read_scorefile(path):
         cnt["rows"] += 1
@@ -244,8 +244,8 @@ def _match_one(args):
         if c is None:
             cnt["unmatched"] += 1
             continue
-        vid, sign, status = match_row(c, pos, ea, oa, keep_ambiguous)
-        if vid is None:
+        hit, sign, status = match_row(c, pos, ea, oa, keep_ambiguous)
+        if hit is None:
             cnt[status] += 1
             continue
         cnt["matched"] += 1
@@ -253,13 +253,21 @@ def _match_one(args):
             cnt["flipped"] += 1
         if sign < 0:
             offset += 2.0 * w
+        vid, row = hit
         if vid in weights:
             cnt["merged"] += 1
         weights[vid] = weights.get(vid, 0.0) + sign * w
+        rows[vid] = row
     with open(os.path.join(outdir, f"{pid}.score"), "w") as fh:
         fh.write("ID\tA1\tW\n")
         for vid, w in weights.items():
             fh.write(f"{vid}\t{vid.rsplit(':', 1)[-1]}\t{w!r}\n")
+    # The same score as row numbers into the reference .pvar plus ALT-allele weights, for
+    # `score`: one sample then costs one numpy dot product per score instead of a plink2 run.
+    import numpy as np
+    np.savez(os.path.join(outdir, f"{pid}.npz"),
+             row=np.fromiter((rows[v] for v in weights), dtype=np.int32, count=len(weights)),
+             w=np.fromiter(weights.values(), dtype=np.float64, count=len(weights)))
     cnt.update(pgs_id=pid, offset=offset, n_ids=len(weights))
     return cnt
 
@@ -270,7 +278,7 @@ def cmd_match(a):
     log(f"match: {n:,} reference variants at {len(REF):,} positions")
     # The A1 column is taken from the variant ID's last field; verify the panel really
     # names variants chr:pos:ref:alt before relying on that.
-    bad = sum(1 for rows in list(REF.values())[:200000] for vid, _r, alt, _af in rows
+    bad = sum(1 for rows in list(REF.values())[:200000] for vid, _r, alt, _af, _n in rows
               if vid.rsplit(":", 1)[-1].upper() != alt)
     if bad:
         raise SystemExit(f"match: {bad} reference variant IDs do not end in their ALT allele; "
@@ -603,6 +611,92 @@ def cmd_target(a):
 
 
 # --------------------------------------------------------------------------------------
+# score
+# --------------------------------------------------------------------------------------
+def read_alt_freqs(path, n_expected=None):
+    """plink2 .afreq -> numpy array of ALT frequencies, in file order."""
+    import numpy as np
+    with open(path) as fh:
+        h = fh.readline().rstrip("\n").lstrip("#").split("\t")
+        i_af = h.index("ALT_FREQS")
+        f = np.array([float(l.split("\t")[i_af]) if l.split("\t")[i_af] not in ("NA", "nan") else 0.0
+                      for l in fh], dtype=np.float64)
+    if n_expected is not None and len(f) != n_expected:
+        raise SystemExit(f"score: {path} has {len(f)} variants, the reference has {n_expected}")
+    return f
+
+
+def cmd_score(a):
+    """Score one sample against every matched score in a single pass over its genotypes.
+
+    The target VCF from `target` lists the reference variants in .pvar order. Each is read
+    once into a dosage vector (ALT allele count; missing calls take 2 x the ALT frequency
+    given by --impute-afreq, which is what plink2 --score --read-freq does). Every score is
+    then a dot product over its <pgs>.npz rows. Output: one plink2-style .sscore per score.
+    """
+    import numpy as np
+    ids = []
+    with open(a.pvar) as fh:
+        for line in fh:
+            if line[0] != "#":
+                f = line.split("\t", 3)
+                if chrom_key(f[0]) is not None:
+                    ids.append(f[2])
+    n = len(ids)
+    dos = np.full(n, -1, dtype=np.int8)
+    sample, k, index = None, 0, None
+    proc = subprocess.Popen(["gzip", "-dc", a.target], stdout=subprocess.PIPE, bufsize=1 << 22)
+    for raw in proc.stdout:
+        if raw[:1] == b"#":
+            if raw.startswith(b"#CHROM"):
+                sample = raw.rstrip(b"\n").split(b"\t")[9].decode()
+            continue
+        f = raw.split(b"\t", 10)
+        vid = f[2].decode()
+        if index is None and k < n and vid == ids[k]:
+            row = k                          # the usual case: a target made by `target`
+        else:
+            if index is None:                # any other VCF: look variants up by ID
+                index = {v: i for i, v in enumerate(ids)}
+                log("score: target is not in reference order; matching variants by ID")
+            row = index.get(vid)
+        k += 1
+        if row is None:
+            continue
+        gt = f[9][:3]
+        if gt[:1] != b"." and gt[2:3] != b".":
+            dos[row] = (gt[:1] == b"1") + (gt[2:3] == b"1")
+    proc.wait()
+    if proc.returncode != 0:
+        raise SystemExit(f"score: gzip exited {proc.returncode} reading {a.target}")
+    called = dos >= 0
+    freq = read_alt_freqs(a.impute_afreq, n)
+    d = np.where(called, dos, 2.0 * freq).astype(np.float64)
+    log(f"score: {int(called.sum()):,} of {n:,} reference variants called; missing ones imputed from "
+        f"{os.path.basename(a.impute_afreq)}")
+
+    os.makedirs(a.outdir, exist_ok=True)
+    files = sorted(glob.glob(os.path.join(a.scores, "*.npz")))
+    if not files:
+        raise SystemExit(f"score: no .npz score files in {a.scores} (rerun `match`)")
+    for path in files:
+        pid = os.path.basename(path)[:-4]
+        z = np.load(path)
+        row, w = z["row"], z["w"]
+        if len(row) == 0:
+            continue
+        total = float(w @ d[row])
+        c = called[row]
+        allele_ct = 2 * int(c.sum())
+        named = float(dos[row][c].sum())
+        with open(os.path.join(a.outdir, f"{pid}.sscore"), "w") as fh:
+            fh.write("#IID\tALLELE_CT\tNAMED_ALLELE_DOSAGE_SUM\tSCORE1_AVG\tSCORE1_SUM\n")
+            avg = total / allele_ct if allele_ct else float("nan")
+            fh.write(f"{sample}\t{allele_ct}\t{named:g}\t{avg!r}\t{total!r}\n")
+    log(f"score: {len(files)} scores written to {a.outdir}")
+
+
+# --------------------------------------------------------------------------------------
 # normalise
 # --------------------------------------------------------------------------------------
 def read_sscore(path):
@@ -746,7 +840,10 @@ def cmd_normalise(a):
         z2 = (s - a_t @ b2) / math.sqrt(math.exp(a_t @ g2))
         yp = y[in_pop]
         zpop = (s - yp.mean()) / yp.std()
-        pct_pop = 100.0 * (np.sum(yp < s) + 0.5 * np.sum(yp == s)) / len(yp)
+        # Reference sums come from plink2 rounded to 6 significant digits; a sample's sum can
+        # differ from a tied block of them in the last digits only. Count those as ties.
+        tol = 1e-6 * y.std()
+        pct_pop = 100.0 * (np.sum(yp < s - tol) + 0.5 * np.sum(np.abs(yp - s) <= tol)) / len(yp)
         pct_z2 = 50.0 * (1.0 + math.erf(z2 / math.sqrt(2.0)))
         rows.append(dict(base, status="ok", Z_MostSimilarPop=zpop, Z_norm1=z1, Z_norm2=z2,
                          percentile_MostSimilarPop=pct_pop, percentile_norm2=pct_z2))
@@ -806,6 +903,14 @@ def main():
     p.add_argument("--out", required=True)
     p.add_argument("--stats", required=True)
     p.set_defaults(fn=cmd_target)
+
+    p = sub.add_parser("score")
+    p.add_argument("--target", required=True, help="VCF from `target`")
+    p.add_argument("--pvar", required=True, help="the reference .pvar the target was made from")
+    p.add_argument("--scores", required=True, help="directory of <pgs>.npz from `match`")
+    p.add_argument("--impute-afreq", required=True, help="plink2 .afreq whose ALT frequencies fill missing calls")
+    p.add_argument("--outdir", required=True)
+    p.set_defaults(fn=cmd_score)
 
     p = sub.add_parser("normalise")
     p.add_argument("--ref-scores", required=True)

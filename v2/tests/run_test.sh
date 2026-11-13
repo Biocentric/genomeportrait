@@ -10,7 +10,6 @@
 #
 # The pipeline is copied to $SCRATCH first because Singularity cannot use a FUSE mount
 # as its working directory and Nextflow's work directory must be on local disk.
-# Give --reference_base on the command line (REFBASE): container paths are derived from it.
 set -euo pipefail
 NAME=${1:?usage: tests/run_test.sh <smoke|modes|name> [nextflow options]}; shift
 SRC=$(cd "$(dirname "$0")/.." && pwd)

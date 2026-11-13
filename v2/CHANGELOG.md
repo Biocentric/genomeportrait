@@ -4,6 +4,10 @@
 
 ### Since the first v2 commit
 
+- The sample is scored in one pass in Python (`pgs_engine.py score`) instead of one plink2 run per
+  score: 40 s instead of 4 min 50 s for 204 scores. `PGS_MATCH` also saves each score as row
+  numbers and weights (`<pgs>.npz`, cache directory `match_v2`); `PGS_SCORE` became
+  `PGS_PROJECT` (PCA projection only). Percentile ties are compared with a tolerance.
 - gVCF conversion runs one chromosome per CPU, reading the gVCF's tabix index directly (no
   external tool): 1 min 18 s instead of 5 min 49 s on a 21x genome, identical output.
 - `report_sif`, `hipstr_sif` and `yleaf_sif` default to null and are resolved from `reference_base`

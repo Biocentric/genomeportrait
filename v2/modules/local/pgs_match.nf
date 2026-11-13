@@ -1,7 +1,8 @@
 process PGS_MATCH {
     tag "$panel_key"
     label 'process_medium'
-    storeDir "${params.reference_base}/pgs/${panel_key}/match"
+    // match_v2: also holds <pgs>.npz for single-pass scoring; a v1 "match" cache lacks them
+    storeDir "${params.reference_base}/pgs/${panel_key}/match_v2"
 
     conda "conda-forge::python=3.12 conda-forge::numpy=2.1"
     container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.report_sif ?: "${params.reference_base}/containers/genomeportrait-report-${params.report_image_version}.sif") : params.report_docker }"

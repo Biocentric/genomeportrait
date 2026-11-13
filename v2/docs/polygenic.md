@@ -54,10 +54,14 @@ removing relatives with the KING cutoff list shipped with it.
    are often the reference allele the loss is directional. Expanding the gVCF with
    `bcftools convert --gvcf2vcf` is not enough either: it keeps the `<*>` allele, so no
    allele can match.
-7. `PGS_SCORE` — `plink2 --score` with `--read-freq` from the reference, so a missing
-   genotype contributes the reference mean dosage: exactly what that variant contributes on
-   average to the distribution the sample is compared against.
+7. `PGS_PROJECT` — the sample projected onto the reference PCs with `plink2`, using the
+   same command that projected the reference genomes.
 8. `PGS_REPORT` —
+   - *Scoring*: the target is read once into a dosage vector; each score is a dot product
+     over the row numbers and ALT-allele weights saved by `PGS_MATCH`. A missing genotype
+     takes the reference mean dosage (2 × ALT frequency), exactly what `plink2 --score
+     --read-freq` does, so it contributes what that variant contributes on average to the
+     distribution the sample is compared against. 204 scores take about 40 s.
    - *Most similar population*: Gaussian classifier on the first 5 PCs, one mean and
      covariance per reference super-population.
    - *`Z_norm1`*: ordinary least squares of `SUM` on the first 4 PCs in the reference;

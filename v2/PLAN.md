@@ -80,8 +80,8 @@ v2 computes the same quantities natively:
 | Match every score to the reference by `chr:pos:ref:alt` (ambiguous A/T, C/G SNPs dropped, strand flips resolved) | `PGS_MATCH` | yes, per panel |
 | Score the 3,330 reference genomes | `PGS_SCORE_REFERENCE` | yes, per panel |
 | Rebuild the sample in the reference's allele space from the gVCF (hom-ref blocks become `0/0`, uncovered sites stay missing and are mean-imputed from reference frequencies) | `PGS_TARGET` | per sample |
-| Score the sample, project it onto the reference PCs | `PGS_SCORE` | per sample |
-| Ancestry-adjusted Z, percentile in the most similar population; direction, consensus per trait, effect size, verdict; overview page | `PGS_REPORT` | per sample |
+| Project the sample onto the reference PCs | `PGS_PROJECT` | per sample |
+| Score the sample in one pass; ancestry-adjusted Z, percentile in the most similar population; direction, consensus per trait, effect size, verdict; overview page | `PGS_REPORT` | per sample |
 
 Everything sample-independent is computed once and kept under
 `reference_base/pgs/<panel>/`. The first genome pays for it; later genomes take

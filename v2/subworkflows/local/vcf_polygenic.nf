@@ -9,8 +9,8 @@
 //     PGS_SCORE_REFERENCE  the reference distribution of every score
 //   Per sample (minutes):
 //     PGS_TARGET           gVCF -> the sample in the reference's allele space
-//     PGS_SCORE            scores + projection onto the reference PCs
-//     PGS_REPORT           ancestry-adjusted Z, direction, consensus, effect size, overview page
+//     PGS_PROJECT          projection onto the reference PCs (plink2)
+//     PGS_REPORT           single-pass scoring, ancestry-adjusted Z, direction, consensus, effect size, overview page
 //
 //   The quantities are those of pgsc_calc v2 (Z_norm2, percentile in the most similar
 //   population); the interpretation is prs-selfscore's. See docs/polygenic.md.
@@ -22,7 +22,7 @@ include { PGS_REFERENCE       } from '../../modules/local/pgs_reference'
 include { PGS_MATCH           } from '../../modules/local/pgs_match'
 include { PGS_SCORE_REFERENCE } from '../../modules/local/pgs_score_reference'
 include { PGS_TARGET          } from '../../modules/local/pgs_target'
-include { PGS_SCORE           } from '../../modules/local/pgs_score'
+include { PGS_PROJECT         } from '../../modules/local/pgs_project'
 include { PGS_REPORT          } from '../../modules/local/pgs_report'
 
 workflow VCF_POLYGENIC {
@@ -84,15 +84,14 @@ workflow VCF_POLYGENIC {
     )
 
     PGS_TARGET ( ch_gvcf, PGS_REFERENCE.out.pfile, engine )
-    PGS_SCORE (
-        PGS_TARGET.out.vcf,
-        PGS_REFERENCE.out.afreq, PGS_REFERENCE.out.pca, PGS_MATCH.out.scores
-    )
+    PGS_PROJECT ( PGS_TARGET.out.vcf, PGS_REFERENCE.out.pca )
     PGS_REPORT (
-        PGS_SCORE.out.scores,
+        PGS_TARGET.out.vcf.join(PGS_PROJECT.out.pcs),
         PGS_SCORE_REFERENCE.out.scores,
         PGS_REFERENCE.out.ref_pcs,
         PGS_REFERENCE.out.pfile,
+        PGS_REFERENCE.out.afreq,
+        PGS_MATCH.out.scores,
         PGS_MATCH.out.stats,
         panel,
         file(params.pgs_concepts,      checkIfExists: true),
@@ -103,7 +102,7 @@ workflow VCF_POLYGENIC {
         file("${scripts}/pgs_overview.py",  checkIfExists: true)
     )
     ch_versions = ch_versions.mix(
-        PGS_TARGET.out.versions.first(), PGS_SCORE.out.versions.first(), PGS_REPORT.out.versions.first()
+        PGS_TARGET.out.versions.first(), PGS_PROJECT.out.versions.first(), PGS_REPORT.out.versions.first()
     )
 
     emit:
