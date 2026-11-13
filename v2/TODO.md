@@ -55,6 +55,11 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 
 ## v2.1
 
+- [ ] Inbreeding F and ROH come from the variant-only VCF (F = -1.0 on the test genome): compute
+      them from genotypes that include hom-ref sites (the panel-space target or the ancestry SNPs)
+- [ ] KING kinship against the panel sits near -0.05 for an unrelated European; check whether
+      mpileup genotyping errors depress it
+
 - [x] **Score the sample in one Python pass** (4 min 50 s → 40 s)
 - [x] **Fill missing genotypes from the most similar population's frequencies** (bias up to 0.35 SD removed)
 - [ ] Validate the PGS engine on a non-European or admixed genome

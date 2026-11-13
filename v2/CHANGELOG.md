@@ -4,6 +4,11 @@
 
 ### Since the first v2 commit
 
+- Ancestry inputs fixed (both v1 bugs): hom-ref sites were called with ALT `.` and dropped at the
+  merge (only 19,663 of 50,000 SNPs used, mostly variant sites), and the 50,000 SNPs were the first
+  lines of the pruned list (chromosomes 1-3 only). Sites are now spread genome-wide and genotyped for
+  the panel's alleles; the sample is named after the samplesheet, not the CRAM read group.
+  Test genome: 99.2% EUR instead of 80%.
 - Ancestry uses the same HGDP+1kGP reference panel as the polygenic scores (`--reference_panel`,
   prepared once in `PREPARE_GENOME`), with relatives removed; the separate 1000G+HGDP download
   (`DOWNLOAD_KGP_HGDP`) is gone. `--pgs_reference_panel(_url)` became `--reference_panel(_url)`.

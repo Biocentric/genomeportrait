@@ -21,14 +21,23 @@ process BCFTOOLS_GENOTYPE_SITES {
     task.ext.when == null || task.ext.when
 
     script:
-    // Genotype the sample at the fixed ancestry SNP positions directly from the alignment,
-    // WITHOUT -v, so homozygous-reference sites are emitted (the DeepVariant VCF is
-    // variant-biased and gives nonsense ancestry).
+    // Genotype the sample at the ancestry SNPs straight from the alignment, for the panel's
+    // own alleles (-C alleles; -A makes it write the given ALT at hom-ref sites). Without that, a hom-ref site is called with ALT ".", its ID
+    // (chr:pos:ref:.) never matches the panel, and it is dropped at the merge: in v1 30,312
+    // of 50,000 sites were lost that way, leaving mostly variant sites and skewing admixture
+    // and kinship. The sample is renamed to the samplesheet name: the read group's SM may be
+    // a different (real) name.
     """
     cut -f1,2 $sites > regions.tsv
-    bcftools mpileup -R regions.tsv -f $fasta -a FORMAT/DP -Ou $bam 2>/dev/null \\
-        | bcftools call -m -Oz -o ${meta.id}.anc.vcf.gz
+    sort -k1,1 -k2,2n $sites | bgzip -c > alleles.tsv.gz
+    tabix -s1 -b2 -e2 alleles.tsv.gz
+    bcftools mpileup -R regions.tsv -f $fasta -a FORMAT/AD,FORMAT/DP -Ou $bam 2>/dev/null \\
+        | bcftools call -m -A -C alleles -T alleles.tsv.gz -Oz -o raw.vcf.gz
+    echo "${meta.id}" > name.txt
+    bcftools reheader -s name.txt -o ${meta.id}.anc.vcf.gz raw.vcf.gz
     bcftools index -t ${meta.id}.anc.vcf.gz
+    rm -f raw.vcf.gz
+    echo "genotyped \$(bcftools view -H ${meta.id}.anc.vcf.gz | wc -l) sites; without a panel allele: \$(bcftools view -H ${meta.id}.anc.vcf.gz | awk '\$5 == "."' | wc -l)" >&2
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
