@@ -20,7 +20,7 @@ NEXTFLOW=${NEXTFLOW:-nextflow}
 PROFILE=${PROFILE:-singularity}
 
 mkdir -p "$SCRATCH/run-$NAME" "$SCRATCH/work-$NAME"
-rsync -a --delete --exclude '.nextflow*' --exclude work --exclude local "$SRC/" "$SCRATCH/pipeline-$NAME/"
+rsync -a --delete --exclude '.nextflow*' --exclude work --exclude /local "$SRC/" "$SCRATCH/pipeline-$NAME/"
 cd "$SCRATCH/run-$NAME"
 extra=()
 case "$NAME" in
