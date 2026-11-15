@@ -63,7 +63,7 @@ Full parameter and output descriptions: [`docs/usage.md`](docs/usage.md),
    fixmate/sort/markdup to CRAM (or minimap2 + GATK MarkDuplicates), DeepVariant (or HaplotypeCaller, Clair3). Parabricks on a capable GPU.
 3. **Genome facts** — mosdepth; depth, breadth, sex chromosomes, mtDNA copies per cell.
 4. **Interpretation** — ancestry (PCA, ADMIXTURE, ROH, KING), Neanderthal and Denisovan
-   segments (hmmix), mtDNA and Y haplogroups,
+   segments (hmmix), chromosome painting (Beagle + RFMix), mtDNA and Y haplogroups,
    CODIS STR profile and repeat expansions, **polygenic scores**, HLA and KIR (T1K),
    pharmacogenomics (PharmCAT, with CYP2D6 from Cyrius), trait SNP panel, telomere length, mtDNA heteroplasmy,
    SV/CNV, VEP annotation.

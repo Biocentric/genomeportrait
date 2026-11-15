@@ -19,6 +19,7 @@ results/
 │   ├── pharmacogenomics/ PharmCAT report and table; Cyrius CYP2D6 call (.cyrius.tsv/.json)
 │   ├── export/           <sample>.23andme.txt.gz: genotypes at the GSA array's SNPs in 23andMe format
 │   ├── traits/           trait SNP panel; blood groups (ABO, RhD, Kell, Duffy, Kidd) and RHD depth
+│   ├── painting/         chromosome painting bundle (shares, karyogram), tracts (.painting_segments.raw.tsv), RFMix output
 │   ├── archaic/          hmmix segments (.archaic_segments.raw.tsv), trained model, report bundle with chromosome map
 │   ├── kir/              T1K KIR genotypes and the gene-content table (A/A or B/x)
 │   ├── hla/  extras/

@@ -85,6 +85,16 @@ run downloads ~3.3 GB of helper files and archaic genomes into `<reference_base>
 (`--hmmix_helper_record`, `--hmmix_archaic_record`: Zenodo record IDs). For an African genome
 the outgroup removes most of its own variation, and the archaic share is small by design.
 
+`--skip_painting` turns off chromosome painting. The person's genotypes at the reference SNPs
+come from the gVCF (hom-ref sites count), Beagle phases them into two copies per chromosome
+against the 1000 Genomes 30x panel, and RFMix assigns each stretch of each copy to one of four
+reference groups (African, European, East Asian, South Asian; 20 genomes from each of five
+unadmixed populations per group). Ancestry from outside those groups is painted as the nearest
+of them, and the two copies are not maternal and paternal: each chromosome is phased on its own.
+The first run streams the panel (~30 GB) into a ~1 GB reference in `<reference_base>/painting`;
+a genome then takes ~25 min on 16 threads. The genomes in `assets/painting/holdout.tsv` are left
+out of both references so that `tests/validate_painting.sh` can paint them.
+
 `--skip_23andme` turns off the 23andMe-format export (`<sample>/export/`). Its site list is
 built once from Illumina's GSA manifests, downloaded at run time (`--array_manifest_b37/b38`).
 

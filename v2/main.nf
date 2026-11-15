@@ -69,7 +69,9 @@ workflow BIOCENTRIC_GENOMEPORTRAIT {
         yleaf_ready   : PREPARE_GENOME.out.yleaf_ready,
         cyrius_ready  : PREPARE_GENOME.out.cyrius_ready,
         hmmix_ready   : PREPARE_GENOME.out.hmmix_ready,
-        hmmix_resources : PREPARE_GENOME.out.hmmix_resources
+        hmmix_resources : PREPARE_GENOME.out.hmmix_resources,
+        painting_ready  : PREPARE_GENOME.out.painting_ready,
+        painting_reference : PREPARE_GENOME.out.painting_reference
     ]
 
     //

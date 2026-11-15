@@ -1,0 +1,31 @@
+Bootstrap: docker
+From: mambaorg/micromamba:1.5.8
+
+# genomeportrait chromosome-painting container — built locally by the pipeline.
+#
+# Beagle 5.4 phases the genome against the 1000 Genomes panel; RFMix v2 assigns each stretch
+# of each haplotype to a continental reference group. Both are on bioconda, but in separate
+# images without the curl and Python the reference build and the report need, so one image
+# is built here.
+#
+# Built by modules/local/build_painting_container.nf:
+#   apptainer build --fakeroot genomeportrait-painting-<ver>.sif containers/painting/Singularity.def
+
+%post
+    set -eu
+    micromamba install -y -n base -c conda-forge -c bioconda \
+        beagle=5.4_22Jul22.46e rfmix=2.03.r0.9505bfa bcftools=1.21 \
+        openjdk=17 python=3.11 matplotlib-base=3.8 curl unzip procps-ng
+    micromamba clean --all --yes
+    PATH=/opt/conda/bin:$PATH beagle 2>&1 | head -n 2
+    /opt/conda/bin/rfmix --help 2>&1 | head -n 2 || true
+    /opt/conda/bin/bcftools --version | head -n 1
+
+%environment
+    export PATH=/opt/conda/bin:$PATH
+    export PYTHONNOUSERSITE=1
+    export MPLCONFIGDIR=/tmp
+
+%labels
+    org.opencontainers.image.title genomeportrait-painting
+    org.opencontainers.image.version 1.0.0

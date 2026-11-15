@@ -315,6 +315,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Skip Neanderthal / Denisovan segment calling with hmmix (downloads ~3.3 GB of reference data on first use)."
+                },
+                "skip_painting": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip chromosome painting (Beagle + RFMix against the 1000 Genomes panel; streams ~30 GB once to build a ~2 GB reference)."
                 }
             }
         },
@@ -716,6 +721,40 @@
                     "type": "string",
                     "default": "13368126",
                     "description": "Zenodo record with the Altai, Vindija, Chagyrskaya and Denisova variant calls (hg38)."
+                },
+                "build_painting_container": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Build the chromosome-painting image (Beagle, RFMix, bcftools) locally."
+                },
+                "painting_image_version": {
+                    "type": "string",
+                    "default": "1.0.0",
+                    "description": "Version tag of the locally built painting image."
+                },
+                "painting_sif": {
+                    "type": "string",
+                    "description": "Path to the painting Singularity image. Default: <reference_base>/containers/genomeportrait-painting-<version>.sif."
+                },
+                "painting_docker": {
+                    "type": "string",
+                    "default": "genomeportrait-painting:1.0.0",
+                    "description": "Docker tag of the locally built painting image."
+                },
+                "painting_panel_url": {
+                    "type": "string",
+                    "default": "http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/working/20220422_3202_phased_SNV_INDEL_SV",
+                    "description": "Directory of the 1000 Genomes 30x phased panel (per-chromosome VCFs and manifest)."
+                },
+                "painting_ped_url": {
+                    "type": "string",
+                    "default": "http://ftp.1000genomes.ebi.ac.uk/vol1/ftp/data_collections/1000G_2504_high_coverage/20130606_g1k_3202_samples_ped_population.txt",
+                    "description": "1000 Genomes sample/population/pedigree table."
+                },
+                "painting_map_url": {
+                    "type": "string",
+                    "default": "https://bochet.gcc.biostat.washington.edu/beagle/genetic_maps/plink.GRCh38.map.zip",
+                    "description": "Beagle's GRCh38 genetic maps (PLINK format)."
                 }
             }
         },

@@ -31,6 +31,7 @@ include { BCFTOOLS_STATS as BCFTOOLS_STATS_INPUT } from '../modules/local/bcftoo
 include { BAM_HLA                  } from '../subworkflows/local/bam_hla'
 include { BAM_KIR                  } from '../subworkflows/local/bam_kir'
 include { ARCHAIC_HMMIX            } from '../modules/local/archaic_hmmix'
+include { PAINT_CHROMOSOMES        } from '../modules/local/paint_chromosomes'
 include { BAM_PHARMACOGENOMICS     } from '../subworkflows/local/vcf_pharmacogenomics'
 include { VCF_TRAITS               } from '../subworkflows/local/vcf_traits'
 include { BAM_EXTRAS               } from '../subworkflows/local/bam_extras'
@@ -229,6 +230,22 @@ workflow GENOMEPORTRAIT {
         )
         ch_versions     = ch_versions.mix(ARCHAIC_HMMIX.out.versions.first())
         ch_report_parts = ch_report_parts.mix(ARCHAIC_HMMIX.out.results.map{ m,f -> [m,'archaic',f] })
+    }
+
+    //
+    // STAGE 7c: Chromosome painting (local ancestry: Beagle phasing, RFMix)
+    //
+    if (!params.skip_painting) {
+        PAINT_CHROMOSOMES (
+            ch_gvcf,
+            ch_reference.painting_reference,
+            file("${projectDir}/scripts/pgs_engine.py", checkIfExists: true),
+            file("${projectDir}/scripts/run_painting.sh", checkIfExists: true),
+            file("${projectDir}/scripts/painting_report.py", checkIfExists: true),
+            ch_reference.painting_ready
+        )
+        ch_versions     = ch_versions.mix(PAINT_CHROMOSOMES.out.versions.first())
+        ch_report_parts = ch_report_parts.mix(PAINT_CHROMOSOMES.out.results.map{ m,f -> [m,'painting',f] })
     }
 
     //

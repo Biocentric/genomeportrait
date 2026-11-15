@@ -35,6 +35,8 @@ include { BUILD_YLEAF_CONTAINER        } from '../../modules/local/build_yleaf_c
 include { BUILD_CYRIUS_CONTAINER       } from '../../modules/local/build_cyrius_container'
 include { BUILD_HMMIX_CONTAINER        } from '../../modules/local/build_hmmix_container'
 include { HMMIX_RESOURCES              } from '../../modules/local/hmmix_resources'
+include { BUILD_PAINTING_CONTAINER     } from '../../modules/local/build_painting_container'
+include { PAINTING_REFERENCE           } from '../../modules/local/painting_reference'
 
 workflow PREPARE_GENOME {
 
@@ -138,6 +140,26 @@ workflow PREPARE_GENOME {
         HMMIX_RESOURCES ( file("${projectDir}/scripts/zenodo_fetch.py", checkIfExists: true), ch_hmmix_ready )
         ch_hmmix_resources = HMMIX_RESOURCES.out.resources
         ch_versions        = ch_versions.mix(HMMIX_RESOURCES.out.versions)
+    }
+
+    //
+    // Chromosome painting image and reference, only when painting runs
+    //
+    ch_painting_ready     = Channel.value('na')
+    ch_painting_reference = Channel.value([])
+    if (!params.skip_painting) {
+        if (params.build_painting_container) {
+            BUILD_PAINTING_CONTAINER ( file("${projectDir}/containers/painting/Singularity.def", checkIfExists: true) )
+            ch_painting_ready = BUILD_PAINTING_CONTAINER.out.ready
+            ch_versions       = ch_versions.mix(BUILD_PAINTING_CONTAINER.out.versions)
+        }
+        PAINTING_REFERENCE (
+            file("${projectDir}/scripts/paint_reference.sh", checkIfExists: true),
+            file("${projectDir}/assets/painting/holdout.tsv", checkIfExists: true),
+            ch_painting_ready
+        )
+        ch_painting_reference = PAINTING_REFERENCE.out.reference
+        ch_versions           = ch_versions.mix(PAINTING_REFERENCE.out.versions)
     }
 
     //
@@ -267,5 +289,7 @@ workflow PREPARE_GENOME {
     cyrius_ready  = ch_cyrius_ready
     hmmix_ready   = ch_hmmix_ready
     hmmix_resources = ch_hmmix_resources
+    painting_ready  = ch_painting_ready
+    painting_reference = ch_painting_reference
     versions      = ch_versions
 }

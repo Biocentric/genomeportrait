@@ -4,6 +4,12 @@
 
 ### Since the first v2 commit
 
+- Chromosome painting (`PAINT_CHROMOSOMES`, `PAINTING_REFERENCE`, `BUILD_PAINTING_CONTAINER`,
+  `--skip_painting`): genotypes at ~763,000 common SNPs from the gVCF, phased with Beagle 5.4
+  against the 1000 Genomes 30x panel, painted with RFMix v2 as African, European, East Asian or
+  South Asian (400 unadmixed reference genomes). Report section with genome-wide shares, tract
+  counts and lengths, and a karyogram of both copies of every chromosome. The reference is
+  streamed once from the panel (~30 GB, MD5-checked) into ~1 GB.
 - Neanderthal and Denisovan segments with hmmix (`ARCHAIC_HMMIX`, `HMMIX_RESOURCES`,
   `BUILD_HMMIX_CONTAINER`, `--skip_archaic`): the person's own variants, minus those seen in
   the African-rich outgroup, through hmmix create_ingroup, train and decode; segments labelled
