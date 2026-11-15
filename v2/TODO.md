@@ -69,7 +69,7 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 - [x] `report_sif`, `hipstr_sif`, `yleaf_sif` follow `reference_base` wherever it is set; cache honours `NXF_SINGULARITY_CACHEDIR`
 - [x] Strict opt-in publishing with one `results/<sample>/` tree
 - [x] CYP2D6 via Cyrius, passed to PharmCAT as an outside call (6/6 1000 Genomes truth structures)
-- [ ] Blood groups (ABO, RhD, Kell, Duffy, Kidd), validated on reference-panel frequencies
+- [x] Blood groups (ABO, RhD, Kell, Duffy, Kidd), validated on reference-panel frequencies
 - [x] One reference panel for ancestry and PGS (hold-out check: unadmixed populations recovered at 0.92–1.00)
 - [x] Streamed align → sort → markdup → CRAM (`--markdup samtools`, default)
 - [x] VerifyBamID2 contamination estimate (2/5/10% mixtures recovered as 2.2/5.9/10.2%)

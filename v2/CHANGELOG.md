@@ -4,6 +4,8 @@
 
 ### Since the first v2 commit
 
+- Blood groups: ABO, Kell, Duffy, Kidd from their defining variants (read from the gVCF), RhD
+  from RHD read depth (`RHD_DEPTH`, `BLOOD_GROUPS`, `--skip_blood_groups`), in a report section.
 - ALT-aware alignment (`--alt_aware`, default on): bwa-mem2 gets the reference's `.alt` file, so
   reads at loci with ALT haplotypes stay on the primary assembly. v1 lacked it; on NA12878 chr22
   the CYP2D6 locus has 8,935 instead of 2,696 reads and Cyrius calls *3/*68+*4 instead of nothing.

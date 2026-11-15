@@ -25,6 +25,8 @@ include { VERIFYBAMID2             } from '../modules/local/verifybamid2'
 include { CONTAMINATION_REPORT     } from '../modules/local/contamination_report'
 include { ARRAY_PANEL              } from '../modules/local/array_panel'
 include { EXPORT_23ANDME           } from '../modules/local/export_23andme'
+include { RHD_DEPTH                } from '../modules/local/rhd_depth'
+include { BLOOD_GROUPS             } from '../modules/local/blood_groups'
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_INPUT } from '../modules/local/bcftools_stats'
 include { BAM_HLA                  } from '../subworkflows/local/bam_hla'
 include { BAM_PHARMACOGENOMICS     } from '../subworkflows/local/vcf_pharmacogenomics'
@@ -256,6 +258,24 @@ workflow GENOMEPORTRAIT {
             file("${projectDir}/scripts/pgs_engine.py", checkIfExists: true)
         )
         ch_versions = ch_versions.mix(ARRAY_PANEL.out.versions, EXPORT_23ANDME.out.versions.first())
+    }
+
+    //
+    // STAGE 10c: blood groups (ABO, Kell, Duffy, Kidd from genotypes; RhD from RHD depth)
+    //
+    if (!params.skip_blood_groups) {
+        RHD_DEPTH ( ch_analysis_bam, ch_reference.fasta, ch_reference.fai,
+                    file("${projectDir}/assets/blood_groups/rhd_regions.bed", checkIfExists: true) )
+        BLOOD_GROUPS (
+            ch_gvcf.map { meta, g, t -> [ meta.id, meta, g, t ] }
+                .join( RHD_DEPTH.out.tsv.map { meta, f -> [ meta.id, f ] } )
+                .map { id, meta, g, t, rhd -> [ meta, g, t, rhd ] },
+            file("${projectDir}/assets/blood_groups/sites.pvar", checkIfExists: true),
+            file("${projectDir}/scripts/pgs_engine.py", checkIfExists: true),
+            file("${projectDir}/scripts/blood_groups.py", checkIfExists: true)
+        )
+        ch_versions     = ch_versions.mix(RHD_DEPTH.out.versions.first(), BLOOD_GROUPS.out.versions.first())
+        ch_report_parts = ch_report_parts.mix(BLOOD_GROUPS.out.tsv.map{ m,f -> [m,'blood_groups',f] })
     }
 
     //

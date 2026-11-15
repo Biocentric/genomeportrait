@@ -18,7 +18,8 @@ results/
 │   ├── polygenic/        overview page, interpreted table, scores, population, imputation, target stats
 │   ├── pharmacogenomics/ PharmCAT report and table; Cyrius CYP2D6 call (.cyrius.tsv/.json)
 │   ├── export/           <sample>.23andme.txt.gz: genotypes at the GSA array's SNPs in 23andMe format
-│   ├── hla/  traits/  extras/
+│   ├── traits/           trait SNP panel; blood groups (ABO, RhD, Kell, Duffy, Kidd) and RHD depth
+│   ├── hla/  extras/
 ├── multiqc/multiqc_report.html
 └── pipeline_info/        timeline, trace, DAG, software versions
 ```

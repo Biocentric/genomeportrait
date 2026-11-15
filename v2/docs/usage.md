@@ -64,6 +64,11 @@ interpretation module cannot abort the run.
 
 Genome facts (depth, sex, mtDNA copies) always run: other modules depend on the result.
 
+`--skip_blood_groups` turns off blood-group prediction. ABO, Kell, Duffy and Kidd come from
+their defining variants, RhD from read depth over the RHD gene (the common RhD-negative
+deletion); silencing variants in an intact RHD gene are not detected. Like CYP2D6, Kell needs
+an ALT-aware alignment: KEL lies under the ALT contig chr7_KI270803v1_alt.
+
 `--skip_23andme` turns off the 23andMe-format export (`<sample>/export/`). Its site list is
 built once from Illumina's GSA manifests, downloaded at run time (`--array_manifest_b37/b38`).
 

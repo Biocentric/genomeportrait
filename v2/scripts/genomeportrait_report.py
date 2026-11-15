@@ -25,6 +25,7 @@ SECTIONS = [
     ("lineage",            "lineage",      "Maternal & paternal lineage"),
     ("pgs_fragment",       "pgs",          "Polygenic scores"),
     ("traits",             "traits",       "Popular traits"),
+    ("blood_groups",       "blood",        "Blood groups"),
     ("hla",                "hla",          "HLA immune type"),
     ("pgx",                "pgx",          "Pharmacogenomics"),
     ("str_profile",        "str",          "Forensic STR profile (CODIS)"),
@@ -320,7 +321,7 @@ def main():
                 chunks.append(f'<div class="plot"><img src="{img}" alt=""></div>')
         if sid == "facts" and facts_rows:
             chunks.append(facts_html(pd.concat(facts_rows, ignore_index=True)))
-        if sid in ("pgx", "traits", "annotation"):
+        if sid in ("pgx", "traits", "annotation", "blood"):
             chunks.append('<div class="disclaim">Recreational / educational interpretation only. '
                           'Not a medical or diagnostic result.</div>')
         chunks.append("</section>")
