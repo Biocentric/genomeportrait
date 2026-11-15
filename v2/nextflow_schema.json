@@ -282,6 +282,19 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Skip CYP2D6 calling with Cyrius (PharmCAT then reports CYP2D6 as not called)."
+                },
+                "skip_23andme": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip writing the genome as a 23andMe-format raw data file."
+                },
+                "array_manifest_b37": {
+                    "type": "string",
+                    "description": "Illumina GSA-24 v3.0 manifest zip, GRCh37 (A1)."
+                },
+                "array_manifest_b38": {
+                    "type": "string",
+                    "description": "Illumina GSA-24 v3.0 manifest zip, GRCh38 (A2)."
                 }
             }
         },

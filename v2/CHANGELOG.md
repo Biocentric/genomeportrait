@@ -4,6 +4,9 @@
 
 ### Since the first v2 commit
 
+- 23andMe-format export at the 639,615 SNPs of the Illumina GSA v3.0 (`ARRAY_PANEL`, `EXPORT_23ANDME`,
+  `--skip_23andme`): GRCh37 positions, plus-strand bases, hom-ref sites from the gVCF, haploid
+  chrX/Y/M for XY genomes.
 - CYP2D6 star alleles from the alignment with Cyrius (image built locally; Cyrius is PyPI-only),
   passed to PharmCAT as an outside call; PharmCAT now runs its preprocessor and main program as two
   steps because `pharmcat_pipeline` takes no outside calls. Needs ALT-aware alignments (see TODO).

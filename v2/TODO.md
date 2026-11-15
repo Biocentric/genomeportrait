@@ -79,7 +79,7 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 - [ ] Stub blocks on every process; nf-test
 
 ## v2.2
-- [ ] 23andMe-format export
+- [x] 23andMe-format export (99.99% agreement with the VCF; plink --23file reads it)
 - [ ] Archaic introgression share
 - [ ] Chromosome painting
 - [ ] KIR typing

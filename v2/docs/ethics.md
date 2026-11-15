@@ -51,6 +51,14 @@ remain out of scope.
   not name sex-chromosome aneuploidies: that is a clinical statement, and a depth ratio
   from one short-read run does not support it.
 
+## The 23andMe-format export
+
+`<sample>/export/<sample>.23andme.txt.gz` exists so the genome can be used with tools that
+read consumer array files. Uploading it to a service gives that service a large part of your
+genome, and through it information about your relatives. Read a service's terms first; some
+make uploaded data available for matching or for research. The file is never uploaded by the
+pipeline.
+
 ## Trait panel
 
 `assets/trait_snps.tsv` is limited to non-clinical characteristics (appearance, taste,

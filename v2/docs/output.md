@@ -17,6 +17,7 @@ results/
 │   ├── str/              CODIS profile, repeat expansions
 │   ├── polygenic/        overview page, interpreted table, scores, population, imputation, target stats
 │   ├── pharmacogenomics/ PharmCAT report and table; Cyrius CYP2D6 call (.cyrius.tsv/.json)
+│   ├── export/           <sample>.23andme.txt.gz: genotypes at the GSA array's SNPs in 23andMe format
 │   ├── hla/  traits/  extras/
 ├── multiqc/multiqc_report.html
 └── pipeline_info/        timeline, trace, DAG, software versions
@@ -50,3 +51,14 @@ indices, and intermediates such as the panel-space VCF used for scoring.
 `no_variance`. `SUM` is comparable to `pgsc_calc`'s `SUM`. `Z_norm1` adjusts the mean for
 ancestry, `Z_norm2` the mean and the variance; `Z_MostSimilarPop` and
 `percentile_MostSimilarPop` rank the sample within the closest reference population.
+
+## `<sample>.23andme.txt.gz`
+
+The genome written as a 23andMe-format raw data file, for tools that read those (ancestry
+services, trait and research tools). Sites are the 639,615 SNPs of the Illumina Global
+Screening Array v3.0, the array 23andMe's v5 chip is built on; positions are GRCh37, bases
+plus strand. A site where the genome matches the reference is written as the reference base
+twice, not left out; `--` means no reads or not callable as a SNP. For XY genomes chrX
+(outside the pseudo-autosomal regions), chrY and chrM are written as one letter. The header
+says the file comes from genomeportrait, not 23andMe. Uploading it anywhere shares your
+genome; see the ethics notes.

@@ -45,7 +45,7 @@ def main():
     a = ap.parse_args()
     b37, b38 = load(a.b37), load(a.b38)
     rows, skipped = {}, dict(indel=0, chrom=0, position=0, duplicate=0)
-    for k in b37.keys() & b38.keys():
+    for k in sorted(b37.keys() & b38.keys()):      # sorted: the same table on every run
         name, snp, c37, p37, s37 = b37[k]
         _n, _s, c38, p38, s38 = b38[k]
         if snp in ("[I/D]", "[D/I]"):
@@ -60,9 +60,13 @@ def main():
             skipped["position"] += 1
             continue
         key = (c38, int(p38))
-        if key in rows:                       # several probes for one SNP: keep one
+        if key in rows:
+            # several probes for one SNP: keep one, preferring an rs name (what tools that
+            # read 23andMe files look up), then the alphabetically first
             skipped["duplicate"] += 1
-            continue
+            old = rows[key][0]
+            if (not name.startswith("rs"), name) >= (not old.startswith("rs"), old):
+                continue
         flip = int(s37 in "+-" and s38 in "+-" and s37 != s38)
         rows[key] = (name, c37, int(p37), int(p38), flip)
     order = {c: n for n, c in enumerate(CHROMS)}

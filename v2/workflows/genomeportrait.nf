@@ -23,6 +23,8 @@ include { MOSDEPTH                 } from '../modules/local/mosdepth'
 include { GENOME_FACTS             } from '../modules/local/genome_facts'
 include { VERIFYBAMID2             } from '../modules/local/verifybamid2'
 include { CONTAMINATION_REPORT     } from '../modules/local/contamination_report'
+include { ARRAY_PANEL              } from '../modules/local/array_panel'
+include { EXPORT_23ANDME           } from '../modules/local/export_23andme'
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_INPUT } from '../modules/local/bcftools_stats'
 include { BAM_HLA                  } from '../subworkflows/local/bam_hla'
 include { BAM_PHARMACOGENOMICS     } from '../subworkflows/local/vcf_pharmacogenomics'
@@ -234,6 +236,26 @@ workflow GENOMEPORTRAIT {
         VCF_POLYGENIC ( ch_gvcf, ch_reference.panel )
         ch_versions     = ch_versions.mix(VCF_POLYGENIC.out.versions)
         ch_report_parts = ch_report_parts.mix(VCF_POLYGENIC.out.fragment.map{ m,f -> [m,'polygenic',f] })
+    }
+
+    //
+    // STAGE 10b: the genome as a 23andMe-format raw data file, at the GSA array's SNPs
+    //
+    if (!params.skip_23andme) {
+        ARRAY_PANEL (
+            [ params.array_manifest_b37, params.array_manifest_b38 ],
+            file("${projectDir}/scripts/array_panel.py", checkIfExists: true)
+        )
+        EXPORT_23ANDME (
+            ch_gvcf.map { meta, g, t -> [ meta.id, meta, g, t ] }
+                .join(ch_sex)
+                .map { id, meta, g, t, sex -> [ meta, g, t, sex ] },
+            ARRAY_PANEL.out.sites,
+            ch_reference.fasta, ch_reference.fai,
+            file("${projectDir}/scripts/export_23andme.py", checkIfExists: true),
+            file("${projectDir}/scripts/pgs_engine.py", checkIfExists: true)
+        )
+        ch_versions = ch_versions.mix(ARRAY_PANEL.out.versions, EXPORT_23ANDME.out.versions.first())
     }
 
     //

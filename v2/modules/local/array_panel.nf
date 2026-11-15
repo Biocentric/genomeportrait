@@ -3,7 +3,7 @@ process ARRAY_PANEL {
     label 'process_single'
     // Sample-independent: the export's site table is built once from Illumina's manifests
     // (downloaded here, not shipped with the pipeline) and cached.
-    storeDir "${params.reference_base}/array_panel/gsa_v3"
+    storeDir "${params.reference_base}/array_panel/gsa_v3_r2"   // r2: deterministic choice among duplicate probes
 
     container "${ workflow.containerEngine in ['singularity', 'apptainer'] ? (params.report_sif ?: "${params.reference_base}/containers/genomeportrait-report-${params.report_image_version}.sif") : params.report_docker }"
 

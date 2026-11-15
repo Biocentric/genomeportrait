@@ -64,6 +64,9 @@ interpretation module cannot abort the run.
 
 Genome facts (depth, sex, mtDNA copies) always run: other modules depend on the result.
 
+`--skip_23andme` turns off the 23andMe-format export (`<sample>/export/`). Its site list is
+built once from Illumina's GSA manifests, downloaded at run time (`--array_manifest_b37/b38`).
+
 `--skip_cyp2d6` turns off CYP2D6 calling with Cyrius. Cyrius needs the reads at the
 CYP2D6/CYP2D7 locus on the primary assembly; alignments made against GRCh38 *with* ALT
 contigs but without ALT-aware mapping (all v1 alignments, and v2's until ALT-aware alignment
