@@ -30,6 +30,7 @@ include { BLOOD_GROUPS             } from '../modules/local/blood_groups'
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_INPUT } from '../modules/local/bcftools_stats'
 include { BAM_HLA                  } from '../subworkflows/local/bam_hla'
 include { BAM_KIR                  } from '../subworkflows/local/bam_kir'
+include { ARCHAIC_HMMIX            } from '../modules/local/archaic_hmmix'
 include { BAM_PHARMACOGENOMICS     } from '../subworkflows/local/vcf_pharmacogenomics'
 include { VCF_TRAITS               } from '../subworkflows/local/vcf_traits'
 include { BAM_EXTRAS               } from '../subworkflows/local/bam_extras'
@@ -212,6 +213,22 @@ workflow GENOMEPORTRAIT {
         BAM_ANCESTRY ( ch_analysis_bam, ch_vcf, ch_reference )
         ch_versions     = ch_versions.mix(BAM_ANCESTRY.out.versions)
         ch_report_parts = ch_report_parts.mix(BAM_ANCESTRY.out.results.map{ m,f -> [m,'ancestry',f] })
+    }
+
+    //
+    // STAGE 7b: Neanderthal / Denisovan segments (hmmix on the person's own variants)
+    //
+    if (!params.skip_archaic) {
+        ARCHAIC_HMMIX (
+            ch_vcf,
+            ch_reference.hmmix_resources,
+            file("${projectDir}/scripts/run_hmmix.sh", checkIfExists: true),
+            file("${projectDir}/scripts/archaic_report.py", checkIfExists: true),
+            file("${projectDir}/assets/archaic/1000g_reference.tsv", checkIfExists: true),
+            ch_reference.hmmix_ready
+        )
+        ch_versions     = ch_versions.mix(ARCHAIC_HMMIX.out.versions.first())
+        ch_report_parts = ch_report_parts.mix(ARCHAIC_HMMIX.out.results.map{ m,f -> [m,'archaic',f] })
     }
 
     //

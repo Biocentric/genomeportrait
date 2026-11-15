@@ -1,0 +1,62 @@
+process BUILD_HMMIX_CONTAINER {
+    tag "genomeportrait-hmmix:${params.hmmix_image_version}"
+    label 'process_low'
+    label 'process_long'
+
+    // Runs on the HOST (no container) — invokes apptainer/singularity/docker. hmmix is on
+    // PyPI only, so there is no published image; this builds one. storeDir caches it.
+    storeDir "${params.reference_base}/containers"
+
+    input:
+    path def_file        // containers/hmmix/Singularity.def
+
+    output:
+    path "genomeportrait-hmmix-${params.hmmix_image_version}.sif", emit: sif, optional: true
+    path "hmmix_container_${params.hmmix_image_version}.ready",    emit: ready
+    path "versions.yml",                                           emit: versions
+
+    when:
+    task.ext.when == null || task.ext.when
+
+    script:
+    def ver = params.hmmix_image_version
+    def sif = "genomeportrait-hmmix-${ver}.sif"
+    def engine = workflow.containerEngine ?: 'singularity'
+    if (engine in ['singularity', 'apptainer'])
+        """
+        BUILDER=\$(command -v apptainer || command -v singularity)
+        if [ -z "\$BUILDER" ]; then
+            echo "ERROR: neither apptainer nor singularity found on PATH" >&2
+            exit 1
+        fi
+        echo "Building ${sif} with \$BUILDER (hmmix, bcftools, vcftools) ..." >&2
+        \$BUILDER build --fakeroot ${sif} ${def_file} \\
+            || \$BUILDER build ${sif} ${def_file}
+        touch hmmix_container_${ver}.ready
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            builder: \$(\$BUILDER --version 2>&1 | head -n1)
+        END_VERSIONS
+        """
+    else if (engine == 'docker')
+        """
+        echo "Building docker image ${params.hmmix_docker} ..." >&2
+        docker build -t ${params.hmmix_docker} \$(dirname \$(readlink -f ${def_file}))
+        touch hmmix_container_${ver}.ready
+
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            builder: \$(docker --version)
+        END_VERSIONS
+        """
+    else
+        """
+        echo "Container engine '${engine}': hmmix is not packaged as a biocontainer — build with singularity/docker." >&2
+        touch hmmix_container_${ver}.ready
+        cat <<-END_VERSIONS > versions.yml
+        "${task.process}":
+            builder: "none (${engine})"
+        END_VERSIONS
+        """
+}

@@ -1,0 +1,31 @@
+Bootstrap: docker
+From: mambaorg/micromamba:1.5.8
+
+# genomeportrait hmmix container — built locally by the pipeline.
+#
+# hmmix (Skov et al. 2018, PLoS Genet) finds archaic (Neanderthal/Denisovan) segments in a
+# single genome from the density of variants absent from an unadmixed outgroup. It is on
+# PyPI only (0.9.x needs Python < 3.11); its dependencies come from conda-forge, bcftools and vcftools (which hmmix calls) from
+# bioconda, and hmmix itself is pinned from PyPI without dependency resolution.
+#
+# Built by modules/local/build_hmmix_container.nf:
+#   apptainer build --fakeroot genomeportrait-hmmix-<ver>.sif containers/hmmix/Singularity.def
+
+%post
+    set -eu
+    micromamba install -y -n base -c conda-forge -c bioconda \
+        python=3.10 numpy=1.26 scipy=1.11 matplotlib-base=3.8 numba=0.59 bcftools=1.21 vcftools=0.1.16 procps-ng
+    /opt/conda/bin/pip install --no-cache-dir --no-deps hmmix==0.9.2
+    micromamba clean --all --yes
+    /opt/conda/bin/hmmix --help | head -n 3
+    /opt/conda/bin/bcftools --version | head -n 1
+    /opt/conda/bin/vcftools --version
+
+%environment
+    export PATH=/opt/conda/bin:$PATH
+    export PYTHONNOUSERSITE=1
+    export NUMBA_CACHE_DIR=/tmp
+
+%labels
+    org.opencontainers.image.title genomeportrait-hmmix
+    org.opencontainers.image.version 0.9.2

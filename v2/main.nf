@@ -67,7 +67,9 @@ workflow BIOCENTRIC_GENOMEPORTRAIT {
         kir_index     : PREPARE_GENOME.out.kir_index,
         yleaf_data    : PREPARE_GENOME.out.yleaf_data,
         yleaf_ready   : PREPARE_GENOME.out.yleaf_ready,
-        cyrius_ready  : PREPARE_GENOME.out.cyrius_ready
+        cyrius_ready  : PREPARE_GENOME.out.cyrius_ready,
+        hmmix_ready   : PREPARE_GENOME.out.hmmix_ready,
+        hmmix_resources : PREPARE_GENOME.out.hmmix_resources
     ]
 
     //

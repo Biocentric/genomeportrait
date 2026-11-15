@@ -310,6 +310,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Skip KIR gene-content typing with T1K."
+                },
+                "skip_archaic": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip Neanderthal / Denisovan segment calling with hmmix (downloads ~3.3 GB of reference data on first use)."
                 }
             }
         },
@@ -682,6 +687,35 @@
                     "type": "string",
                     "default": "genomeportrait-cyrius:1.1.1",
                     "description": "Docker tag of the locally built Cyrius image."
+                },
+                "build_hmmix_container": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Build the hmmix image locally (hmmix is on PyPI only)."
+                },
+                "hmmix_image_version": {
+                    "type": "string",
+                    "default": "0.9.2",
+                    "description": "Version tag of the locally built hmmix image."
+                },
+                "hmmix_sif": {
+                    "type": "string",
+                    "description": "Path to the hmmix Singularity image. Default: <reference_base>/containers/genomeportrait-hmmix-<version>.sif."
+                },
+                "hmmix_docker": {
+                    "type": "string",
+                    "default": "genomeportrait-hmmix:0.9.2",
+                    "description": "Docker tag of the locally built hmmix image."
+                },
+                "hmmix_helper_record": {
+                    "type": "string",
+                    "default": "11212339",
+                    "description": "Zenodo record with the hmmix helper files (callability mask, mutation rates, outgroup, ancestral alleles)."
+                },
+                "hmmix_archaic_record": {
+                    "type": "string",
+                    "default": "13368126",
+                    "description": "Zenodo record with the Altai, Vindija, Chagyrskaya and Denisova variant calls (hg38)."
                 }
             }
         },

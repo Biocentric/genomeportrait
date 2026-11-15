@@ -75,6 +75,16 @@ on chr19 and of every chr19 ALT contig: GRCh38's primary haplotype lacks several
 which genes are present, their alleles, and whether the genome carries a B haplotype. It is
 gene content from read evidence, not a clinical KIR typing; copy number is not reported.
 
+`--skip_archaic` turns off the Neanderthal / Denisovan step. hmmix (Skov et al. 2018) looks
+for stretches of the genome dense in variants that Africans do not carry, trains its model on
+the person's own genome and labels each segment by the archaic genome it shares most variants
+with. The genome is unphased, so a segment means at least one of the two copies is archaic
+there; totals are compared with Skov's published calls for 1000 Genomes merged the same way
+(`assets/archaic/1000g_reference.tsv`, built by `assets/archaic/make_reference.py`). The first
+run downloads ~3.3 GB of helper files and archaic genomes into `<reference_base>/hmmix`
+(`--hmmix_helper_record`, `--hmmix_archaic_record`: Zenodo record IDs). For an African genome
+the outgroup removes most of its own variation, and the archaic share is small by design.
+
 `--skip_23andme` turns off the 23andMe-format export (`<sample>/export/`). Its site list is
 built once from Illumina's GSA manifests, downloaded at run time (`--array_manifest_b37/b38`).
 

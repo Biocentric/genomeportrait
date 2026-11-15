@@ -22,6 +22,7 @@ SECTIONS = [
     ("genome_facts",       "facts",        "Genome at a glance"),
     ("contamination_facts", "facts",       "Genome at a glance"),
     ("ancestry",           "ancestry",     "Ancestry & admixture"),
+    (".archaic",           "archaic",      "Neanderthal & Denisovan ancestry"),
     ("lineage",            "lineage",      "Maternal & paternal lineage"),
     ("pgs_fragment",       "pgs",          "Polygenic scores"),
     ("traits",             "traits",       "Popular traits"),

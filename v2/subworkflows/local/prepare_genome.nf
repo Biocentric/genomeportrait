@@ -33,6 +33,8 @@ include { BUILD_T1K_KIR                 } from '../../modules/local/build_t1k_ki
 include { DOWNLOAD_YLEAF_DATA           } from '../../modules/local/download_yleaf_data'
 include { BUILD_YLEAF_CONTAINER        } from '../../modules/local/build_yleaf_container'
 include { BUILD_CYRIUS_CONTAINER       } from '../../modules/local/build_cyrius_container'
+include { BUILD_HMMIX_CONTAINER        } from '../../modules/local/build_hmmix_container'
+include { HMMIX_RESOURCES              } from '../../modules/local/hmmix_resources'
 
 workflow PREPARE_GENOME {
 
@@ -120,6 +122,22 @@ workflow PREPARE_GENOME {
         BUILD_CYRIUS_CONTAINER ( file("${projectDir}/containers/cyrius/Singularity.def", checkIfExists: true) )
         ch_cyrius_ready = BUILD_CYRIUS_CONTAINER.out.ready
         ch_versions     = ch_versions.mix(BUILD_CYRIUS_CONTAINER.out.versions)
+    }
+
+    //
+    // hmmix image and resources (archaic segments), only when that step runs
+    //
+    ch_hmmix_ready     = Channel.value('na')
+    ch_hmmix_resources = Channel.value([])
+    if (!params.skip_archaic) {
+        if (params.build_hmmix_container) {
+            BUILD_HMMIX_CONTAINER ( file("${projectDir}/containers/hmmix/Singularity.def", checkIfExists: true) )
+            ch_hmmix_ready = BUILD_HMMIX_CONTAINER.out.ready
+            ch_versions    = ch_versions.mix(BUILD_HMMIX_CONTAINER.out.versions)
+        }
+        HMMIX_RESOURCES ( file("${projectDir}/scripts/zenodo_fetch.py", checkIfExists: true), ch_hmmix_ready )
+        ch_hmmix_resources = HMMIX_RESOURCES.out.resources
+        ch_versions        = ch_versions.mix(HMMIX_RESOURCES.out.versions)
     }
 
     //
@@ -247,5 +265,7 @@ workflow PREPARE_GENOME {
     yleaf_data    = ch_yleaf_data
     yleaf_ready   = ch_yleaf_ready
     cyrius_ready  = ch_cyrius_ready
+    hmmix_ready   = ch_hmmix_ready
+    hmmix_resources = ch_hmmix_resources
     versions      = ch_versions
 }

@@ -77,6 +77,6 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 
 ## v2.2
 - [x] 23andMe-format export (99.99% agreement with the VCF; plink --23file reads it)
-- [ ] Archaic introgression share
+- [x] Archaic introgression share (hmmix; 8 1000 Genomes genomes vs the published calls: 87-92% recovered, 91-92% precise, labels 99-100% agree)
 - [ ] Chromosome painting
 - [x] KIR typing (T1K; 59 1000 Genomes genomes: framework genes in all, B-haplotype gene frequencies as published)

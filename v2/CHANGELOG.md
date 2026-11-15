@@ -4,6 +4,13 @@
 
 ### Since the first v2 commit
 
+- Neanderthal and Denisovan segments with hmmix (`ARCHAIC_HMMIX`, `HMMIX_RESOURCES`,
+  `BUILD_HMMIX_CONTAINER`, `--skip_archaic`): the person's own variants, minus those seen in
+  the African-rich outgroup, through hmmix create_ingroup, train and decode; segments labelled
+  by the variants they share with the Altai, Vindija, Chagyrskaya and Denisova genomes. Report
+  section with totals, the closest Neanderthal, the ten longest segments, a chromosome map and
+  the 1000 Genomes populations with similar totals. Helper files and archaic genomes (~3.3 GB,
+  Zenodo, CC-BY 4.0) are fetched once with MD5 checks.
 - KIR gene content and alleles with T1K against IPD-KIR (`BUILD_T1K_KIR`, `BAM_KIR`,
   `--skip_kir`): reads from the KIR region on chr19 and all chr19 ALT contigs (several KIR
   genes, KIR2DL5 among them, are absent from the primary GRCh38 haplotype), a gene table with
