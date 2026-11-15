@@ -49,4 +49,13 @@ process ADMIXTURE_SUPERVISED {
         admixture: \$(admixture --version 2>&1 | grep -oP 'ADMIXTURE Version \\K[0-9.]+')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.admixture.tsv"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

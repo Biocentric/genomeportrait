@@ -27,4 +27,14 @@ process BCFTOOLS_NORM {
         bcftools: \$(bcftools --version | head -n1 | sed 's/bcftools //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.norm.vcf.gz"
+    touch "${meta.id}.norm.vcf.gz.tbi"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

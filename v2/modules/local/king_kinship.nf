@@ -68,4 +68,13 @@ process KING_KINSHIP {
         king: \$(king 2>&1 | grep -oE 'KING [0-9.]+' | head -n1 | sed 's/KING //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.kin.tsv"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

@@ -28,4 +28,13 @@ process MINIMAP2_ALIGN {
         minimap2: \$(minimap2 --version)
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.bam"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

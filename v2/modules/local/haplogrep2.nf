@@ -26,4 +26,13 @@ process HAPLOGREP2 {
         haplogrep: \$(haplogrep --version 2>&1 | grep -oP '[0-9]+\\.[0-9]+\\.[0-9]+' | head -n1)
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.mtdna_haplogroup.txt"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

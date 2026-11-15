@@ -4,6 +4,13 @@
 
 ### Since the first v2 commit
 
+- Stub blocks on every process (99) and an nf-test (`tests/main.nf.test`, `nf-test test`):
+  the whole pipeline in stub mode with every module on and a FASTQ, aligned, portrait and
+  long-read row, 262 tasks in ~20 s, checking that every sample gets its report and folders
+  and that nothing is published outside the layout. Profile `test_stub`. A stub run refuses
+  a `--reference_base` without "stub" in its path: stub tasks leave placeholders in the
+  storeDir caches, which a real run would take for finished downloads and builds; container
+  build stubs write only the `.ready` marker, never an empty image.
 - Fixed: boolean parameters given on the command line (`--skip_qc true`, `--skip_bqsr false`)
   failed validation ("Value is [string] but should be [boolean]"): Nextflow 25.10+ passes them as
   strings and nf-schema 2.2.0 did not convert them. nf-schema is now 2.8.0; the per-genome

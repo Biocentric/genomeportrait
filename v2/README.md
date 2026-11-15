@@ -104,7 +104,11 @@ v2.0.0dev. Tested here:
 - the gVCF conversion on hand-made cases (`tests/test_pgs_target.py`);
 - a portrait-mode run on a real 21x genome (genome facts, polygenic scores, report);
 - the `test` profile from FASTQ on tiny data (align, mark duplicates, CRAM, DeepVariant, report);
-- all three samplesheet modes in one run on tiny data.
+- all three samplesheet modes in one run on tiny data;
+- every process wired up, in stub mode, for FASTQ, aligned, portrait and long-read rows
+  (`nf-test test`, ~20 s: [`tests/main.nf.test`](tests/main.nf.test));
+- each added module against public truth or published data (`tests/validate_*.sh`, results
+  in the commit messages and [`CHANGELOG.md`](CHANGELOG.md)).
 
 Not yet done: a whole-genome run from FASTQ, and a portrait run with every interpretation
 module switched on. The alignment-reading modules (ancestry, lineage, STR, HLA,

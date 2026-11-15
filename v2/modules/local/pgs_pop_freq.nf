@@ -33,4 +33,13 @@ process PGS_POP_FREQ {
         plink2: \$(plink2 --version 2>&1 | sed 's/^PLINK v//; s/ .*//')
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "pop_afreq"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

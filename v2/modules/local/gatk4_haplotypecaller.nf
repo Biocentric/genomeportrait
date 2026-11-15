@@ -35,4 +35,16 @@ process GATK4_HAPLOTYPECALLER {
         gatk4: \$(gatk --version 2>&1 | grep -oP 'GATK \\K[0-9.]+')
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.haplotypecaller.vcf.gz"
+    touch "${meta.id}.haplotypecaller.vcf.gz.tbi"
+    echo "" | gzip > "${meta.id}.g.vcf.gz"
+    touch "${meta.id}.g.vcf.gz.tbi"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

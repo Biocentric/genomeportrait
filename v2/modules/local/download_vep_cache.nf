@@ -29,4 +29,13 @@ process DOWNLOAD_VEP_CACHE {
         wget: \$(wget --version | head -n1 | sed 's/^GNU Wget //; s/ .*//')
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "vep_cache"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

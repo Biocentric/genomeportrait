@@ -33,4 +33,14 @@ process CLAIR3 {
         clair3: \$(run_clair3.sh --version 2>&1 | sed 's/Clair3 v//')
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.clair3.vcf.gz"
+    touch "${meta.id}.clair3.vcf.gz.tbi"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

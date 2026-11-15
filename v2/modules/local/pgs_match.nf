@@ -32,4 +32,14 @@ process PGS_MATCH {
         python: \$(python3 --version | sed 's/Python //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "scores"
+    touch "pgs_match_stats.tsv"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

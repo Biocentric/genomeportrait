@@ -26,4 +26,13 @@ process BWAMEM2_INDEX {
         bwa-mem2: \$(bwa-mem2 version 2>&1 | head -n1)
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "bwamem2"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

@@ -40,4 +40,16 @@ process PGS_PANEL_DOWNLOAD {
         panel: pgsc_HGDP+1kGP_v1
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "GRCh38_HGDP+1kGP_ALL.pgen"
+    touch "GRCh38_HGDP+1kGP_ALL.pvar.zst"
+    touch "GRCh38_HGDP+1kGP_ALL.psam"
+    touch "GRCh38_HGDP+1kGP.king.cutoff.out.id"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

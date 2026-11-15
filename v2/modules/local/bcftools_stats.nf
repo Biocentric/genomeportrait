@@ -23,4 +23,13 @@ process BCFTOOLS_STATS {
         bcftools: \$(bcftools --version | head -n1 | sed 's/bcftools //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.bcftools_stats.txt"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

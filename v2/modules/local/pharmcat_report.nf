@@ -22,4 +22,13 @@ process PHARMCAT_REPORT {
         python: \$(python --version | sed 's/Python //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.pgx.tsv"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

@@ -26,4 +26,13 @@ process STR_REPORT {
         python: \$(python --version | sed 's/Python //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "${meta.id}_str_profile"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

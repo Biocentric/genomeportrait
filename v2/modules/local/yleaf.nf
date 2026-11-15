@@ -79,4 +79,14 @@ CFG
         samtools: \$(samtools --version | head -n1 | sed 's/samtools //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.y_haplogroup.txt"
+    mkdir -p "${meta.id}_yleaf"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

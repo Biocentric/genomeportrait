@@ -35,4 +35,15 @@ process ARCHAIC_HMMIX {
         bcftools: \$(bcftools --version | head -n1 | sed 's/bcftools //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "${meta.id}.archaic"
+    touch "${meta.id}.archaic_segments.raw.tsv"
+    touch "${meta.id}.trained.json"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

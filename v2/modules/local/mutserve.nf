@@ -30,4 +30,13 @@ process MUTSERVE {
         mutserve: \$(mutserve version 2>&1 | grep -oP '[0-9.]+' | head -n1)
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.heteroplasmy.txt"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

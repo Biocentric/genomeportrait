@@ -36,4 +36,14 @@ process KIR_EXTRACT_FASTQ {
         samtools: \$(samtools --version | head -n1 | sed 's/samtools //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}_kir_1.fq.gz"
+    echo "" | gzip > "${meta.id}_kir_2.fq.gz"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

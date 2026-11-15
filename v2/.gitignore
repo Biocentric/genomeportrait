@@ -16,3 +16,5 @@ results*/
 *.genomeportrait.html
 *.pgs_overview.html
 /local/
+.nf-test/
+.nf-test.log

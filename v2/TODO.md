@@ -73,7 +73,7 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 - [x] One reference panel for ancestry and PGS (hold-out check: unadmixed populations recovered at 0.92–1.00)
 - [x] Streamed align → sort → markdup → CRAM (`--markdup samtools`, default)
 - [x] VerifyBamID2 contamination estimate (2/5/10% mixtures recovered as 2.2/5.9/10.2%)
-- [ ] Stub blocks on every process; nf-test
+- [x] Stub blocks on every process; nf-test (`tests/main.nf.test`: every module, four input modes; the GPU/Parabricks branch is not reached in stub mode)
 
 ## v2.2
 - [x] 23andMe-format export (99.99% agreement with the VCF; plink --23file reads it)

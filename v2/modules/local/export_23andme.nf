@@ -27,4 +27,13 @@ process EXPORT_23ANDME {
         python: \$(python3 --version | sed 's/Python //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.23andme.txt.gz"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

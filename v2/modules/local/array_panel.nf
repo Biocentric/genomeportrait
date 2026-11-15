@@ -32,4 +32,13 @@ PY
         manifest: GSA-24v3-0_A1 (GRCh37), GSA-24v3-0_A2 (GRCh38)
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "gsa_v3_sites.tsv.gz"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

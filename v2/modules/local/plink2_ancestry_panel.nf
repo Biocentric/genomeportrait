@@ -58,4 +58,16 @@ process PLINK2_ANCESTRY_PANEL {
         plink2: \$(plink2 --version 2>&1 | sed 's/^PLINK v//; s/ .*//')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "panel_anc.bed"
+    touch "panel_anc.bim"
+    touch "panel_anc.fam"
+    touch "anc_sites.tsv"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

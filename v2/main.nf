@@ -96,6 +96,12 @@ workflow BIOCENTRIC_GENOMEPORTRAIT {
 workflow {
 
     main:
+    // A stub run writes empty placeholder files, also into the storeDir caches under
+    // reference_base; real runs would then take them for finished downloads and builds.
+    if (workflow.stubRun && !(params.reference_base.toString() =~ /stub/)) {
+        error "Stub runs (-stub) must use a throw-away --reference_base whose path contains 'stub', " +
+              "not ${params.reference_base}: they leave empty placeholder files in its caches."
+    }
     //
     // SUBWORKFLOW: Run initialisation tasks
     //

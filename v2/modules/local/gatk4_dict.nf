@@ -26,4 +26,13 @@ process GATK4_CREATESEQUENCEDICTIONARY {
         gatk4: \$(gatk --version 2>&1 | grep -oP 'GATK \\K[0-9.]+')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.dict"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

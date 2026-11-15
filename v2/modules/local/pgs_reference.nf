@@ -56,4 +56,20 @@ process PGS_REFERENCE {
         plink2: \$(plink2 --version 2>&1 | sed 's/^PLINK v//; s/ .*//')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "ref.pgen"
+    touch "ref.pvar"
+    touch "ref.psam"
+    touch "ref.afreq"
+    touch "pca.acount"
+    touch "pca.eigenvec.allele"
+    touch "pca.cols"
+    touch "ref_pcs.sscore"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

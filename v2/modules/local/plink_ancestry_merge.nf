@@ -36,4 +36,15 @@ process PLINK_ANCESTRY_MERGE {
         plink: \$(plink --version 2>&1 | head -n1 | grep -oE 'v[0-9.]+[a-z0-9.-]*' | head -1)
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.combined.bed"
+    touch "${meta.id}.combined.bim"
+    touch "${meta.id}.combined.fam"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

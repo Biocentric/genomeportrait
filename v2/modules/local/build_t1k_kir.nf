@@ -27,4 +27,13 @@ process BUILD_T1K_KIR {
         t1k: \$(run-t1k --version 2>&1 | grep -oE '[0-9.]+' | head -n1)
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "t1k_kir"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

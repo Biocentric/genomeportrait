@@ -40,4 +40,15 @@ process ENSEMBLVEP_VEP {
         ensembl-vep: \$(vep --help 2>&1 | grep -oP 'ensembl-vep\\s+:\\s+\\K[0-9.]+')
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.vep.vcf.gz"
+    touch "${meta.id}.vep.vcf.gz.tbi"
+    touch "${meta.id}.vep.summary.html"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

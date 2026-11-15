@@ -31,4 +31,13 @@ process DOWNLOAD_YLEAF_DATA {
         yleaf_data: ${params.yleaf_data_url}
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "yleaf_data"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

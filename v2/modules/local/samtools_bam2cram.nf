@@ -30,4 +30,14 @@ process SAMTOOLS_BAM2CRAM {
         samtools: \$(samtools --version | head -n1 | sed 's/samtools //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.cram"
+    touch "${meta.id}.cram.crai"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

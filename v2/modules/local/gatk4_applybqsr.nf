@@ -34,4 +34,14 @@ process GATK4_APPLYBQSR {
         samtools: \$(samtools --version | head -n1 | sed 's/samtools //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.recal.cram"
+    touch "${meta.id}.recal.cram.crai"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

@@ -56,4 +56,13 @@ process HIPSTR {
         hipstr: \$(HipSTR --version 2>&1 | grep -oP '[0-9.]+' | head -n1)
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.hipstr.vcf.gz"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

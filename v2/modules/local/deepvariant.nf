@@ -42,4 +42,16 @@ process DEEPVARIANT_RUNDEEPVARIANT {
         deepvariant: \$(run_deepvariant --version 2>&1 | grep -oP '[0-9]+\\.[0-9]+\\.[0-9]+' | head -n1)
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.deepvariant.vcf.gz"
+    touch "${meta.id}.deepvariant.vcf.gz.tbi"
+    echo "" | gzip > "${meta.id}.g.vcf.gz"
+    touch "${meta.id}.g.vcf.gz.tbi"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

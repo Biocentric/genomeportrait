@@ -65,4 +65,19 @@ process PGS_REPORT {
         python: \$(python3 --version | sed 's/Python //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.pgs_scores.tsv"
+    touch "${meta.id}.pgs_population.tsv"
+    touch "${meta.id}.pgs_imputation.tsv"
+    touch "${meta.id}.pgs_interpreted.tsv"
+    touch "${meta.id}.pgs_interpreted.json"
+    touch "${meta.id}.pgs_overview.html"
+    touch "${meta.id}.pgs_fragment.html"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

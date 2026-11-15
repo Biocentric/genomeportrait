@@ -151,6 +151,7 @@ scores, so adding a score builds a new cache and leaves the old one valid.
 ## Tests
 
 ```bash
+nf-test test                                                         # whole pipeline in stub mode, ~20 s
 SCRATCH=/fast/dir bash tests/run_test.sh smoke                      # FASTQ path on tiny data
 SCRATCH=/fast/dir bash tests/run_test.sh modes                      # aligned-only and portrait rows (after smoke)
 bash tests/pgs_standalone.sh <workdir> <scorefiles> <panel> <gvcf> <sample>   # PGS engine outside Nextflow

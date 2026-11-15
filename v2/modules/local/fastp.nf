@@ -43,4 +43,15 @@ process FASTP {
         END_VERSIONS
         """
     }
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.trim.fastq.gz"
+    touch "${meta.id}.json"
+    touch "${meta.id}.html"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

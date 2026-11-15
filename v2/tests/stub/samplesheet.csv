@@ -1,0 +1,5 @@
+sample,fastq_1,fastq_2,bam,gvcf,vcf,sex,platform
+STUB_FASTQ,STUBDIR/reads_1.fastq.gz,STUBDIR/reads_2.fastq.gz,,,,XX,illumina
+STUB_ALIGNED,,,STUBDIR/sample.cram,,,unknown,illumina
+STUB_PORTRAIT,,,STUBDIR/sample.cram,STUBDIR/sample.g.vcf.gz,STUBDIR/sample.vcf.gz,XY,illumina
+STUB_LONGREAD,STUBDIR/reads_1.fastq.gz,,,,,XY,ont

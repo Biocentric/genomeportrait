@@ -31,4 +31,14 @@ process VERIFYBAMID2 {
         verifybamid2: \$(verifybamid2 --help 2>&1 | grep -o 'Version:[0-9.]*' | cut -d: -f2)
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.selfSM"
+    touch "${meta.id}.Ancestry"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

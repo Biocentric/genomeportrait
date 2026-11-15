@@ -53,4 +53,17 @@ process HMMIX_RESOURCES {
         bcftools: \$(bcftools --version | head -n1 | sed 's/bcftools //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "hg38_strick_callability_mask.bed"
+    touch "hg38_mutationrate.bed"
+    mkdir -p "outgroup"
+    mkdir -p "ancestral"
+    mkdir -p "archaic"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

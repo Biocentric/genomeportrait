@@ -36,4 +36,15 @@ process CYRIUS {
         cyrius: 1.1.1
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.cyrius.tsv"
+    touch "${meta.id}.cyrius.json"
+    touch "${meta.id}.cyp2d6_outside.tsv"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

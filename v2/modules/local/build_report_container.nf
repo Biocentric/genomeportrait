@@ -61,4 +61,14 @@ process BUILD_REPORT_CONTAINER {
             builder: "none (conda profile)"
         END_VERSIONS
         """
+
+    stub:
+    // the .ready marker only: an empty image in reference_base/containers would be taken for a real one
+    """
+    touch "report_container_${params.report_image_version}.ready"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

@@ -25,4 +25,14 @@ process FASTQC {
         fastqc: \$(fastqc --version | sed 's/FastQC v//')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.html"
+    touch "${meta.id}.zip"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

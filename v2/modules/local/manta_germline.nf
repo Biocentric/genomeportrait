@@ -28,4 +28,14 @@ process MANTA_GERMLINE {
         manta: \$(configManta.py --version)
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.diploidSV.vcf.gz"
+    touch "${meta.id}.diploidSV.vcf.gz.tbi"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

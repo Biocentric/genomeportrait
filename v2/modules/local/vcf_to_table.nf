@@ -50,4 +50,14 @@ process VCF_TO_TABLE {
         bcftools: \$(bcftools --version | head -n1 | sed 's/bcftools //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.annotation.tsv.gz"
+    echo "" | gzip > "${meta.id}.annotation_full.raw.tsv.gz"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

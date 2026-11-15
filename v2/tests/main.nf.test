@@ -1,0 +1,44 @@
+nextflow_pipeline {
+
+    name "Whole pipeline, stub mode: every module, all four input modes"
+    script "../main.nf"
+    options "-stub"
+    tag "stub"
+
+    // Each task is replaced by its stub block (empty placeholder outputs), so this checks the
+    // wiring of every subworkflow and the publishing layout in a few minutes, without data,
+    // containers or downloads. Real results are checked by the tests/validate_*.sh scripts.
+    test("FASTQ, aligned, portrait and long-read rows") {
+
+        when {
+            params {
+                def stub = "${projectDir}/tests/stub"
+                def sheet = new File("${outputDir}/samplesheet.csv")
+                sheet.parentFile.mkdirs()
+                sheet.text = new File("${stub}/samplesheet.csv").text.replace("STUBDIR", stub)
+                input          = sheet.path
+                outdir         = "${outputDir}/results"
+                reference_base = "${outputDir}/stub-references"   // throw-away: main.nf insists on 'stub'
+            }
+        }
+
+        then {
+            def samples = ['STUB_FASTQ', 'STUB_ALIGNED', 'STUB_PORTRAIT', 'STUB_LONGREAD']
+            def out = new File(params.outdir)
+            assert workflow.success
+            samples.each { s ->
+                assert new File(out, "${s}/${s}.genomeportrait.html").exists()
+            }
+            ['alignment', 'variants', 'qc', 'ancestry', 'archaic', 'painting', 'kir', 'hla', 'polygenic',
+             'pharmacogenomics', 'traits', 'export', 'lineage', 'str', 'annotation', 'extras'].each { d ->
+                assert new File(out, "STUB_FASTQ/${d}").isDirectory() : "STUB_FASTQ/${d} missing"
+            }
+            // publishing layout: one folder per sample plus multiqc/ and pipeline_info/, and no
+            // versions.yml anywhere
+            assert out.list() as Set == (samples + ['multiqc', 'pipeline_info']) as Set
+            def leaked = []
+            out.eachFileRecurse(groovy.io.FileType.FILES) { f -> if (f.name == 'versions.yml') leaked << f.path }
+            assert leaked.isEmpty() : "versions.yml published: ${leaked}"
+        }
+    }
+}

@@ -35,4 +35,13 @@ process EXPANSIONHUNTER {
         expansionhunter: \$(ExpansionHunter --version 2>&1 | grep -oP '[0-9.]+' | head -n1)
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.expansionhunter.vcf"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

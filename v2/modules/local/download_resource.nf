@@ -32,4 +32,15 @@ process DOWNLOAD_RESOURCE {
         wget: \$(wget --version | head -n1 | sed 's/^GNU Wget //; s/ .*//')
     END_VERSIONS
     """
+
+    stub:
+    def fname = url.tokenize('/').last()
+    """
+    mkdir -p ${meta.id}
+    touch "${meta.id}/${fname}"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

@@ -31,4 +31,13 @@ process PGS_PROJECT {
         plink2: \$(plink2 --version 2>&1 | sed 's/^PLINK v//; s/ .*//')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.pgs_pcs.sscore"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

@@ -36,4 +36,16 @@ process PAINT_CHROMOSOMES {
         rfmix: 2.03-r0
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "${meta.id}.painting"
+    touch "${meta.id}.painting_segments.raw.tsv"
+    mkdir -p \"rfmix\"
+    touch "rfmix/stub"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

@@ -27,4 +27,15 @@ process MOSDEPTH {
         mosdepth: \$(mosdepth --version | sed 's/mosdepth //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.mosdepth.summary.txt"
+    touch "${meta.id}.mosdepth.global.dist.txt"
+    echo "" | gzip > "${meta.id}.regions.bed.gz"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

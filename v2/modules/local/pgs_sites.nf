@@ -24,4 +24,13 @@ process PGS_SITES {
         python: \$(python3 --version | sed 's/Python //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "pgs_sites.bed1"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

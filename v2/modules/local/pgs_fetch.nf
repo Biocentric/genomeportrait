@@ -34,4 +34,14 @@ process PGS_FETCH {
         python: \$(python3 --version | sed 's/Python //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "scorefiles"
+    mkdir -p "catalog"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

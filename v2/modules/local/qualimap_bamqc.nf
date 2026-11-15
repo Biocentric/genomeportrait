@@ -28,4 +28,13 @@ process QUALIMAP_BAMQC {
         qualimap: \$(qualimap --help 2>&1 | grep -oP 'QualiMap v\\.\\K[0-9.]+' | head -n1)
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "${meta.id}_qualimap"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

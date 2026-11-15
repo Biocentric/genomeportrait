@@ -32,4 +32,13 @@ process PLINK2_ROH {
         plink: \$(plink --version 2>&1 | sed 's/^PLINK v//; s/ .*//')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.roh.tsv"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

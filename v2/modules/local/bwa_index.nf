@@ -29,4 +29,13 @@ process BWA_INDEX {
         bwa: \$(echo \$(bwa 2>&1) | sed 's/^.*Version: //; s/Contact.*\$//')
     END_VERSIONS
     """
+
+    stub:
+    """
+    mkdir -p "bwa"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

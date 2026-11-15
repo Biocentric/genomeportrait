@@ -40,4 +40,13 @@ process GATK4_BASERECALIBRATOR {
         gatk4: \$(gatk --version 2>&1 | grep -oP 'GATK \\K[0-9.]+')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.recal.table"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

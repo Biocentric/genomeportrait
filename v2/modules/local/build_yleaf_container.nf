@@ -60,4 +60,14 @@ process BUILD_YLEAF_CONTAINER {
             builder: "none (${engine})"
         END_VERSIONS
         """
+
+    stub:
+    // the .ready marker only: an empty image in reference_base/containers would be taken for a real one
+    """
+    touch "yleaf_container_${params.yleaf_image_version}.ready"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

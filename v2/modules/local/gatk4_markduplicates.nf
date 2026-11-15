@@ -34,4 +34,15 @@ process GATK4_MARKDUPLICATES {
         gatk4: \$(gatk --version 2>&1 | grep -oP 'GATK \\K[0-9.]+')
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "${meta.id}.markdup.bam"
+    touch "${meta.id}.markdup.bam.bai"
+    touch "${meta.id}.metrics"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

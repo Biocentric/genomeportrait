@@ -30,4 +30,14 @@ process PGS_TARGET {
         python: \$(python3 --version | sed 's/Python //')
     END_VERSIONS
     """
+
+    stub:
+    """
+    echo "" | gzip > "${meta.id}.pgs_target.vcf.gz"
+    touch "${meta.id}.pgs_target_stats.tsv"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }

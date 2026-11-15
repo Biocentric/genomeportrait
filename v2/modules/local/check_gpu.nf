@@ -51,4 +51,14 @@ process CHECK_GPU {
         nvidia-smi: \$(command -v nvidia-smi >/dev/null 2>&1 && nvidia-smi --version 2>/dev/null | grep -oP 'DRIVER version: \\K[0-9.]+' | head -n1 || echo "n/a")
     END_VERSIONS
     """
+
+    stub:
+    """
+    touch "gpu.decision"
+    touch "gpu.report.txt"
+    cat <<-END_VERSIONS > versions.yml
+    "${task.process}":
+        stub: true
+    END_VERSIONS
+    """
 }
