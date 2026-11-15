@@ -4,6 +4,9 @@
 
 ### Since the first v2 commit
 
+- Contamination check: VerifyBamID2 estimates the fraction of DNA from another person (FREEMIX),
+  shown in "Genome at a glance" with a verdict (clean < 2%, check 2-5%, contaminated > 5%).
+  `tests/validate_contamination.sh` mixes two samples at known fractions.
 - Short reads go from bwa-mem2 through samtools fixmate, sort and markdup straight to a CRAM
   (`BWAMEM2_MARKDUP_CRAM`, `--markdup samtools`, the default). No sorted BAM or duplicate-marked
   BAM is written (~240 GB at 40x). `--markdup gatk` keeps the GATK MarkDuplicates path.

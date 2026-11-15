@@ -70,7 +70,7 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 - [ ] Blood groups (ABO, RhD, Kell, Duffy, Kidd), validated on reference-panel frequencies
 - [x] One reference panel for ancestry and PGS (hold-out check: unadmixed populations recovered at 0.92–1.00)
 - [x] Streamed align → sort → markdup → CRAM (`--markdup samtools`, default)
-- [ ] VerifyBamID2 contamination estimate
+- [x] VerifyBamID2 contamination estimate (2/5/10% mixtures recovered as 2.2/5.9/10.2%)
 - [ ] Stub blocks on every process; nf-test
 
 ## v2.2

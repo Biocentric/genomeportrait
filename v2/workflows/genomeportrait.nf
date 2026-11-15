@@ -21,6 +21,8 @@ include { BAM_FORENSIC_STR         } from '../subworkflows/local/bam_forensic_st
 include { VCF_POLYGENIC            } from '../subworkflows/local/vcf_polygenic'
 include { MOSDEPTH                 } from '../modules/local/mosdepth'
 include { GENOME_FACTS             } from '../modules/local/genome_facts'
+include { VERIFYBAMID2             } from '../modules/local/verifybamid2'
+include { CONTAMINATION_REPORT     } from '../modules/local/contamination_report'
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_INPUT } from '../modules/local/bcftools_stats'
 include { BAM_HLA                  } from '../subworkflows/local/bam_hla'
 include { BAM_PHARMACOGENOMICS     } from '../subworkflows/local/vcf_pharmacogenomics'
@@ -164,6 +166,14 @@ workflow GENOMEPORTRAIT {
     ch_report_parts  = ch_report_parts.mix(GENOME_FACTS.out.tsv.map{ m,f -> [m,'genome_facts',f] })
     // [ meta.id, 'XX' | 'XY' | 'unknown' ]: samplesheet value if given, else inferred from depth
     ch_sex = GENOME_FACTS.out.sex.map { meta, f -> [ meta.id, f.text.trim() ] }
+
+    // DNA from a second person in the library: checked before anything is read into the genome
+    if (!params.skip_contamination) {
+        VERIFYBAMID2 ( ch_analysis_bam, ch_reference.fasta, ch_reference.fai )
+        CONTAMINATION_REPORT ( VERIFYBAMID2.out.selfsm, file("${projectDir}/scripts/contamination_report.py", checkIfExists: true) )
+        ch_versions     = ch_versions.mix(VERIFYBAMID2.out.versions.first(), CONTAMINATION_REPORT.out.versions.first())
+        ch_report_parts = ch_report_parts.mix(CONTAMINATION_REPORT.out.tsv.map{ m,f -> [m,'contamination_facts',f] })
+    }
 
     if (!params.skip_qc) {
         BAM_QC ( ch_analysis_bam, ch_real_bam, ch_reference )

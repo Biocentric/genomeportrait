@@ -20,6 +20,7 @@ import pandas as pd
 SECTIONS = [
     # (filename marker,    section id,     title)            order = order in the report
     ("genome_facts",       "facts",        "Genome at a glance"),
+    ("contamination_facts", "facts",       "Genome at a glance"),
     ("ancestry",           "ancestry",     "Ancestry & admixture"),
     ("lineage",            "lineage",      "Maternal & paternal lineage"),
     ("pgs_fragment",       "pgs",          "Polygenic scores"),
@@ -271,12 +272,15 @@ def main():
                 break
 
     nav_links, body = [], []
+    done = set()
     for suffix, sid, title in SECTIONS:
         files = by_section.get(sid, [])
-        if not files:
+        if not files or sid in done:
             continue
+        done.add(sid)
         nav_links.append(f'<a href="#{sid}">{html.escape(title)}</a>')
         chunks = [f'<section id="{sid}"><h2>{html.escape(title)}</h2>']
+        facts_rows = []
         for pf in files:
             if sid == "pgs":
                 # a ready-made HTML fragment (scripts/pgs_overview.py), embedded as it is
@@ -289,7 +293,7 @@ def main():
             tables, plots = read_part(pf)
             for name, df in tables:
                 if sid == "facts" and {"fact", "value", "note"} <= set(df.columns):
-                    chunks.append(facts_html(df))
+                    facts_rows.append(df)
                 elif sid == "annotation":
                     df, total = rank_annotation(df)
                     if total > len(df):
@@ -314,6 +318,8 @@ def main():
                     chunks.append(df_to_html(df))
             for img in plots:
                 chunks.append(f'<div class="plot"><img src="{img}" alt=""></div>')
+        if sid == "facts" and facts_rows:
+            chunks.append(facts_html(pd.concat(facts_rows, ignore_index=True)))
         if sid in ("pgx", "traits", "annotation"):
             chunks.append('<div class="disclaim">Recreational / educational interpretation only. '
                           'Not a medical or diagnostic result.</div>')

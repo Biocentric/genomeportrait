@@ -10,7 +10,7 @@ results/
 │   ├── alignment/        CRAM + index, MarkDuplicates metrics
 │   ├── variants/         DeepVariant VCF and gVCF, the normalised VCF, bcftools stats
 │   │   └── sv_cnv/       Manta, CNVpytor, summary
-│   ├── qc/               genome facts, samtools stats; fastp/, fastqc/, mosdepth/, qualimap/
+│   ├── qc/               genome facts, contamination (VerifyBamID2 .selfSM), samtools stats; fastp/, fastqc/, mosdepth/, qualimap/
 │   ├── annotation/       VEP-annotated VCF and table
 │   ├── ancestry/         PCA, admixture, kinship, report bundle
 │   ├── lineage/          mtDNA and Y haplogroups

@@ -64,6 +64,10 @@ interpretation module cannot abort the run.
 
 Genome facts (depth, sex, mtDNA copies) always run: other modules depend on the result.
 
+`--skip_contamination` turns off the VerifyBamID2 contamination estimate (about 20 min per
+30x genome; `--contamination_panel` can point at the smaller 10k-marker panel shipped in the same
+container).
+
 ### Alignment and calling
 
 | Parameter | Default | |
