@@ -29,6 +29,7 @@ include { BWAMEM2_INDEX                 } from '../../modules/local/bwamem2_inde
 include { BUILD_REPORT_CONTAINER        } from '../../modules/local/build_report_container'
 include { BUILD_HIPSTR_CONTAINER        } from '../../modules/local/build_hipstr_container'
 include { BUILD_T1K_HLA                 } from '../../modules/local/build_t1k_hla'
+include { BUILD_T1K_KIR                 } from '../../modules/local/build_t1k_kir'
 include { DOWNLOAD_YLEAF_DATA           } from '../../modules/local/download_yleaf_data'
 include { BUILD_YLEAF_CONTAINER        } from '../../modules/local/build_yleaf_container'
 include { BUILD_CYRIUS_CONTAINER       } from '../../modules/local/build_cyrius_container'
@@ -81,6 +82,16 @@ workflow PREPARE_GENOME {
         BUILD_T1K_HLA ()
         ch_hla_index = BUILD_T1K_HLA.out.index
         ch_versions  = ch_versions.mix(BUILD_T1K_HLA.out.versions)
+    }
+
+    //
+    // The T1K KIR reference (IPD-KIR), only when KIR typing runs
+    //
+    ch_kir_index = Channel.value([])
+    if (!params.skip_kir) {
+        BUILD_T1K_KIR ()
+        ch_kir_index = BUILD_T1K_KIR.out.index
+        ch_versions  = ch_versions.mix(BUILD_T1K_KIR.out.versions)
     }
 
     //
@@ -232,6 +243,7 @@ workflow PREPARE_GENOME {
     report_sif    = ch_report_sif
     hipstr_ready  = ch_hipstr_ready
     hla_index     = ch_hla_index
+    kir_index     = ch_kir_index
     yleaf_data    = ch_yleaf_data
     yleaf_ready   = ch_yleaf_ready
     cyrius_ready  = ch_cyrius_ready

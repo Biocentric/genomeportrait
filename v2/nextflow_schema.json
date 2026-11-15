@@ -305,6 +305,11 @@
                     "type": "boolean",
                     "default": false,
                     "description": "Skip blood-group prediction (ABO, RhD, Kell, Duffy, Kidd)."
+                },
+                "skip_kir": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip KIR gene-content typing with T1K."
                 }
             }
         },

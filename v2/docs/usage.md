@@ -69,6 +69,12 @@ their defining variants, RhD from read depth over the RHD gene (the common RhD-n
 deletion); silencing variants in an intact RHD gene are not detected. Like CYP2D6, Kell needs
 an ALT-aware alignment: KEL lies under the ALT contig chr7_KI270803v1_alt.
 
+`--skip_kir` turns off KIR typing. T1K types the KIR genes from the reads of the KIR region
+on chr19 and of every chr19 ALT contig: GRCh38's primary haplotype lacks several KIR genes
+(KIR2DL5, KIR2DS3/5, KIR3DS1), so reads from them can only sit on ALT contigs. The report lists
+which genes are present, their alleles, and whether the genome carries a B haplotype. It is
+gene content from read evidence, not a clinical KIR typing; copy number is not reported.
+
 `--skip_23andme` turns off the 23andMe-format export (`<sample>/export/`). Its site list is
 built once from Illumina's GSA manifests, downloaded at run time (`--array_manifest_b37/b38`).
 

@@ -27,6 +27,7 @@ SECTIONS = [
     ("traits",             "traits",       "Popular traits"),
     ("blood_groups",       "blood",        "Blood groups"),
     ("hla",                "hla",          "HLA immune type"),
+    (".kir.",              "kir",          "KIR (natural killer cell receptor genes)"),
     ("pgx",                "pgx",          "Pharmacogenomics"),
     ("str_profile",        "str",          "Forensic STR profile (CODIS)"),
     ("bcftools_stats",     "variants",     "Variant overview"),

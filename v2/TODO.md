@@ -79,4 +79,4 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 - [x] 23andMe-format export (99.99% agreement with the VCF; plink --23file reads it)
 - [ ] Archaic introgression share
 - [ ] Chromosome painting
-- [ ] KIR typing
+- [x] KIR typing (T1K; 59 1000 Genomes genomes: framework genes in all, B-haplotype gene frequencies as published)

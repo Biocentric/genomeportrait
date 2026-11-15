@@ -29,6 +29,7 @@ include { RHD_DEPTH                } from '../modules/local/rhd_depth'
 include { BLOOD_GROUPS             } from '../modules/local/blood_groups'
 include { BCFTOOLS_STATS as BCFTOOLS_STATS_INPUT } from '../modules/local/bcftools_stats'
 include { BAM_HLA                  } from '../subworkflows/local/bam_hla'
+include { BAM_KIR                  } from '../subworkflows/local/bam_kir'
 include { BAM_PHARMACOGENOMICS     } from '../subworkflows/local/vcf_pharmacogenomics'
 include { VCF_TRAITS               } from '../subworkflows/local/vcf_traits'
 include { BAM_EXTRAS               } from '../subworkflows/local/bam_extras'
@@ -285,6 +286,15 @@ workflow GENOMEPORTRAIT {
         BAM_HLA ( ch_analysis_bam, ch_reference )
         ch_versions     = ch_versions.mix(BAM_HLA.out.versions)
         ch_report_parts = ch_report_parts.mix(BAM_HLA.out.results.map{ m,f -> [m,'hla',f] })
+    }
+
+    //
+    // STAGE 11b: KIR gene content (T1K)
+    //
+    if (!params.skip_kir) {
+        BAM_KIR ( ch_analysis_bam, ch_reference )
+        ch_versions     = ch_versions.mix(BAM_KIR.out.versions)
+        ch_report_parts = ch_report_parts.mix(BAM_KIR.out.results.map{ m,f -> [m,'kir',f] })
     }
 
     //

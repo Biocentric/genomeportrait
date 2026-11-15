@@ -4,6 +4,10 @@
 
 ### Since the first v2 commit
 
+- KIR gene content and alleles with T1K against IPD-KIR (`BUILD_T1K_KIR`, `BAM_KIR`,
+  `--skip_kir`): reads from the KIR region on chr19 and all chr19 ALT contigs (several KIR
+  genes, KIR2DL5 among them, are absent from the primary GRCh38 haplotype), a gene table with
+  the A/A or B/x haplotype group in a report section. Calls with T1K quality 0 are dropped.
 - Blood groups: ABO, Kell, Duffy, Kidd from their defining variants (read from the gVCF), RhD
   from RHD read depth (`RHD_DEPTH`, `BLOOD_GROUPS`, `--skip_blood_groups`), in a report section.
 - ALT-aware alignment (`--alt_aware`, default on): bwa-mem2 gets the reference's `.alt` file, so
