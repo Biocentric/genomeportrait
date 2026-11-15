@@ -4,6 +4,10 @@
 
 ### Since the first v2 commit
 
+- Fixed: boolean parameters given on the command line (`--skip_qc true`, `--skip_bqsr false`)
+  failed validation ("Value is [string] but should be [boolean]"): Nextflow 25.10+ passes them as
+  strings and nf-schema 2.2.0 did not convert them. nf-schema is now 2.8.0; the per-genome
+  `references` table is excluded from the unrecognised-parameter check.
 - Chromosome painting (`PAINT_CHROMOSOMES`, `PAINTING_REFERENCE`, `BUILD_PAINTING_CONTAINER`,
   `--skip_painting`): genotypes at ~763,000 common SNPs from the gVCF, phased with Beagle 5.4
   against the 1000 Genomes 30x panel, painted with RFMix v2 as African, European, East Asian or
