@@ -106,7 +106,7 @@ workflow ALIGN_AND_CALL {
             classic: true
         }
         .set { ch_cpu }
-    BWAMEM2_MARKDUP_CRAM ( ch_cpu.stream, ch_reference.bwamem2_index, ch_reference.fasta, ch_reference.fai )
+    BWAMEM2_MARKDUP_CRAM ( ch_cpu.stream, ch_reference.bwamem2_index, ch_reference.bwa_alt, ch_reference.fasta, ch_reference.fai )
     FASTQ_ALIGN ( ch_cpu.classic, ch_reference )
     BAM_MARKDUP_BQSR ( FASTQ_ALIGN.out.bam, ch_reference, params.skip_bqsr, BWAMEM2_MARKDUP_CRAM.out.cram )
     // A samplesheet alignment is taken as analysis-ready (sorted, duplicates marked): it is

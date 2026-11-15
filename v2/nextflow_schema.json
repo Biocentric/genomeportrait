@@ -174,6 +174,11 @@
                         "gatk"
                     ],
                     "description": "Duplicate marking for short reads aligned with bwa-mem2: samtools streams alignment, sorting and marking straight to CRAM; gatk writes a sorted BAM and runs GATK MarkDuplicates."
+                },
+                "alt_aware": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Map ALT-aware using the reference's bwa .alt file, so reads at loci with ALT haplotypes (CYP2D6, HLA, KIR) stay on the primary assembly."
                 }
             }
         },

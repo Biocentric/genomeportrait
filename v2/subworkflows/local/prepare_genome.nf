@@ -13,6 +13,7 @@
 */
 
 include { DOWNLOAD_RESOURCE as DL_FASTA   } from '../../modules/local/download_resource'
+include { DOWNLOAD_RESOURCE as DL_BWA_ALT } from '../../modules/local/download_resource'
 include { DOWNLOAD_RESOURCE as DL_DBSNP   } from '../../modules/local/download_resource'
 include { DOWNLOAD_RESOURCE as DL_KNOWN   } from '../../modules/local/download_resource'
 include { DOWNLOAD_RESOURCE as DL_MILLS   } from '../../modules/local/download_resource'
@@ -128,6 +129,14 @@ workflow PREPARE_GENOME {
     ch_dict = GATK4_CREATESEQUENCEDICTIONARY.out.dict.map { it[1] }
     ch_versions = ch_versions.mix(SAMTOOLS_FAIDX.out.versions)
 
+    // bwa .alt file: ALT-aware mapping keeps reads at loci with ALT haplotypes (CYP2D6, HLA,
+    // KIR, ...) on the primary assembly instead of scattering them onto ALT contigs at MAPQ 0.
+    ch_bwa_alt = Channel.value([])
+    if (needs_alignment && params.alt_aware && refs.bwa_alt) {
+        DL_BWA_ALT ( [ [id:'bwa_alt'], refs.bwa_alt ], "${params.reference_base}/${genome}/bwa_alt" )
+        ch_bwa_alt = DL_BWA_ALT.out.file.map { it[1] }
+    }
+
     // bwa-mem2 index is large/slow; only build for short-read alignment from FASTQ
     ch_bwamem2 = Channel.value([])
     if (params.aligner == 'bwa-mem2' && needs_alignment) {
@@ -210,6 +219,7 @@ workflow PREPARE_GENOME {
     fai           = ch_fai
     dict          = ch_dict
     bwamem2_index = ch_bwamem2
+    bwa_alt       = ch_bwa_alt
     dbsnp         = ch_dbsnp
     known_indels  = ch_known_indels
     mills         = ch_mills

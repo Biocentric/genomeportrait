@@ -29,6 +29,7 @@ workflow FASTQ_ALIGN {
     BWAMEM2_MEM (
         ch_branched.short_read,
         ch_reference.bwamem2_index,
+        ch_reference.bwa_alt,
         ch_reference.fasta,
         true // coordinate-sort inside the aligner task
     )

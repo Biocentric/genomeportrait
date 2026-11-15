@@ -55,11 +55,8 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 
 ## v2.1
 
-- [ ] **ALT-aware alignment.** The pipeline aligns to GRCh38 with ALT contigs but without bwa's
-      `.alt` file, so reads at loci with ALT haplotypes (CYP2D6, HLA, KIR, ...) land on the ALT
-      contigs at MAPQ 0: on the test genome 26,343 CYP2D6/D7 reads sit on chr22_KI270879v1_alt and
-      1,436 on chr22 (NA12878 from 1000 Genomes: 0 and 8,983). Cyrius then makes no call.
-
+- [x] **ALT-aware alignment** (`--alt_aware`): NA12878 chr22 CYP2D6 locus 2,696 -> 8,935 reads; Cyrius recovers *3/*68+*4
+- [ ] Re-align the existing 21x and 42x genomes from FASTQ so CYP2D6 (and HLA/KIR) use ALT-aware alignments
 - [ ] Inbreeding F and ROH come from the variant-only VCF (F = -1.0 on the test genome): compute
       them from genotypes that include hom-ref sites (the panel-space target or the ancestry SNPs)
 - [ ] KING kinship against the panel sits near -0.05 for an unrelated European; check whether

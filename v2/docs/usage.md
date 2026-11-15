@@ -68,10 +68,11 @@ Genome facts (depth, sex, mtDNA copies) always run: other modules depend on the 
 built once from Illumina's GSA manifests, downloaded at run time (`--array_manifest_b37/b38`).
 
 `--skip_cyp2d6` turns off CYP2D6 calling with Cyrius. Cyrius needs the reads at the
-CYP2D6/CYP2D7 locus on the primary assembly; alignments made against GRCh38 *with* ALT
-contigs but without ALT-aware mapping (all v1 alignments, and v2's until ALT-aware alignment
-lands) put most of them on `chr22_KI270879v1_alt`, and Cyrius then makes no call — PharmCAT
-reports CYP2D6 as not called rather than guessing.
+CYP2D6/CYP2D7 locus on the primary assembly. v2 maps ALT-aware, so its own alignments are
+fine; an alignment supplied in the samplesheet that was made against GRCh38 with ALT contigs
+but without ALT-aware mapping (all v1 alignments) has most of those reads on
+`chr22_KI270879v1_alt`, and Cyrius then makes no call — PharmCAT reports CYP2D6 as not
+called rather than guessing. Re-align such genomes from FASTQ to get a CYP2D6 call.
 
 `--skip_contamination` turns off the VerifyBamID2 contamination estimate (about 20 min per
 30x genome; `--contamination_panel` can point at the smaller 10k-marker panel shipped in the same
@@ -84,6 +85,7 @@ container).
 | `--aligner` | `bwa-mem2` | `minimap2` for long reads |
 | `--variant_caller` | `deepvariant` | `haplotypecaller`, `clair3` |
 | `--markdup` | `samtools` | `samtools`: bwa-mem2 → fixmate → sort → markdup → CRAM in one stream, no intermediate BAMs. `gatk`: sorted BAM, then GATK MarkDuplicates (v1). Long reads always use the second path. |
+| `--alt_aware` | `true` | Map ALT-aware with the reference's bwa `.alt` file (fetched once). Keeps reads at loci with ALT haplotypes — CYP2D6, HLA, KIR — on the primary assembly. |
 | `--skip_bqsr` | `true` | `--skip_bqsr false` turns BQSR on. DeepVariant gains nothing from it. |
 | `--skip_trimming` | `false` | |
 | `--use_gpu` | `off` | `auto` / `on` for Parabricks; see the GPU notes in `nextflow.config` |

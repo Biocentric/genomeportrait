@@ -4,6 +4,9 @@
 
 ### Since the first v2 commit
 
+- ALT-aware alignment (`--alt_aware`, default on): bwa-mem2 gets the reference's `.alt` file, so
+  reads at loci with ALT haplotypes stay on the primary assembly. v1 lacked it; on NA12878 chr22
+  the CYP2D6 locus has 8,935 instead of 2,696 reads and Cyrius calls *3/*68+*4 instead of nothing.
 - 23andMe-format export at the 639,615 SNPs of the Illumina GSA v3.0 (`ARRAY_PANEL`, `EXPORT_23ANDME`,
   `--skip_23andme`): GRCh37 positions, plus-strand bases, hom-ref sites from the gVCF, haploid
   chrX/Y/M for XY genomes.

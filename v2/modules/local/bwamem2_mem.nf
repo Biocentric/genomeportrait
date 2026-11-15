@@ -10,6 +10,7 @@ process BWAMEM2_MEM {
     input:
     tuple val(meta), path(reads)
     path  index
+    path  alt        // bwa .alt file for the reference ([] = none): ALT-aware mapping
     path  fasta
     val   sort_bam
 
@@ -23,6 +24,14 @@ process BWAMEM2_MEM {
     def sort  = sort_bam ? "samtools sort -@ ${task.cpus} -o ${meta.id}.bam -" : "samtools view -@ ${task.cpus} -bhS -o ${meta.id}.bam -"
     """
     INDEX=\$(find -L ./ -name "*.amb" | sed 's/\\.amb\$//')
+    # ALT-aware mapping: bwa-mem2 reads <index prefix>.alt. The cached index directory is not
+    # written to; its files are linked into the task directory next to the .alt file instead.
+    if [ -s "${alt}" ]; then
+        mkdir -p altidx
+        for f in \${INDEX}.*; do ln -sf "\$(readlink -f \$f)" altidx/; done
+        ln -sf "\$(readlink -f ${alt})" "altidx/\$(basename \$INDEX).alt"
+        INDEX=altidx/\$(basename \$INDEX)
+    fi
     bwa-mem2 mem $args -t $task.cpus \$INDEX ${reads} | $sort
 
     cat <<-END_VERSIONS > versions.yml

@@ -51,6 +51,7 @@ workflow BIOCENTRIC_GENOMEPORTRAIT {
         fai           : PREPARE_GENOME.out.fai,
         dict          : PREPARE_GENOME.out.dict,
         bwamem2_index : PREPARE_GENOME.out.bwamem2_index,
+        bwa_alt       : PREPARE_GENOME.out.bwa_alt,
         dbsnp         : PREPARE_GENOME.out.dbsnp,
         known_indels  : PREPARE_GENOME.out.known_indels,
         mills         : PREPARE_GENOME.out.mills,

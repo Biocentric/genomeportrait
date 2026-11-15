@@ -10,6 +10,7 @@ process BWAMEM2_MARKDUP_CRAM {
     input:
     tuple val(meta), path(reads)
     path  index
+    path  alt        // bwa .alt file for the reference ([] = none): ALT-aware mapping
     path  fasta
     path  fai
 
@@ -29,6 +30,14 @@ process BWAMEM2_MARKDUP_CRAM {
     def mem_per_thread = task.memory ? "${Math.max(768, ((task.memory.toMega() * 0.25) / sort_threads) as int)}M" : '768M'
     """
     INDEX=\$(find -L ./ -name "*.amb" | sed 's/\\.amb\$//')
+    # ALT-aware mapping: bwa-mem2 reads <index prefix>.alt. The cached index directory is not
+    # written to; its files are linked into the task directory next to the .alt file instead.
+    if [ -s "${alt}" ]; then
+        mkdir -p altidx
+        for f in \${INDEX}.*; do ln -sf "\$(readlink -f \$f)" altidx/; done
+        ln -sf "\$(readlink -f ${alt})" "altidx/\$(basename \$INDEX).alt"
+        INDEX=altidx/\$(basename \$INDEX)
+    fi
     mkdir -p tmp
     bwa-mem2 mem $args -t $task.cpus \$INDEX ${reads} \\
         | samtools fixmate -m -u - - \\
