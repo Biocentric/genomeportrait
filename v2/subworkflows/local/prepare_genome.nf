@@ -30,6 +30,7 @@ include { BUILD_HIPSTR_CONTAINER        } from '../../modules/local/build_hipstr
 include { BUILD_T1K_HLA                 } from '../../modules/local/build_t1k_hla'
 include { DOWNLOAD_YLEAF_DATA           } from '../../modules/local/download_yleaf_data'
 include { BUILD_YLEAF_CONTAINER        } from '../../modules/local/build_yleaf_container'
+include { BUILD_CYRIUS_CONTAINER       } from '../../modules/local/build_cyrius_container'
 
 workflow PREPARE_GENOME {
 
@@ -97,6 +98,16 @@ workflow PREPARE_GENOME {
             ch_yleaf_ready = BUILD_YLEAF_CONTAINER.out.ready
             ch_versions    = ch_versions.mix(BUILD_YLEAF_CONTAINER.out.versions)
         }
+    }
+
+    //
+    // Cyrius image (CYP2D6), only when pharmacogenomics runs with CYP2D6
+    //
+    ch_cyrius_ready = Channel.value('na')
+    if (!params.skip_pharmcat && !params.skip_cyp2d6 && params.build_cyrius_container) {
+        BUILD_CYRIUS_CONTAINER ( file("${projectDir}/containers/cyrius/Singularity.def", checkIfExists: true) )
+        ch_cyrius_ready = BUILD_CYRIUS_CONTAINER.out.ready
+        ch_versions     = ch_versions.mix(BUILD_CYRIUS_CONTAINER.out.versions)
     }
 
     //
@@ -213,5 +224,6 @@ workflow PREPARE_GENOME {
     hla_index     = ch_hla_index
     yleaf_data    = ch_yleaf_data
     yleaf_ready   = ch_yleaf_ready
+    cyrius_ready  = ch_cyrius_ready
     versions      = ch_versions
 }

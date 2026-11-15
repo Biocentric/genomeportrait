@@ -64,6 +64,12 @@ interpretation module cannot abort the run.
 
 Genome facts (depth, sex, mtDNA copies) always run: other modules depend on the result.
 
+`--skip_cyp2d6` turns off CYP2D6 calling with Cyrius. Cyrius needs the reads at the
+CYP2D6/CYP2D7 locus on the primary assembly; alignments made against GRCh38 *with* ALT
+contigs but without ALT-aware mapping (all v1 alignments, and v2's until ALT-aware alignment
+lands) put most of them on `chr22_KI270879v1_alt`, and Cyrius then makes no call — PharmCAT
+reports CYP2D6 as not called rather than guessing.
+
 `--skip_contamination` turns off the VerifyBamID2 contamination estimate (about 20 min per
 30x genome; `--contamination_panel` can point at the smaller 10k-marker panel shipped in the same
 container).

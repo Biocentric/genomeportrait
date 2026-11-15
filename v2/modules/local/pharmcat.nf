@@ -8,7 +8,7 @@ process PHARMCAT {
         'pgkb/pharmcat:2.15.5' }"
 
     input:
-    tuple val(meta), path(bam), path(bai)
+    tuple val(meta), path(bam), path(bai), path(outside_calls)
     path  fasta
     path  fai
 
@@ -42,7 +42,17 @@ process PHARMCAT {
     # -reporterJson is REQUIRED: without it PharmCAT writes only the HTML report, the
     # .report.json copy below falls back to "{}", and the downstream reporter then dies with
     # "No columns to parse from file".
-    pharmcat_pipeline ${meta.id}.pgx.vcf.gz -o pharmcat_out -bf ${meta.id} -reporterJson || true
+    # CYP2D6 cannot be called from a VCF (copy number, CYP2D7 hybrids); Cyrius calls it from
+    # the alignment and its PASS diplotype arrives here as an outside call. pharmcat_pipeline
+    # has no option for outside calls, so run its two stages (preprocessor, then PharmCAT)
+    # directly. If PharmCAT rejects the outside call, it runs again without it.
+    python3 /pharmcat/pharmcat_vcf_preprocessor.py -vcf ${meta.id}.pgx.vcf.gz -o pre -bf ${meta.id}
+    PRE=\$(ls pre/${meta.id}*.preprocessed.vcf* | grep -v -e csi -e tbi | head -1)
+    PO=""
+    [ -s "${outside_calls}" ] && PO="-po ${outside_calls}"
+    java -jar /pharmcat/pharmcat.jar -vcf \$PRE -o pharmcat_out -bf ${meta.id} -reporterJson \$PO \
+        || { [ -n "\$PO" ] && echo "PharmCAT rejected the outside call: \$(cat ${outside_calls}); rerunning without" >&2 \
+             && rm -rf pharmcat_out && java -jar /pharmcat/pharmcat.jar -vcf \$PRE -o pharmcat_out -bf ${meta.id} -reporterJson; } || true
 
     # Fall back to phenotype.json (always written) if the reporter JSON is missing.
     if [ -s pharmcat_out/${meta.id}.report.json ]; then

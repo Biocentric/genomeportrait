@@ -4,6 +4,9 @@
 
 ### Since the first v2 commit
 
+- CYP2D6 star alleles from the alignment with Cyrius (image built locally; Cyrius is PyPI-only),
+  passed to PharmCAT as an outside call; PharmCAT now runs its preprocessor and main program as two
+  steps because `pharmcat_pipeline` takes no outside calls. Needs ALT-aware alignments (see TODO).
 - Contamination check: VerifyBamID2 estimates the fraction of DNA from another person (FREEMIX),
   shown in "Genome at a glance" with a verdict (clean < 2%, check 2-5%, contaminated > 5%).
   `tests/validate_contamination.sh` mixes two samples at known fractions.

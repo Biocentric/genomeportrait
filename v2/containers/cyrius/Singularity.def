@@ -1,0 +1,30 @@
+Bootstrap: docker
+From: mambaorg/micromamba:1.5.8
+
+# genomeportrait Cyrius container — built locally by the pipeline.
+#
+# Cyrius (Illumina) calls CYP2D6 star alleles, including copy-number changes and
+# CYP2D6/CYP2D7 hybrids, from a WGS alignment. PharmCAT cannot call CYP2D6 from a VCF, so
+# the pipeline hands it Cyrius's diplotype as an outside call. Cyrius is on PyPI only (not
+# bioconda), hence a local build: its four dependencies from conda-forge/bioconda, Cyrius
+# itself pinned from PyPI without dependency resolution.
+#
+# Built automatically by modules/local/build_cyrius_container.nf via:
+#   apptainer build --fakeroot genomeportrait-cyrius-<ver>.sif containers/cyrius/Singularity.def
+
+%post
+    set -eu
+    micromamba install -y -n base -c conda-forge -c bioconda \
+        python=3.9 pysam=0.22 numpy=1.26 scipy=1.11 statsmodels=0.14 samtools=1.21 procps-ng
+    /opt/conda/bin/pip install --no-cache-dir --no-deps cyrius==1.1.1
+    micromamba clean --all --yes
+    /opt/conda/bin/cyrius --help | head -n 3
+    /opt/conda/bin/ps --version
+
+%environment
+    export PATH=/opt/conda/bin:$PATH
+    export PYTHONNOUSERSITE=1
+
+%labels
+    org.opencontainers.image.title genomeportrait-cyrius
+    org.opencontainers.image.version 1.1.1

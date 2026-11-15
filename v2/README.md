@@ -64,7 +64,7 @@ Full parameter and output descriptions: [`docs/usage.md`](docs/usage.md),
 3. **Genome facts** — mosdepth; depth, breadth, sex chromosomes, mtDNA copies per cell.
 4. **Interpretation** — ancestry (PCA, ADMIXTURE, ROH, KING), mtDNA and Y haplogroups,
    CODIS STR profile and repeat expansions, **polygenic scores**, HLA (T1K),
-   pharmacogenomics (PharmCAT), trait SNP panel, telomere length, mtDNA heteroplasmy,
+   pharmacogenomics (PharmCAT, with CYP2D6 from Cyrius), trait SNP panel, telomere length, mtDNA heteroplasmy,
    SV/CNV, VEP annotation.
 5. **Report** — MultiQC plus one self-contained `<sample>.genomeportrait.html`, and the
    polygenic section on its own as `<sample>.pgs_overview.html`.

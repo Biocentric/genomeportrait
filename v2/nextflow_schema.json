@@ -277,6 +277,11 @@
                 "contamination_panel": {
                     "type": "string",
                     "description": "VerifyBamID2 --SVDPrefix. Default: the GRCh38 1000 Genomes 100k-marker panel shipped in the container."
+                },
+                "skip_cyp2d6": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Skip CYP2D6 calling with Cyrius (PharmCAT then reports CYP2D6 as not called)."
                 }
             }
         },
@@ -630,6 +635,25 @@
                     "default": 71,
                     "description": "Reference tract length above which a CODIS locus is handed to ExpansionHunter rather than HipSTR.",
                     "hidden": true
+                },
+                "build_cyrius_container": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Build the Cyrius image locally (Cyrius is not on bioconda)."
+                },
+                "cyrius_image_version": {
+                    "type": "string",
+                    "default": "1.1.1",
+                    "description": "Version tag of the locally built Cyrius image."
+                },
+                "cyrius_sif": {
+                    "type": "string",
+                    "description": "Path to the Cyrius Singularity image. Default: <reference_base>/containers/genomeportrait-cyrius-<version>.sif."
+                },
+                "cyrius_docker": {
+                    "type": "string",
+                    "default": "genomeportrait-cyrius:1.1.1",
+                    "description": "Docker tag of the locally built Cyrius image."
                 }
             }
         },

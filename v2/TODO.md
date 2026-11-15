@@ -55,6 +55,11 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 
 ## v2.1
 
+- [ ] **ALT-aware alignment.** The pipeline aligns to GRCh38 with ALT contigs but without bwa's
+      `.alt` file, so reads at loci with ALT haplotypes (CYP2D6, HLA, KIR, ...) land on the ALT
+      contigs at MAPQ 0: on the test genome 26,343 CYP2D6/D7 reads sit on chr22_KI270879v1_alt and
+      1,436 on chr22 (NA12878 from 1000 Genomes: 0 and 8,983). Cyrius then makes no call.
+
 - [ ] Inbreeding F and ROH come from the variant-only VCF (F = -1.0 on the test genome): compute
       them from genotypes that include hom-ref sites (the panel-space target or the ancestry SNPs)
 - [ ] KING kinship against the panel sits near -0.05 for an unrelated European; check whether
@@ -66,7 +71,7 @@ test · `[ ]` open. See [`PLAN.md`](PLAN.md) for the reasoning and
 - [x] gVCF conversion per chromosome in parallel (5 min 49 s → 1 min 18 s)
 - [x] `report_sif`, `hipstr_sif`, `yleaf_sif` follow `reference_base` wherever it is set; cache honours `NXF_SINGULARITY_CACHEDIR`
 - [x] Strict opt-in publishing with one `results/<sample>/` tree
-- [ ] CYP2D6 via Cyrius, passed to PharmCAT as an outside call
+- [x] CYP2D6 via Cyrius, passed to PharmCAT as an outside call (6/6 1000 Genomes truth structures)
 - [ ] Blood groups (ABO, RhD, Kell, Duffy, Kidd), validated on reference-panel frequencies
 - [x] One reference panel for ancestry and PGS (hold-out check: unadmixed populations recovered at 0.92–1.00)
 - [x] Streamed align → sort → markdup → CRAM (`--markdup samtools`, default)

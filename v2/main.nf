@@ -64,7 +64,8 @@ workflow BIOCENTRIC_GENOMEPORTRAIT {
         hipstr_ready  : PREPARE_GENOME.out.hipstr_ready,
         hla_index     : PREPARE_GENOME.out.hla_index,
         yleaf_data    : PREPARE_GENOME.out.yleaf_data,
-        yleaf_ready   : PREPARE_GENOME.out.yleaf_ready
+        yleaf_ready   : PREPARE_GENOME.out.yleaf_ready,
+        cyrius_ready  : PREPARE_GENOME.out.cyrius_ready
     ]
 
     //

@@ -16,7 +16,8 @@ results/
 │   ├── lineage/          mtDNA and Y haplogroups
 │   ├── str/              CODIS profile, repeat expansions
 │   ├── polygenic/        overview page, interpreted table, scores, population, imputation, target stats
-│   ├── hla/  pharmacogenomics/  traits/  extras/
+│   ├── pharmacogenomics/ PharmCAT report and table; Cyrius CYP2D6 call (.cyrius.tsv/.json)
+│   ├── hla/  traits/  extras/
 ├── multiqc/multiqc_report.html
 └── pipeline_info/        timeline, trace, DAG, software versions
 ```
